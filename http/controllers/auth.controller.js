@@ -10,6 +10,7 @@ const register = async (req, res) => {
     await user.save();
     req.session.user = user;
     res.status(200).send({ auth: true });
+    
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -21,25 +22,26 @@ const login = async (req, res) => {
     console.log(username,password);
     try 
     {
-        const user = await User.findOne({ username });
-        if (!user) return res.status(404).send('No user found');
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) 
-            return res.status(401).send('Invalid password');
-        req.session.user = user;
-        res.status(200).send({ auth: true});
+      const user = await User.findOne({ username });
+      if (!user) return res.status(404).send('No user found');
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) 
+          return res.status(401).send('Invalid password');
+      req.session.user = user;
+      res.status(200).send({ auth: true});
     } 
-  catch (error) 
-  {
-    res.status(500).send(error.message);
-  }
+    catch (error) 
+    {
+      res.status(500).send(error.message);
+    }
 };
 
 const logout = async (req, res) => {
-    req.session.destroy((err) => {
+  req.session.destroy((err) => {
         if (err) return res.status(500).send(err);
-        res.send('You have been logged out');
+        res.status(200).send({ logout: true});
       });
+    
 };
 
 module.exports = {

@@ -9,9 +9,10 @@ const path = require('path');
 const authMiddleware = require("./middlewares/authMiddleware");
 
 const app = express();
-const PORT = 6001;
+const PORT = 8005;
 
 app.use(express.json());
+app.use(express.text());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   session({
@@ -24,16 +25,11 @@ app.use(
   }));
 
 
-app.set('view engine', 'pug')
-console.log(__dirname);
-app.set('views', path.join(__dirname, 'views'));
-
-
 // Use the router
 app.use('/', AuthRoutes);
 // Use the middleware to authenticate from session token in cookies
 app.use(authMiddleware);
-app.use('/todo', TodoRoutes);
+app.use('/', TodoRoutes);
 
 
 

@@ -3,11 +3,10 @@ const { v4: uuidv4 } = require('uuid');
 
 const createTodo = async (req, res) => {
   try {
-    let todo = req.body;
-    todo.id = uuidv4();
-    todo = await TodoService.createTodo(req.body);
     
+    todo = await TodoService.createTodo(req.body);
     res.status(201).json({ todo });
+    
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -17,27 +16,34 @@ const getTodos = async (req, res) => {
   try {
     const todos = await TodoService.getTodos();
     res.status(200).json({ todos });
+
   } catch (error) {
     res.status(500).send(error.message);
   }
 };
 
 const getTodoById = async (req, res) => {
-  try {
+  try 
+  {
     const todo = await TodoService.getTodoById(req.params.id);
-    if (!todo) {
+    if (!todo) 
+    {
       return res.status(404).send('Todo not found');
     }
     res.status(200).json({ todo });
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     res.status(500).send(error.message);
   }
 };
 
 const updateTodo = async (req, res) => {
-  try {
+  try 
+  {
     const todo = await TodoService.updateTodo(req.params.id, req.body);
-    if (!todo) {
+    if (!todo) 
+    {
       return res.status(404).send('Todo not found');
     }
     res.status(200).json({ todo });
