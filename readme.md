@@ -69,3 +69,98 @@ like we can use todoroutes and userroutes in express-app.js and route them using
 
 Sample Planning for Factory Method So Far
 
+-> Factory Classes
+
+class Controller {
+  static create(type) {
+    if (type === 'todo') {
+      return new TodoController();
+    } else if (type === 'user') {
+      return new UserController();
+    } else {
+      throw new Error('Invalid type');
+    }
+  }
+}
+
+class Model {
+  static create(type) {
+    if (type === 'todo') {
+      return new TodoModel();
+    } else if (type === 'user') {
+      return new UserModel();
+    } else {
+      throw new Error('Invalid type');
+    }
+  }
+}
+
+class Route {
+  static create(type) {
+    if (type === 'todo') {
+      return new TodoRoute();
+    } else if (type === 'user') {
+      return new UserRoute();
+    } else {
+      throw new Error('Invalid type');
+    }
+  }
+}
+
+class Service {
+  static create(type) {
+    if (type === 'todo') {
+      return new TodoService();
+    } else if (type === 'user') {
+      return new UserService();
+    } else {
+      throw new Error('Invalid type');
+    }
+  }
+}
+
+-> SubClasses
+
+class TodoController extends Controller {
+  // implementation
+}
+
+class UserController extends Controller {
+  // implementation
+}
+
+class TodoModel extends Model {
+  // implementation
+}
+
+class UserModel extends Model {
+  // implementation
+}
+
+class TodoRoute extends Route {
+  // implementation
+}
+
+class UserRoute extends Route {
+  // implementation
+}
+
+class TodoService extends Service {
+  // implementation
+}
+
+class UserService extends Service {
+  // implementation
+}
+
+-> USING FACTORIES
+
+const todoController = Controller.create('todo');
+const todoModel = Model.create('todo');
+const todoRoute = Route.create('todo');
+const todoService = Service.create('todo');
+
+const userController = Controller.create('user');
+const userModel = Model.create('user');
+const userRoute = Route.create('user');
+const userService = Service.create('user');
