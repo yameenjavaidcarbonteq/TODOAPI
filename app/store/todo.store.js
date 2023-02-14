@@ -6,7 +6,10 @@ const createTodo = async (data) => {
 };
 
 const getTodos = async () => {
-    const todos = await Todo.findAll();
+    // const todos = await Todo.findAll();
+    
+    const todos = await adapter.find('todos', {});
+
     return todos;
 };
 

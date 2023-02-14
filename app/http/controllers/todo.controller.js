@@ -1,4 +1,4 @@
-const TodoService = require('../../services/todo.services');
+const TodoStore = require('../../store/todo.store');
 const { v4: uuidv4 } = require('uuid');
 
 const createTodo = async (req, res) => {
@@ -7,7 +7,7 @@ const createTodo = async (req, res) => {
     const temp = req.body;
     temp.id = uuidv4();
     
-    todo = await TodoService.createTodo(temp);
+    todo = await TodoStore.createTodo(temp);
     res.status(201).json({ todo });
     
   } catch (error) {
@@ -17,7 +17,7 @@ const createTodo = async (req, res) => {
 
 const getTodos = async (req, res) => {
   try {
-    const todos = await TodoService.getTodos();
+    const todos = await TodoStore.getTodos();
     res.status(200).json({ todos });
 
   } catch (error) {
@@ -28,7 +28,7 @@ const getTodos = async (req, res) => {
 const getTodoById = async (req, res) => {
   try 
   {
-    const todo = await TodoService.getTodoById(req.params.id);
+    const todo = await TodoStore.getTodoById(req.params.id);
     if (!todo) 
     {
       return res.status(404).send('Todo not found');
@@ -44,7 +44,7 @@ const getTodoById = async (req, res) => {
 const updateTodo = async (req, res) => {
   try 
   {
-    const todo = await TodoService.updateTodo(req.params.id, req.body);
+    const todo = await TodoStore.updateTodo(req.params.id, req.body);
     if (!todo) 
     {
       return res.status(404).send('Todo not found');
@@ -57,7 +57,7 @@ const updateTodo = async (req, res) => {
 
 const deleteTodo = async (req, res) => {
   try {
-    const todo = await TodoService.deleteTodo(req.params.id);
+    const todo = await TodoStore.deleteTodo(req.params.id);
     if (!todo) {
       return res.status(404).send('Todo not found');
     }
