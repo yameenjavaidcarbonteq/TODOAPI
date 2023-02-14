@@ -1,10 +1,13 @@
-const TodoService = require('../services/todo.services');
+const TodoService = require('../../services/todo.services');
 const { v4: uuidv4 } = require('uuid');
 
 const createTodo = async (req, res) => {
-  try {
+  try 
+  {
+    const temp = req.body;
+    temp.id = uuidv4();
     
-    todo = await TodoService.createTodo(req.body);
+    todo = await TodoService.createTodo(temp);
     res.status(201).json({ todo });
     
   } catch (error) {

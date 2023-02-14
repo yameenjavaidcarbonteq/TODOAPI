@@ -1,4 +1,4 @@
-const Todo = require('../../models/todo.model');
+const Todo = require('../models/todo.model');
 
 const createTodo = async (data) => {
   const todo = await Todo.create(data);

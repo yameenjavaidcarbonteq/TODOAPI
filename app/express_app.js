@@ -6,7 +6,7 @@ const AuthRoutes = require('./http/routes/auth.routes');
 
 const path = require('path');
 
-const authMiddleware = require("./http/middlewares/authMiddleware");
+const authMiddleware = require("./middlewares/authMiddleware");
 
 const app = express();
 const PORT = 8006;
