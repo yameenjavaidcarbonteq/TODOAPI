@@ -12,7 +12,10 @@ class TodoController extends controller {
 async createTodo (req, res) {
   try {
     
-    todo = await TodoService.createTodo(req.body);
+    const temp = req.body;
+    temp.id = uuidv4();
+    
+    todo = await TodoService.createTodo(temp);
     res.status(201).json({ todo });
     
   } catch (error) {
