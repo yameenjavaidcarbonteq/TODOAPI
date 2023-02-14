@@ -9,7 +9,7 @@ const path = require('path');
 const authMiddleware = require("./middlewares/authMiddleware");
 
 const app = express();
-const PORT = 8005;
+const PORT = 8006;
 
 app.use(express.json());
 app.use(express.text());
