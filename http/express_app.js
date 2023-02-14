@@ -26,15 +26,15 @@ app.use(
 
 
 
-// const todoRoutes = Route.create('todo').createRoutes();
+const todoRoutes = Route.create('todo').createRoutes();
 const authRoutes = Route.create('user').createRoutes();
 
 
 // Use the router
 app.use('/', authRoutes.router);
 // Use the middleware to authenticate from session token in cookies
-// app.use(authMiddleware);
-// app.use('/', todoRoutes.router);
+app.use(authMiddleware);
+app.use('/', todoRoutes.router);
 
 
 
