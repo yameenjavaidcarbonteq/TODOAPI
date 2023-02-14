@@ -26,8 +26,10 @@ app.use(
 
 
 
-const todoRoutes = Route.create('todo').createRoutes();
-const authRoutes = Route.create('user').createRoutes();
+const todoRoutes = Route.create('todo');
+todoRoutes.createRoutes();
+const authRoutes = Route.create('user');
+authRoutes.createRoutes();
 
 
 // Use the router
