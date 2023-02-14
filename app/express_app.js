@@ -1,12 +1,12 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const session = require('express-session');
-const Route = require('./routes/route');
+const Route = require('./http/routes/route');
 
 
 const path = require('path');
 
-const authMiddleware = require("./middlewares/authMiddleware");
+const authMiddleware = require("./http/middlewares/authMiddleware");
 
 const app = express();
 const PORT = 8005;
