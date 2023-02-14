@@ -23,7 +23,7 @@ class Controller {
 
 
   
-  
+  // (value object entity)
   
   class UserController extends Controller{
   
