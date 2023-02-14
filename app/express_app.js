@@ -6,7 +6,7 @@ const AuthRoutes = require('./http/routes/auth.routes');
 
 const path = require('path');
 
-const authMiddleware = require("./middlewares/authMiddleware");
+
 
 const app = express();
 const PORT = 8006;
@@ -27,8 +27,6 @@ app.use(
 
 // Use the router
 app.use('/', AuthRoutes);
-// Use the middleware to authenticate from session token in cookies
-app.use(authMiddleware);
 app.use('/', TodoRoutes);
 
 
