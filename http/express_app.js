@@ -1,8 +1,8 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const session = require('express-session');
-const TodoRoutes = require('./routes/todo.routes');
-const AuthRoutes = require('./routes/auth.routes');
+const Route = require('./routes/route');
+
 
 const path = require('path');
 
@@ -25,11 +25,16 @@ app.use(
   }));
 
 
+
+// const todoRoutes = Route.create('todo').createRoutes();
+const authRoutes = Route.create('user').createRoutes();
+
+
 // Use the router
-app.use('/', AuthRoutes);
+app.use('/', authRoutes.router);
 // Use the middleware to authenticate from session token in cookies
-app.use(authMiddleware);
-app.use('/', TodoRoutes);
+// app.use(authMiddleware);
+// app.use('/', todoRoutes.router);
 
 
 

@@ -1,11 +1,17 @@
-const express = require('express');
-const authController = require("../controllers/auth.controller");
-
-const router = express.Router();
+const Controller = require("../controllers/controller");
 
 
-router.post('/login', authController.login);
-router.post('/register', authController.register);
-router.post('/logout', authController.logout);
+class AuthRoute extends Route {
+    constructor() {
+        super();
+        this.authController = Controller.create('user');
+    }
 
-module.exports = router;
+    createRoutes() {
+    
+        this.router.post('/login', this.authController.login.bind(this));
+        this.router.post('/register', this.authController.register.bind(this));
+        this.router.post('/logout', this.authController.logout.bind(this));
+    }
+}
+module.exports = AuthRoute;

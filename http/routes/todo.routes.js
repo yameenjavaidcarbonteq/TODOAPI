@@ -1,19 +1,20 @@
-const express = require('express');
-const TodoController = require('../controllers/todo.controller');
-const router = express.Router();
+const Route = require("./route");
+const Controller = require('../controllers/controller');
 
 
+class TodoRoute extends Route {
+    constructor() {
+        super();
+        this.TodoController = Controller.create('todo');
+    }
 
+    createRoutes() {
+        this.router.post('/', this.TodoController.createTodo.bind(this));
+        this.router.get('/', this.TodoController.getTodos.bind(this));
+        this.router.get('/:id/', this.TodoController.getTodoById.bind(this));
+        this.router.put('/:id/edit', this.TodoController.updateTodo.bind(this));
+        this.router.delete('/:id/delete', this.TodoController.deleteTodo.bind(this));
+    }
 
-
-
-
-router.post('/', TodoController.createTodo);
-router.get('/', TodoController.getTodos);
-
-router.get('/:id/', TodoController.getTodoById);
-
-router.put('/:id/edit', TodoController.updateTodo);
-router.delete('/:id/delete', TodoController.deleteTodo);
-
-module.exports = router;
+}
+module.exports = TodoRoute;
