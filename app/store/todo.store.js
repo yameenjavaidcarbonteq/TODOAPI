@@ -5,9 +5,13 @@ class TodoStore{
 
   constructor(TodoAdapter)
   {
+    console.log("In Store Todo");
     this.Todoadapter = TodoAdapter
   }
-
+  hello()
+  {
+    console.log("asdasdasd");
+  }
   async createTodo (todo) {
     // const todo = await Todo.create(data);
     console.log("Creating Todo");
@@ -55,6 +59,4 @@ class TodoStore{
 
 }
 
-module.exports = {
-  TodoStore
-};
+module.exports = TodoStore;

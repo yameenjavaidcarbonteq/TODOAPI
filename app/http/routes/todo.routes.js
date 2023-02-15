@@ -1,5 +1,5 @@
 const express = require('express');
-const controller = require('../controllers/todo.controller');
+const TodoController = require('../controllers/todo.controller');
 const authMiddleware = require("../../middlewares/authMiddleware");
 
 
@@ -12,16 +12,17 @@ class TodoRouter{
 
     constructor(adapter)
     {
-        this.TodoController = new controller(adapter);
+        console.log("In Router Constructor");
+        this.TodoController = new TodoController(adapter);
         this.router = express.Router();
     }
     createRoutes()
     {
-        router.post('/', this.TodoController.createTodo);
-        router.get('/', this.TodoController.getTodos);
-        router.get('/:id/', this.TodoController.getTodoById);
-        router.put('/:id/edit', this.TodoController.updateTodo);
-        router.delete('/:id/delete', this.TodoController.deleteTodo);
+        this.router.post('/', this.TodoController.createTodo.bind(this));
+        this.router.get('/', this.TodoController.getTodos);
+        this.router.get('/:id/', this.TodoController.getTodoById);
+        this.router.put('/:id/edit', this.TodoController.updateTodo);
+        this.router.delete('/:id/delete', this.TodoController.deleteTodo);
         return this.router;
     }
 }

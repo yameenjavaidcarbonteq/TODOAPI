@@ -1,6 +1,10 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const bodyParser = require('body-parser');
 const express = require('express');
 const session = require('express-session');
+
 const TodoRoutes = require('./http/routes/todo.routes');
 const AuthRoutes = require('./http/routes/auth.routes');
 
@@ -9,7 +13,11 @@ const MongoDBClient = require('./infrastructure/mongoClient');
 
 
 
+const dbHost = process.env.DB_HOST;
+const dbPort = process.env.DB_PORT;
+const dbName = process.env.DB_NAME;
 
+const mongo_uri = process.env.MONGO_URI;
 
 const app = express();
 const PORT = 8006;
@@ -27,16 +35,21 @@ app.use(
     },
   }));
 
-const client = new MongoDBClient('mongodb://localhost:27017', 'todoapi', 'todos');
+const client = new MongoDBClient(mongo_uri, 'todoapi', 'todos');
 
 // Use the router
 // app.use('/', AuthRoutes);
-app.use('/', new TodoRoutes(client.getAdapter()).createRoutes());
+
+
 
 
 client.connect()
   .then(() => {
     console.log("db connected");
+    
+    console.log(client.getAdapter());
+    app.use('/', new TodoRoutes(client.getAdapter()).createRoutes());
+    
     app.listen(PORT, () => {
       console.log(`Todo app listening at http://localhost:${PORT}`);
     });
