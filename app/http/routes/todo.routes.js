@@ -1,19 +1,28 @@
 const express = require('express');
-const TodoController = require('../controllers/todo.controller');
+const controller = require('../controllers/todo.controller');
 const authMiddleware = require("../../middlewares/authMiddleware");
-const router = express.Router();
 
 
 
 // Use the middleware to authenticate from session token in cookies
-router.use(authMiddleware);
+// router.use(authMiddleware);
 
-router.post('/', TodoController.createTodo);
-router.get('/', TodoController.getTodos);
 
-router.get('/:id/', TodoController.getTodoById);
+class TodoRouter{
 
-router.put('/:id/edit', TodoController.updateTodo);
-router.delete('/:id/delete', TodoController.deleteTodo);
-
-module.exports = router;
+    constructor(adapter)
+    {
+        this.TodoController = new controller(adapter);
+        this.router = express.Router();
+    }
+    createRoutes()
+    {
+        router.post('/', this.TodoController.createTodo);
+        router.get('/', this.TodoController.getTodos);
+        router.get('/:id/', this.TodoController.getTodoById);
+        router.put('/:id/edit', this.TodoController.updateTodo);
+        router.delete('/:id/delete', this.TodoController.deleteTodo);
+        return this.router;
+    }
+}
+module.exports = TodoRouter;

@@ -1,6 +1,5 @@
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../../models/user.model');
+const User = require('../../domain/sequalize_entities/user.model');
 
 const register = async (req, res) => {
   const { username, password } = req.body;

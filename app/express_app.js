@@ -4,7 +4,10 @@ const session = require('express-session');
 const TodoRoutes = require('./http/routes/todo.routes');
 const AuthRoutes = require('./http/routes/auth.routes');
 
-const path = require('path');
+const MongoDBClient = require('./infrastructure/mongoClient');
+
+
+
 
 
 
@@ -24,13 +27,25 @@ app.use(
     },
   }));
 
+const client = new MongoDBClient('mongodb://localhost:27017', 'todoapi', 'todos');
 
 // Use the router
-app.use('/', AuthRoutes);
-app.use('/', TodoRoutes);
+// app.use('/', AuthRoutes);
+app.use('/', new TodoRoutes(client.getAdapter()).createRoutes());
+
+
+client.connect()
+  .then(() => {
+    console.log("db connected");
+    app.listen(PORT, () => {
+      console.log(`Todo app listening at http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('Failed to connect to database:', err);
+  });
 
 
 
-app.listen(PORT, () => {
-  console.log(`Todo API running on http://localhost:${PORT}`);
-});
+
+

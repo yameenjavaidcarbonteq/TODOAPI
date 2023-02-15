@@ -1,7 +1,14 @@
-const TodoStore = require('../../store/todo.store');
+const Store = require('../../store/todo.store');
 const { v4: uuidv4 } = require('uuid');
 
-const createTodo = async (req, res) => {
+class TodoController {
+
+  constructor(adapter)
+  {
+    this.TodoStore = new Store(adapter);
+  } 
+
+  async createTodo (req, res) {
   try 
   {
     const temp = req.body;
@@ -15,7 +22,7 @@ const createTodo = async (req, res) => {
   }
 };
 
-const getTodos = async (req, res) => {
+async getTodos (req, res) {
   try {
     const todos = await TodoStore.getTodos();
     res.status(200).json({ todos });
@@ -25,7 +32,7 @@ const getTodos = async (req, res) => {
   }
 };
 
-const getTodoById = async (req, res) => {
+async getTodoById (req, res) {
   try 
   {
     const todo = await TodoStore.getTodoById(req.params.id);
@@ -41,7 +48,7 @@ const getTodoById = async (req, res) => {
   }
 };
 
-const updateTodo = async (req, res) => {
+async updateTodo (req, res) {
   try 
   {
     const todo = await TodoStore.updateTodo(req.params.id, req.body);
@@ -55,7 +62,7 @@ const updateTodo = async (req, res) => {
   }
 };
 
-const deleteTodo = async (req, res) => {
+async deleteTodo (req, res) {
   try {
     const todo = await TodoStore.deleteTodo(req.params.id);
     if (!todo) {
@@ -66,11 +73,7 @@ const deleteTodo = async (req, res) => {
     res.status(500).send(error.message);
   }
 };
-
+}
 module.exports = {
-  createTodo,
-  getTodos,
-  getTodoById,
-  updateTodo,
-  deleteTodo,
+  TodoController
 };
