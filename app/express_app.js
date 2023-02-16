@@ -8,15 +8,12 @@ const session = require('express-session');
 const TodoRoutes = require('./http/routes/todo.routes');
 const AuthRoutes = require('./http/routes/auth.routes');
 
-const Adapter = require('./infrastructure/adapter/adapterfactory');
+
 
 const host = process.env.HOST;
 const port = process.env.PORT;
 const dbtype = process.env.DBTYPE;
 
-
-console.log(dbtype);
-const adapter = Adapter.createAdapter(dbtype);
 
 const app = express();
 
@@ -33,10 +30,6 @@ app.use(
       maxAge: 30 * 60 * 1000, // 30 minutes
     },
   }));
-
-
-
-
 
 // Use the router
 app.use('/', AuthRoutes);

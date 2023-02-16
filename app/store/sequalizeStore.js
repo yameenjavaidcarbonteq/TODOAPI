@@ -3,10 +3,9 @@ const Todo = require('../domain/mongo_entities/todo');
 
 class TodoStore{
 
-  constructor(TodoAdapter)
+  constructor()
   {
     console.log("In Store Todo");
-    this.Todoadapter = TodoAdapter
     this.createTodo = this.createTodo.bind(this);
   }
   
@@ -21,17 +20,13 @@ class TodoStore{
   };
 
   async getTodos () {
-    // const todos = await Todo.findAll();
-    const todos = await this.TodoAdapter.find('todos', {});
-    const todoEntities = todos.map((todo) => Todo.toDomainEntity(todo));
-    return todoEntities;
+    const todos = await Todo.findAll();
+    return todos;
   };
 
   async getTodoById (id) {
-    // const todo = await Todo.findByPk(id);
-    const todo = await this.TodoAdapter.find('todos', {_id: ObjectId(id)});
-    const todoEntity = Todo.toDomainEntity(todo);
-    return todoEntity;
+    const todo = await Todo.findByPk(id);
+    return todo;
   };
 
   async updateTodo (id, data) {

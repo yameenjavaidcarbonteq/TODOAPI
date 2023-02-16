@@ -4,7 +4,7 @@
     advanceddb interface
 */
 class advanceddb {
-    constructor(parameters) {
+    constructor() {
         if (new.target === advanceddb) {
           throw new TypeError("Cannot instantiate abstract class");
         }
