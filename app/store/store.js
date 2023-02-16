@@ -4,7 +4,7 @@ const Todo = require('../domain/mongo_entities/todo');
 class store{
 
   constructor() {
-    if (new.target === advanceddb) {
+    if (new.target === store) {
       throw new TypeError("Cannot instantiate abstract class");
     }
 }

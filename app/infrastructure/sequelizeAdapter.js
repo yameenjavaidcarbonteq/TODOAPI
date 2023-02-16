@@ -1,9 +1,9 @@
 
 const { Sequelize, DataTypes } = require('sequelize');
-const db = require('./dbadapter');
+const db = require('./store');
 
 
-class SequalizeAdapter extends db {
+class sequelizeAdapter extends db {
     constructor(parameters) {
       super();
       this.sequelize = null;
@@ -66,4 +66,4 @@ class SequalizeAdapter extends db {
     }
   }
   
-module.exports = SequalizeAdapter;
+module.exports = sequelizeAdapter;

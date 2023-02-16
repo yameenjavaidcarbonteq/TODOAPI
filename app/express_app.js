@@ -36,17 +36,17 @@ app.use('/', AuthRoutes);
 app.use('/', TodoRoutes);
 
 
-adapter.connect()
-  .then(() => {
-    console.log("db connected");
+// adapter.connect()
+  // .then(() => {
+    // console.log("db connected");
     
     app.listen(port, () => {
       console.log(`Todo app listening at ${host}:${port}`);
     });
-  })
-  .catch((err) => {
-    console.error('Failed to connect to database:', err);
-  });
+  // })
+  // .catch((err) => {
+    // console.error('Failed to connect to database:', err);
+  // });
 
 
 

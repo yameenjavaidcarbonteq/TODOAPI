@@ -1,11 +1,11 @@
 
 // we will be using ObjectId when our adapter gets imported 
 /*
-    advanceddb interface
+    store interface
 */
-class advanceddb {
+class store {
     constructor() {
-        if (new.target === advanceddb) {
+        if (new.target === store) {
           throw new TypeError("Cannot instantiate abstract class");
         }
     }
@@ -26,7 +26,7 @@ class advanceddb {
         throw new Error("Method 'area' must be implemented.");
     }
     
-    async finadvanceddbyId(id) {
+    async finstoreyId(id) {
         throw new Error("Method 'area' must be implemented.");
     }
     
@@ -45,4 +45,4 @@ class advanceddb {
 
 }
   
-module.exports = advanceddb;
+module.exports = store;

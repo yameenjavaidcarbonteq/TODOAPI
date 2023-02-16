@@ -1,19 +1,20 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const MongoDBAdapter = require('./mongoDBAdapter');
-const SequelizeAdapter = require('./sequalizeAdapter');
+const MongoDBAdapter = require('./mongoAdapter');
+const SequelizeAdapter = require('./sequelizeAdapter');
 
 class DatabaseAdapterFactory {
   static createAdapter(databaseType) {
     if (databaseType === 'mongodb') {
       const parameters = {
         url: process.env.MONGO_URI,
-        collection: process.env.COLLECTION
+        db: process.env.DB
       };
       console.log("Creating Mongo Adapter");
       return new MongoDBAdapter(parameters);
-    } else if (databaseType === 'sequelize') {
+    } 
+    else if (databaseType === 'sequelize') {
       const parameters = {
         database: process.env.DB,
         username: process.env.SEQ_USERNAME,
@@ -23,7 +24,7 @@ class DatabaseAdapterFactory {
         port: process.env.SEQ_PORT,
         options: ''
       };
-      console.log("Creating Sequalize Adapter");
+      console.log("Creating sequelize Adapter");
       return new SequelizeAdapter(parameters);
     } else {
       throw new Error('Unsupported database type');

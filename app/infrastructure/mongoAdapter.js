@@ -1,14 +1,14 @@
 
 const { MongoClient } = require('mongodb');
-const db = require('./dbadapter');
+const db = require('./store');
 
 
 class MongoAdapter extends db {
   constructor(parameters) {
     super();
     this.client = null;
-    this.db = null;
-    this.url = parameters.url + "/" + parameters.collection;
+    this.db = parameters.db;
+    this.url = parameters.url + "/" + parameters.db;
   }
 
   async connect() {
@@ -23,7 +23,7 @@ class MongoAdapter extends db {
 
   async find(model) {
     
-    const data = this.db.collection(model).find(query).toArray();
+    const data = this.db.collection(model).find({}).toArray();
     return data;
   }
 
@@ -32,8 +32,7 @@ class MongoAdapter extends db {
   }
 
   async insert(model, data) {
-    const return_val = this.db.collection(model).insertOne(data);
-    return return_val;
+    return await this.db.collection(model).insertOne(data);
   }
 
   async update(model, query, data) {
