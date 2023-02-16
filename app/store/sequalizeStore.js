@@ -1,11 +1,11 @@
 const Todo = require('../domain/mongo_entities/todo');
+const store = require('./store');
 
-
-class TodoStore{
+class sequalizeStore extends store{
 
   constructor()
   {
-    console.log("In Store Todo");
+    console.log("In Sequalize Todo");
     this.createTodo = this.createTodo.bind(this);
   }
   
@@ -30,27 +30,22 @@ class TodoStore{
   };
 
   async updateTodo (id, data) {
-    // const [updated] = await Todo.update(data, { where: { id } });
-    // if (!updated) {
-    //   return null;
-    // }
-    // const updated = await Todo.findByPk(id);
-    
-    const todo = data;
-    const updated = await this.TodoAdapter.update('todos', { _id: ObjectId(id) }, todo);
-    return updated;
+    const [updated] = await Todo.update(data, { where: { id } });
+    if (!updated) {
+      return null;
+    }
+    const todo = await Todo.findByPk(id);
+    return todo;
   };
-
+  
   async deleteTodo (id) {
-    // const todo = await Todo.findByPk(id);
-    // if (!todo) {
-    //   return null;
-    // }
-    // await todo.destroy();
-    const deleted = await this.adapter.delete('todos', { _id: ObjectId(id) });
-    return deleted;
+    const todo = await Todo.findByPk(id);
+    if (!todo) {
+      return null;
+    }
+    await todo.destroy();
+    return todo;
   };
-
 }
 
-module.exports = TodoStore;
+module.exports = sequalizeStore;
