@@ -3,12 +3,12 @@ const { v4: uuidv4 } = require('uuid');
 
 class TodoController {
 
-  constructor(adapter)
+  constructor()
   {
-    this.TodoStore = new Store(adapter);
-  
+    this.TodoStore = new Store(); 
+    this.createTodo = this.createTodo.bind(this);
   }
-
+  
   async createTodo (req, res) 
   {
     try 
@@ -16,10 +16,8 @@ class TodoController {
       const temp = req.body;
       temp.id = uuidv4();
       
-      console.log("In Controller CreateTodo");
-      console.log(this,this.TodoStore);
-      // todo = await this.TodoStore.createTodo(temp);
-      // res.status(201).json({ todo });
+      todo = await this.TodoStore.createTodo(temp);
+      res.status(201).json({ todo });
       
     } catch (error) {
       res.status(500).send(error.message);
