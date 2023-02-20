@@ -38,7 +38,7 @@ class adapter extends store{
     }
 
     async create(data) {
-        data = super.create(data);
+        data = await super.create(data);
         return this.store.create(data);
     }
 
