@@ -1,10 +1,40 @@
-const authMiddleware = (req, res, next) => {
-    if (!req.session.user) 
-        return res.status(401).json({"Auth": 'Not authorized'});
-    next();
-}; 
+// const authMiddleware = (req, res, next) => {
+//     if (!req.session.user) 
+//         return res.status(401).json({"Auth": 'Not authorized'});
+//     next();
+// }; 
 
-module.exports = authMiddleware;
+// module.exports = authMiddleware;
+
+const dotenv = require('dotenv');
+dotenv.config();
+
+const {OAuth2Client} = require('google-auth-library');
+const CLIENT_ID = process.env.CLIENTID;
+
+function authenticateGoogle(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).send('Unauthorized');
+  }
+  const token = authHeader.substring(7);
+  const client = new OAuth2Client(CLIENT_ID);
+  async function verify() {
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    req.user = payload;
+    next();
+  }
+  verify().catch(() => {
+    return res.status(401).send('Unauthorized');
+  });
+}
+
+module.exports = authenticateGoogle;
+
 
 /*
     

@@ -3,7 +3,7 @@ class UserRepository {
       throw new Error('Not implemented');
     }
   
-    async findById(id) {
+    async findOne(id) {
       throw new Error('Not implemented');
     }
   

@@ -8,22 +8,19 @@ const session = require('express-session');
 const TodoRoutes = require('./http/routes/todo.routes');
 const AuthRoutes = require('./http/routes/auth.routes');
 
-
-
 const host = process.env.HOST;
 const port = process.env.PORT;
-const dbtype = process.env.DBTYPE;
 
+console.log("..........................");
 
 const app = express();
-
 
 app.use(express.json());
 app.use(express.text());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   session({
-    secret: "QASWQASWQASWQASWQASWQASW",
+    secret: process.env.SESSIONSECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -32,21 +29,42 @@ app.use(
   }));
 
 // Use the router
+
 app.use('/', AuthRoutes);
 app.use('/', TodoRoutes);
 
 
-// adapter.connect()
-  // .then(() => {
-    // console.log("db connected");
-    
-    app.listen(port, () => {
-      console.log(`Todo app listening at ${host}:${port}`);
-    });
-  // })
-  // .catch((err) => {
-    // console.error('Failed to connect to database:', err);
-  // });
+// let sequelize;
+
+// if (process.env.DB === 'mongo') {
+//   mongoose.connect('mongodb://localhost/myapp', {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//     useFindAndModify: false
+//   })
+//     .then(() => {
+//       console.log('Connected to MongoDB');
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//     });
+// }
+// else if (process.env.DB === 'sequelize') {
+//   sequelize = new Sequelize('sqlite::memory:');
+//   (async () => {
+//     await sequelize.authenticate();
+//     console.log('Connected to SQLite');
+//   })();
+// }
+
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/todoapi', { useNewUrlParser: true });
+
+
+app.listen(port, () => {
+  console.log(`Todo app listening at ${host}:${port}`);
+});
+
 
 
 

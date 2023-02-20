@@ -1,17 +1,29 @@
-const { Sequelize, Model, DataTypes } = require('sequelize');
-const sequelize = require('./index');
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize('carbonteq_todo', 'root', '4675', {
+  host: 'localhost',
+  dialect: 'mysql'
+});
+const User = sequelize.define('Users', {
+  username: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true
+  },
+  password: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  googleID: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  displayName: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+});
 
-const User = sequelize.define('User', {
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false
-    }
-  });
+
 
 // sequelize.sync({ force: true }).then(() => {
 //   console.log('Tables created or updated');

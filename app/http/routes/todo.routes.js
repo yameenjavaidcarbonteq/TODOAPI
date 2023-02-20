@@ -10,10 +10,10 @@ const router = express.Router();
 
 const controller = new TodoController();
 
-router.post('/',(req,res) => controller.createTodo(req,res));
-router.get('/', (req,res) => controller.getTodos(req,res));
-router.get('/:id/', (req,res) => controller.getTodoById(req,res));
-router.put('/:id/edit', (req,res) => controller.updateTodo(req,res));
-router.delete('/:id/delete', (req,res) => controller.deleteTodo(req,res));
+router.post('/',controller.createTodo);
+router.get('/', controller.getTodos);
+router.get('/:id/', controller.getTodoById);
+router.put('/:id/edit', controller.updateTodo);
+router.delete('/:id/delete', controller.deleteTodo);
 
 module.exports = router;

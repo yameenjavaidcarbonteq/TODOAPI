@@ -14,7 +14,7 @@ class TodoService {
     }
     
     async getTodoById(id) {
-        return this.todoRepository.findById(id);
+        return this.todoRepository.findOne(id);
     }
 
     async updateTodo(id, data) {

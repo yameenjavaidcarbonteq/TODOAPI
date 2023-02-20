@@ -10,7 +10,7 @@ class UserService {
   }
 
   async getUserById(id) {
-    return this.userRepository.findById(id);
+    return this.userRepository.findOne(id);
   }
 }
 

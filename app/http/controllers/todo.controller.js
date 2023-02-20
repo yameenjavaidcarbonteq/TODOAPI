@@ -1,27 +1,29 @@
-const storeFactory = require('../../store/storeFactory');
-const { v4: uuidv4 } = require('uuid');
+const adapter = require('../../store/stores/adapter');
+
+
 
 class TodoController {
 
   constructor()
   {
-    this.TodoStore = storeFactory.createStore(process.env.DBTYPE); 
-    
     this.createTodo = this.createTodo.bind(this);
     this.getTodos = this.getTodos.bind(this);
     this.getTodoById = this.getTodoById.bind(this);
     this.deleteTodo = this.deleteTodo.bind(this);
     this.updateTodo = this.updateTodo.bind(this);
+    
+    
+    this.adapter = new adapter("mongoose","todo");
+    // this.adapter = new adapter("sequelize","todo");
+    
   }
   
   async createTodo (req, res) 
   {
     try 
     {
-      const temp = req.body;
-      temp.id = uuidv4();
-      
-      const todo = await this.TodoStore.createTodo(temp);
+      console.log("in create todo controller");
+      const todo = await this.adapter.create(req.body);
       res.status(201).json({ todo });
       
     } catch (error) {
@@ -31,8 +33,8 @@ class TodoController {
 
   async getTodos (req, res) {
     try {
-      console.log("In get");
-      const todos = await this.TodoStore.getTodos();
+      
+      const todos = await this.adapter.find({ id: req.params.id });
       res.status(200).json({ todos });
 
     } catch (error) {
@@ -43,7 +45,7 @@ class TodoController {
   async getTodoById (req, res) {
     try 
     {
-      const todo = await this.TodoStore.getTodoById(req.params.id);
+      const todo = await this.adapter.findOne({ id: req.params.id });
       if (!todo) 
       {
         return res.status(404).send('Todo not found');
@@ -59,7 +61,7 @@ class TodoController {
   async updateTodo (req, res) {
     try 
     {
-      const todo = await this.TodoStore.updateTodo(req.params.id, req.body);
+      const todo = await this.adapter.update(req.params.id, req.body);
       if (!todo) 
       {
         return res.status(404).send('Todo not found');
@@ -72,7 +74,7 @@ class TodoController {
   
   async deleteTodo (req, res) {
     try {
-      const todo = await this.TodoStore.deleteTodo(req.params.id);
+      const todo = await this.adapter.delete(req.params.id);
       if (!todo) {
         return res.status(404).send('Todo not found');
       }

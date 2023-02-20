@@ -11,7 +11,7 @@ class MongoDBUserRepository extends UserRepository {
     
   }
 
-  async findById(id) {
+  async findOne(id) {
     
   }
 

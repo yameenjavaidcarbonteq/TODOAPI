@@ -1,6 +1,8 @@
-const { Sequelize, Model, DataTypes } = require('sequelize');
-const sequelize = require('./index');
-
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize('carbonteq_todo', 'root', '4675', {
+  host: 'localhost',
+  dialect: 'mysql'
+});
 const Todo = sequelize.define('Todos', {
   
   id: {
@@ -25,7 +27,6 @@ const Todo = sequelize.define('Todos', {
 // sequelize.sync({ force: true }).then(() => {
 //   console.log('Tables created or updated');
 // });
-
 
 module.exports = Todo;
 

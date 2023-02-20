@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const User = require('../../domain/sequalize_entities/user.model');
+const User = require('../../infrastructure/mongo_models/user');
 
 const register = async (req, res) => {
   const { username, password } = req.body;
