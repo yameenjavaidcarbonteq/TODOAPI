@@ -1,27 +1,51 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('carbonteq_todo', 'root', '4675', {
+const sequelize = new Sequelize('todoapi', 'root', '4675', {
   host: 'localhost',
   dialect: 'mysql'
 });
 const User = sequelize.define('Users', {
+  id: {
+    type: String,
+    primaryKey: true
+  },
   username: {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true
   },
+  email: {
+    type: Sequelize.STRING,
+    required: true,
+  },
   password: {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  googleID: {
-    type: Sequelize.STRING,
-    allowNull: false,
+  isVerified: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
   },
-  displayName: {
+  googleId: {
     type: Sequelize.STRING,
-    allowNull: false,
   },
+  provider: {
+    type: Sequelize.STRING,
+    required: true,
+  }
+  },{
+  hooks: {
+    beforeCreate: async (user) => {
+      const salt = await bcrypt.genSalt();
+      user.password = await bcrypt.hash(user.password, salt);
+    }
+  }
+}, {
+  timestamps: false
 });
+
+User.prototype.validPassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
 
 
 

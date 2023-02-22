@@ -3,37 +3,87 @@ dotenv.config();
 
 const bodyParser = require('body-parser');
 const express = require('express');
-const session = require('express-session');
+const passport = require('passport');
+const csrf = require('csurf');
+const flash = require('connect-flash');
+const cookieParser = require('cookie-parser');
+const expressSession = require('express-session');
+const MemoryStore = require('memorystore')(expressSession)
 
-const TodoRoutes = require('./http/routes/todo.routes');
-const AuthRoutes = require('./http/routes/auth.routes');
+
+const TodoRoutes = require('./http/routes/todo');
+const AuthRoutes = require('./http/routes/auth');
+
 
 const host = process.env.HOST;
 const port = process.env.PORT;
 
-console.log("..........................");
-
 const app = express();
-
 app.use(express.json());
 app.use(express.text());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(
-  session({
+
+
+
+
+app.use(expressSession({
     secret: process.env.SESSIONSECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 30 * 60 * 1000, // 30 minutes
-    },
-  }));
+    resave: true,
+    saveUninitialized: true,
+    maxAge: 24 * 60 * 60 * 1000,
+    store: new MemoryStore(),
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+app.use(function (req, res, next) {
+    res.locals.success_messages = req.flash('success_messages');
+    res.locals.error_messages = req.flash('error_messages');
+    res.locals.error = req.flash('error');
+    next();
+});
+
+
+// .............................................................
 
 // Use the router
-
 app.use('/', AuthRoutes);
 app.use('/', TodoRoutes);
 
 
+
+
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/todoapi', { useNewUrlParser: true });
+
+
+app.listen(port, () => {
+  console.log(`Todo app listening at ${host}:${port}`);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// app.use(cookieParser('random'));
 // let sequelize;
 
 // if (process.env.DB === 'mongo') {
@@ -56,17 +106,3 @@ app.use('/', TodoRoutes);
 //     console.log('Connected to SQLite');
 //   })();
 // }
-
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/todoapi', { useNewUrlParser: true });
-
-
-app.listen(port, () => {
-  console.log(`Todo app listening at ${host}:${port}`);
-});
-
-
-
-
-
-

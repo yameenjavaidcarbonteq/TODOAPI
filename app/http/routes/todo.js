@@ -1,12 +1,13 @@
 const express = require('express');
-const TodoController = require('../controllers/todo.controller');
-const authMiddleware = require("../../middlewares/authMiddleware");
 const router = express.Router();
+const TodoController = require('../controllers/todo');
+const authMiddleware = require("../middlewares/authMiddleware");
+
 
 
 
 // Use the middleware to authenticate from session token in cookies
-// router.use(authMiddleware);
+router.use(authMiddleware);
 
 const controller = new TodoController();
 

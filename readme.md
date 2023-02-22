@@ -75,126 +75,40 @@ Config
 
 
 
-Factory Method Planning for TODO API
 
-After studying the Factory Method Pattern I have decided to apply Approach in this Way
 
-Since we are using Layered Architecture so we can make factory that can Create Each Layer
 
-Factories and there respective Static Creates 
--> Controller
-    todocontroller
-    usercontroller
--> Model
-    todomodel
-    usermodel
--> Routes
-    todoroutes
-    userroutes
--> Services
-    todoservices
-    userservices
+/*
+    
+    Middleware functions are functions that have access to the request object (req), 
+    the response object (res), and the next middleware function in the application’s 
+    request-response cycle. 
+    The next middleware function is commonly denoted by a variable named next.
 
-Now this Pattern i Have yet to understand the Advantage over the Previous Approach though
+    Middleware functions can perform the following tasks:
 
-in Out ExpressAPP we can create instances of each component where required
+    Execute any code.
+    Make changes to the request and the response objects.
+    End the request-response cycle.
+    Call the next middleware in the stack.
 
-like we can use todoroutes and userroutes in express-app.js and route them using express
+    Types of express middleware
 
-Sample Planning for Factory Method So Far
+    Application level middleware app.use
+    Router level middleware router.use
+    Built-in middleware express.static,express.json,express.urlencoded
+    Error handling middleware app.use(err,req,res,next)
+    Thirdparty middleware bodyparser,cookieparser
 
--> Factory Classes
+    Application Level Middleware
+    
+    Auth middleware
 
-class Controller {
-  static create(type) {
-    if (type === 'todo') {
-      return new TodoController();
-    } else if (type === 'user') {
-      return new UserController();
-    } else {
-      throw new Error('Invalid type');
-    }
-  }
-}
+    Suppose we are having five routes getUsers,getDetails,updateDetails,isLoggedIn,isLoggedOut
+    every route must be authenticated if the user is not authenticated then he is not able to call the above mentioned routes,so every GET,POST calls required authentication.In this case we build a authtication middleware.
 
-class Model {
-  static create(type) {
-    if (type === 'todo') {
-      return new TodoModel();
-    } else if (type === 'user') {
-      return new UserModel();
-    } else {
-      throw new Error('Invalid type');
-    }
-  }
-}
+    Now once the request comes the auth middleware will do some authentication logic that we have 
+    written inside it.Once authentication successful then remaining routed must be called using next()
+    if auth fails then it wont perform next route exit the middleware with error response logic
 
-class Route {
-  static create(type) {
-    if (type === 'todo') {
-      return new TodoRoute();
-    } else if (type === 'user') {
-      return new UserRoute();
-    } else {
-      throw new Error('Invalid type');
-    }
-  }
-}
-
-class Service {
-  static create(type) {
-    if (type === 'todo') {
-      return new TodoService();
-    } else if (type === 'user') {
-      return new UserService();
-    } else {
-      throw new Error('Invalid type');
-    }
-  }
-}
-
--> SubClasses
-
-class TodoController extends Controller {
-  // implementation
-}
-
-class UserController extends Controller {
-  // implementation
-}
-
-class TodoModel extends Model {
-  // implementation
-}
-
-class UserModel extends Model {
-  // implementation
-}
-
-class TodoRoute extends Route {
-  // implementation
-}
-
-class UserRoute extends Route {
-  // implementation
-}
-
-class TodoService extends Service {
-  // implementation
-}
-
-class UserService extends Service {
-  // implementation
-}
-
--> USING FACTORIES
-
-const todoController = Controller.create('todo');
-const todoModel = Model.create('todo');
-const todoRoute = Route.create('todo');
-const todoService = Service.create('todo');
-
-const userController = Controller.create('user');
-const userModel = Model.create('user');
-const userRoute = Route.create('user');
-const userService = Service.create('user');
+*/

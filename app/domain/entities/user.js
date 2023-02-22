@@ -1,26 +1,19 @@
 class User {
-    constructor(username, password, googleID, displayName) {
+    constructor(id, username, password, email, isVerified, googleId, provider) {
+      
+      this.id = id;
       this.username = username;
       this.password = password;
-      this.googleID = googleID;
-      this.displayName = displayName;
+      this.email = email;
+      this.isVerified = isVerified;
+      this.googleId = googleId;
+      this.provider = provider;
     }
-  
-    toObject() {
-      return {
-        username: this.username,
-        password: this.password,
-        googleID: this.googleID,
-        displayName: this.displayName
-      };
+    
+    static create(id, username, password, email, isVerified, googleId, provider) {
+      return new User(id, username, password, email, isVerified, googleId, provider);
     }
 
-
-    //Imports
-    static fromObject(obj) {
-      const user = new User(obj.username, obj.password);
-      return new UserModel(user.toObject());
   }
-}
 
 module.exports = User;
