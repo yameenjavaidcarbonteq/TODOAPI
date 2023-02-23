@@ -1,6 +1,6 @@
 const store = require('../../domain/interfaces/storeInterfaceUser');
 const userMongo = require('../mongo_models/user');
-const UserEntity =  require('../../domain/entities/user');
+const User =  require('../../domain/entities/user');
 
 
 class MongoStore extends store{
@@ -18,9 +18,6 @@ class MongoStore extends store{
         if (!userDoc) {
             return null;
         }
-        console.log(userDoc);
-        
-        const temp =  new UserEntity(userDoc.id, userDoc.username, userDoc.password, userDoc.email, userDoc.isVerified, userDoc.googleId, userDoc.provider);
         return userDoc;
     }
 
@@ -30,25 +27,23 @@ class MongoStore extends store{
         if (!userDoc) {
             return null;
         }
-        const temp =  new UserEntity(userDoc.id, userDoc.username, userDoc.password, userDoc.email, userDoc.isVerified, userDoc.googleId, userDoc.provider);
-        return temp;
+        return userDoc;
     }
 
-    async create(UserEntity) {
-        console.log("Creating New User: ", UserEntity );
+    async create(User) {
         const userDoc = new this.model({
-            id: UserEntity.id,
-            username: UserEntity.username,
-            email: UserEntity.email,
-            password: UserEntity.password,
-            isVerified: UserEntity.isVerified,
-            googleId: UserEntity.googleId,
-            provider: UserEntity.provider,
+            id: User.id,
+            username: User.username,
+            email: User.email,
+            password: User.password,
+            isVerified: User.isVerified,
+            googleId: User.googleId,
+            provider: User.provider,
           });
-          await userDoc.save();
+        await userDoc.save();
     }
 
-    async update(UserEntity) {
+    async update(User) {
         // Not Implemented
     }
     

@@ -17,8 +17,7 @@ class sequelizeStore extends store{
       if (!todoRecord) {
         return null;
       }
-      const temp =  new UserEntity(todoRecord.id, todoRecord.username, todoRecord.password, todoRecord.email, todoRecord.isVerified, todoRecord.googleId, todoRecord.provider);
-      return temp;
+      return todoRecord;
     }
     
     async findbyid(id) {
@@ -26,8 +25,7 @@ class sequelizeStore extends store{
       if (!todoRecord) {
         return null;
       }
-      const temp =  new UserEntity(todoRecord.id, todoRecord.username, todoRecord.password, todoRecord.email, todoRecord.isVerified, todoRecord.googleId, todoRecord.provider);
-      return temp;
+      return todoRecord;
     }
   
     async create(UserEntity) {

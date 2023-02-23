@@ -29,7 +29,8 @@ module.exports = function (passport) {
         }
         else {
             // create a user
-            const userEntity = User.create(username, null, email, true, googleId, 'google');
+            const userEntity = User.create(User.makeid(),username, null, email, true, googleId, 'google');
+            console.log(userEntity);
             await store.create(userEntity);
             return done(null, userEntity);
         }}

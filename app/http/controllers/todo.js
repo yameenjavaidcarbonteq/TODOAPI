@@ -1,7 +1,4 @@
 const config = require('../../infrastructure/config/index');
-
-
-const { v4: uuidv4 } = require('uuid');
 const Todo = require('../../domain/entities/todo');
 const adapter = require('../../infrastructure/todo/todoadapter');
 
@@ -25,7 +22,7 @@ class TodoController {
     {
       const { title, description, status } = req.body;
 
-      const todoItem = Todo.create(title, description, status);
+      const todoItem = Todo.create(Todo.makeid(),title, description, status);
       const todo = await this.store.create(todoItem);
       res.status(201).json({ todo });
       
@@ -38,7 +35,10 @@ class TodoController {
     try {
       
       const todos = await this.store.find({});
-      res.status(200).json({ todos });
+      
+      const todoEntities =  todos.map((todoRecord) => Todo.create(todoRecord.id, todoRecord.title, todoRecord.description, todoRecord.isCompleted));
+      
+      res.status(200).json({ todoEntities });
 
     } catch (error) {
       res.status(500).send(error.message);
@@ -49,11 +49,13 @@ class TodoController {
     try 
     {
       const { id } = req.params;
-      const todoItem = await this.store.findOne(id);
+      const todoRecord = await this.store.findOne(id);
+
       if (!todoItem) {
         res.status(404).json({ error: `Todo item with id ${id} not found` });
       } else {
-        res.json(todoItem);
+        const todoEntity = Todo.create(todoRecord.id, todoRecord.title, todoRecord.description, todoRecord.isCompleted);
+        res.json(todoEntity);
       } 
     }  
     catch (error) 
@@ -68,7 +70,8 @@ class TodoController {
       const { id } = req.params;
       const { title, description, status } = req.body;
       
-      const todoItem = await this.store.findOne(id);
+      const todoItem = await this.store.findOne({'id':id});
+      console.log("Found this todoItem: ",todoItem);
       if (!todoItem) {
         res.status(404).json({ error: `Todo item with id ${id} not found` });
         return;
@@ -95,7 +98,7 @@ class TodoController {
   async deleteTodo (req, res) {
     try {
       const { id } = req.params;
-      const todoItem = await this.store.findOne(id);
+      const todoItem = await this.store.findOne({'id':id});
       if (!todoItem) {
         res.status(404).json({ error: `Todo item with id ${id} not found` });
         return;

@@ -41,7 +41,7 @@ class UserController {
     if (exists) {
       res.status(200).json({ error: `User ${email} exists already` });
     }
-    const userEntity = User.create(username, password, email, false, null, 'email');
+    const userEntity = User.create(User.makeid(), username, password, email, false, null, 'email');
     await this.store.create(userEntity);
     req.logIn(userEntity, (err) => 
     {

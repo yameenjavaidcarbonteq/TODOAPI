@@ -1,6 +1,6 @@
 const store = require('../../domain/interfaces/storeInterfaceTodo');
 const todoMongo = require('../../infrastructure/mongo_models/todo');
-const TodoItem =  require('../../domain/entities/todo');
+const Todo =  require('../../domain/entities/todo');
 
 
 class MongoStore extends store{
@@ -11,7 +11,7 @@ class MongoStore extends store{
 
     async find() {
         const todoDocs = await this.model.find().exec();
-        return todoDocs.map((todoDoc) => new TodoItem(todoDoc.id, todoDoc.title, todoDoc.description, todoDoc.status));
+        return todoDocs;
     }
 
     
@@ -19,30 +19,26 @@ class MongoStore extends store{
         
         const todoDoc = await this.model.findbyid(id).exec();
         if (!todoDoc) {
-        return null;
+            return null;
         }
-        return new TodoItem(todoDoc.id, todoDoc.title, todoDoc.description, todoDoc.isCompleted);
+        return todoDoc;
     }
     
     async findOne(id) {
         
         const todoDoc = await this.model.findOne({'id': id}).exec();
         if (!todoDoc) {
-        return null;
+            return null;
         }
-        return new TodoItem(todoDoc.id, todoDoc.title, todoDoc.description, todoDoc.isCompleted);
+        return todoDoc;
     }
 
     async create(todoItem) {
-        
-        console.log("In Create todo Store: ",todoItem);
-        
-        
         const todoDoc = new this.model({
             id: todoItem.id,
             title: todoItem.title,
             description: todoItem.description,
-            status: todoItem.status,
+            status: Todo.status,
           });
           await todoDoc.save();
     }
@@ -50,11 +46,11 @@ class MongoStore extends store{
     async update(todoItem) {
         const todoDoc = await this.model.findOne({'id': todoItem.id}).exec();
         if (!todoDoc) {
-        throw new Error(`Todo item with id ${todoItem.id} not found`);
+            throw new Error(`Todo item with id ${todoItem.id} not found`);
         }
-        todoDoc.title = todoItem.title;
-        todoDoc.description = todoItem.description;
-        todoDoc.isCompleted = todoItem.isCompleted;
+        todoDoc.title = todoDoc.title || Todo.title;
+        todoDoc.description = todoDoc.description || Todo.description;
+        todoDoc.isCompleted = todoDoc.isCompleted || Todo.isCompleted;
         await todoDoc.save();
     }
     

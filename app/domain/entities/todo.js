@@ -8,8 +8,13 @@ class Todo {
     this.status = status;
   }
   
-  static create(title, description, done) {
-    return new Todo(uuidv4(), title, description, done);
+  static makeid()
+  {
+    return uuidv4();
+  }
+
+  static create(id, title, description, done) {
+    return new Todo(id, title, description, done);
   }
 }
 

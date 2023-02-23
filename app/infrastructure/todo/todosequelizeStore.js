@@ -10,23 +10,25 @@ class sequelizeStore extends store{
     
     async find(query) {
       const todoRecords = await this.model.findAll();
-      return todoRecords.map((todoRecord) => new TodoItem(todoRecord.id, todoRecord.title, todoRecord.description, todoRecord.isCompleted));
+      return todoRecords;
     }
   
     async findOne(query) {
-      const todoRecord = await this.model.findByPk(id);
+      console.log(query);
+      const todoRecord = await this.model.findOne({ where: query });
+      console.log("Finding this: ",todoRecord);
       if (!todoRecord) {
         return null;
       }
-      return new TodoItem(todoRecord.id, todoRecord.title, todoRecord.description, todoRecord.status);
+      return todoRecord;
     }
     
     async findbyid(id) {
-      const todoRecord = await this.model.findByPk(id);
+      const todoRecord = await this.model.findOne({ where: id });
       if (!todoRecord) {
         return null;
       }
-      return new TodoItem(todoRecord.id, todoRecord.title, todoRecord.description, todoRecord.status);
+      return todoRecord;
     }
   
     async create(todoItem) {
@@ -47,7 +49,7 @@ class sequelizeStore extends store{
           isCompleted: todoItem.isCompleted,
         },
         {
-          where: { id: todoItem.id },
+          where: { 'id': todoItem.id },
         }
       );
       if (rowsUpdated === 0) {
@@ -57,7 +59,7 @@ class sequelizeStore extends store{
   
     async delete(id) {
       const rowsDeleted = await this.model.destroy({
-        where: { id },
+        where: { 'id': id }
       });
       if (rowsDeleted === 0) {
         throw new Error(`Todo item with id ${id} not found`);

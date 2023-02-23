@@ -1,14 +1,18 @@
 const config = require('../../infrastructure/config/index');
+const bcrypt = require('bcrypt');
 const db = config.sequelize;
 
 const Sequelize = require('sequelize');
+const passport = require('passport');
+
 const sequelize = new Sequelize(db.database, db.username, db.password, {
   host: db.host,
   dialect: db.dialect
 });
-const User = sequelize.define('Users', {
+const User = sequelize.define('Users', 
+{
   id: {
-    type: String,
+    type: Sequelize.STRING,
     primaryKey: true
   },
   username: {
@@ -22,7 +26,7 @@ const User = sequelize.define('Users', {
   },
   password: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   isVerified: {
     type: Sequelize.BOOLEAN,
@@ -35,15 +39,20 @@ const User = sequelize.define('Users', {
     type: Sequelize.STRING,
     required: true,
   }
-  },{
-  hooks: {
-    beforeCreate: async (user) => {
-      const salt = await bcrypt.genSalt();
-      user.password = await bcrypt.hash(user.password, salt);
+}
+,{
+  hooks: 
+  {
+    beforeCreate: async (user) => 
+    {
+      if(user.password != null){
+        const salt = await bcrypt.genSalt();
+        user.password = await bcrypt.hash(user.password, salt);
+      }
     }
   }
-}, {
-  timestamps: false
+  ,
+  timestamps: false  
 });
 
 User.prototype.validPassword = async function (password) {
@@ -52,9 +61,9 @@ User.prototype.validPassword = async function (password) {
 
 
 
-// sequelize.sync({ force: true }).then(() => {
-//   console.log('Tables created or updated');
-// });
+sequelize.sync({ force: true }).then(() => {
+  console.log('Tables created or updated');
+});
 
 /*
     The sequelize.sync() method in Sequelize is used to create or update the database schema to match 

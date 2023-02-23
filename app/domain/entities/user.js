@@ -11,8 +11,13 @@ class User {
       this.provider = provider;
     }
     
-    static create(username, password, email, isVerified, googleId, provider) {
-      return new User(uuidv4(), username, password, email, isVerified, googleId, provider);
+    static makeid()
+    {
+      return uuidv4();
+    }
+
+    static create(id, username, password, email, isVerified, googleId, provider) {
+      return new User(id, username, password, email, isVerified, googleId, provider);
     }
 
   }
