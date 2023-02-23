@@ -1,4 +1,4 @@
-const store = require('./storeInterfaceUser');
+const store = require('../../domain/interfaces/storeInterfaceUser');
 const userSeq = require('../sequelize_models/user');
 const UserEntity =  require('../../domain/entities/todo');
 
@@ -13,7 +13,7 @@ class sequelizeStore extends store{
     }
   
     async findOne(email) {
-      const todoRecord = await this.model.findOne({ where: { email: 'email' } });
+      const todoRecord = await this.model.findOne({ where: email });
       if (!todoRecord) {
         return null;
       }
@@ -22,7 +22,7 @@ class sequelizeStore extends store{
     }
     
     async findbyid(id) {
-      const todoRecord = await this.model.findOne({ where: { id: 'id' } });
+      const todoRecord = await this.model.findOne({ where: id });
       if (!todoRecord) {
         return null;
       }
@@ -31,7 +31,6 @@ class sequelizeStore extends store{
     }
   
     async create(UserEntity) {
-        
       await this.model.create({
         id: UserEntity.id,
         username: UserEntity.username,

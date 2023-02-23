@@ -1,12 +1,14 @@
-const dotenv = require('dotenv');
-dotenv.config();
+
+const config = require('./infrastructure/config/index');
+const mongoose_db = config.mongoose;
+const sessionsecret = config.sessionsecret;
+const host = config.host;
+const port = config.port;
 
 const bodyParser = require('body-parser');
 const express = require('express');
 const passport = require('passport');
-const csrf = require('csurf');
 const flash = require('connect-flash');
-const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const MemoryStore = require('memorystore')(expressSession)
 
@@ -14,9 +16,6 @@ const MemoryStore = require('memorystore')(expressSession)
 const TodoRoutes = require('./http/routes/todo');
 const AuthRoutes = require('./http/routes/auth');
 
-
-const host = process.env.HOST;
-const port = process.env.PORT;
 
 const app = express();
 app.use(express.json());
@@ -27,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.use(expressSession({
-    secret: process.env.SESSIONSECRET,
+    secret: sessionsecret,
     resave: true,
     saveUninitialized: true,
     maxAge: 24 * 60 * 60 * 1000,
@@ -55,7 +54,7 @@ app.use('/', TodoRoutes);
 
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/todoapi', { useNewUrlParser: true });
+mongoose.connect(`${mongoose_db.URI}/${mongoose_db.DB}`, { useNewUrlParser: true });
 
 
 app.listen(port, () => {

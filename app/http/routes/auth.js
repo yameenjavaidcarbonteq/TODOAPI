@@ -23,49 +23,49 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
 
 
 
-router.post('/signup', async (req, res, next) => {
-    const username = req.body.username
-    const email = req.body.email;
-    const password = req.body.password;
+// router.post('/signup', async (req, res, next) => {
+//     const username = req.body.username
+//     const email = req.body.email;
+//     const password = req.body.password;
 
-    const exists = await User.findOne({ email: email });
-    if (exists) {
-        res.json({ message: "User Doesn't Exist !"});
-    }
+//     const exists = await User.findOne({ email: email });
+//     if (exists) {
+//         res.json({ message: "User Doesn't Exist !"});
+//     }
     
     
-    const new_user = new User(
-    {
-        username: username,
-        email: email,
-        password: password,
-        googleId: null,
-        provider: 'email',
-    });
+//     const new_user = new User(
+//     {
+//         username: username,
+//         email: email,
+//         password: password,
+//         googleId: null,
+//         provider: 'email',
+//     });
     
-    new_user.save((err) => 
-    {
-        if (err) 
-        {
-            return next(err);
-        }
-        req.logIn(new_user, (err) => 
-        {
-            if (err) 
-            {
-                return next(err);
-            }
-            return res.redirect('/');
-        });
-    });
-});
+//     new_user.save((err) => 
+//     {
+//         if (err) 
+//         {
+//             return next(err);
+//         }
+//         req.logIn(new_user, (err) => 
+//         {
+//             if (err) 
+//             {
+//                 return next(err);
+//             }
+//             return res.redirect('/');
+//         });
+//     });
+// });
 
-router.get('/logout', (req, res) => {
-    req.logout();
-    req.session.destroy(function (err) {
-        res.redirect('/');
-    });
-});
+// router.get('/logout', (req, res) => {
+//     req.logout();
+//     req.session.destroy(function (err) {
+//         res.redirect('/');
+//     });
+// });
 
 
 

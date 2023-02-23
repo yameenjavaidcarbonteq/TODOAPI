@@ -1,7 +1,10 @@
+const config = require('../../infrastructure/config/index');
+const db = config.sequelize;
+
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('todoapi', 'root', '4675', {
-  host: 'localhost',
-  dialect: 'mysql'
+const sequelize = new Sequelize(db.database, db.username, db.password, {
+  host: db.host,
+  dialect: db.dialect
 });
 const User = sequelize.define('Users', {
   id: {

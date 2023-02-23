@@ -1,21 +1,23 @@
 
-const todomongoStore = require("../../infrastructure/todo/todomongoStore");
-const todosequelizeStore = require("../../infrastructure/todo/todosequelizeStore");
+const usermongoStore = require("./usermongoStore");
+const usersequelizeStore = require("./usersequelizeStore");
 
-const store = require('./storeInterfaceTodo');
+const store = require('../../domain/interfaces/storeInterfaceUser');
 class adapter extends store{
 
     constructor(storeType) {
+        
+        console.log("Creating new adapter for dbtype: ",storeType);
         super();
         
         this.store = null;
         if (storeType === 'mongoose') 
         {
-            this.store = new todomongoStore();
+            this.store = new usermongoStore();
         } 
         else if (storeType === 'sequelize') 
         {
-            this.store = new todosequelizeStore();
+            this.store = new usersequelizeStore();
         }
     }
 
@@ -23,10 +25,10 @@ class adapter extends store{
         return await this.store.find();
     }
 
-    async findOne(id) {
-        return await this.store.findOne(id);
+    async findOne(query) {
+        return await this.store.findOne(query);
     }
-    
+
     async findbyid(id) {
         return await this.store.findbyid(id);
     }

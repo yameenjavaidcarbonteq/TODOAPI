@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
-const Todo = require('./entities/todo')
+const Todo = require('./domain/entities/todo')
 const adapter = require('../infrastructure/todo/todoadapter');
 class Store{
 
@@ -31,7 +31,7 @@ class Store{
 
     async create(title, description, status) {
         
-        const todoItem = Todo.create(uuidv4(), title, description, status);
+        const todoItem = Todo.create(title, description, status);
         
         await this.store.create(todoItem);
         return todoItem;

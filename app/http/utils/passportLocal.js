@@ -1,6 +1,7 @@
 var localStrategy = require('passport-local').Strategy;
-const Store = require('../../domain/userStore');
-const store = new Store("mongoose");
+const config = require('../../infrastructure/config/index');
+const adapter = require('../../infrastructure/user/useradapter');
+const store = new adapter(config.dbtype);
 
 module.exports = function (passport) {
     passport.use(new localStrategy({ 
@@ -12,6 +13,7 @@ module.exports = function (passport) {
         try 
         {
             const exists = await store.findOne({'email': email});
+            console.log(exists);
             if (!exists) {
                 return done(null, false, { message: "User Doesn't Exist !"});
             }
@@ -35,7 +37,7 @@ module.exports = function (passport) {
 
     passport.deserializeUser(async function (id, done) {
         console.log("deserializing: ",id);
-        const exists = await store.findbyid(id);
+        const exists = await store.findbyid({"id": id});
         if (exists) {
             console.log("deserializing this user in Passport Local: ",exists);
             done(null, exists);

@@ -1,10 +1,9 @@
-const store = require('../../domain/todoStore');
-const dotenv = require('dotenv');
-dotenv.config();
+const config = require('../../infrastructure/config/index');
+
 
 const { v4: uuidv4 } = require('uuid');
-const Todo = require('./entities/todo')
-const adapter = require('../infrastructure/todo/todoadapter');
+const Todo = require('../../domain/entities/todo');
+const adapter = require('../../infrastructure/todo/todoadapter');
 
 class TodoController {
 
@@ -16,7 +15,7 @@ class TodoController {
     this.deleteTodo = this.deleteTodo.bind(this);
     this.updateTodo = this.updateTodo.bind(this);
     
-    this.store = new adapter(process.env.DB);
+    this.store = new adapter(config.dbtype);
     
   }
   
@@ -26,7 +25,7 @@ class TodoController {
     {
       const { title, description, status } = req.body;
 
-      const todoItem = Todo.create(uuidv4(), title, description, status);
+      const todoItem = Todo.create(title, description, status);
       const todo = await this.store.create(todoItem);
       res.status(201).json({ todo });
       
@@ -68,9 +67,8 @@ class TodoController {
     {
       const { id } = req.params;
       const { title, description, status } = req.body;
-      console.log("Finding the Todo");
+      
       const todoItem = await this.store.findOne(id);
-      console.log("Found Todo: ",todoItem);
       if (!todoItem) {
         res.status(404).json({ error: `Todo item with id ${id} not found` });
         return;

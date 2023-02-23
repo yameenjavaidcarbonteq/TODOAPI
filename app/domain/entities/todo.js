@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require('uuid');
 
 class Todo {
   constructor(id, title, description, status) {
@@ -7,8 +8,8 @@ class Todo {
     this.status = status;
   }
   
-  static create(id, title, description, done) {
-    return new Todo(id, title, description, done);
+  static create(title, description, done) {
+    return new Todo(uuidv4(), title, description, done);
   }
 }
 

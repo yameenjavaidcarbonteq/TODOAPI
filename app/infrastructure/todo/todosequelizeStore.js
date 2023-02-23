@@ -31,12 +31,21 @@ class sequelizeStore extends store{
   
     async create(todoItem) {
         
-      await this.model.create(todoItem);
+      await this.model.create({
+        id: todoItem.id,
+        title: todoItem.title,
+        description: todoItem.description,
+        isCompleted: todoItem.isCompleted,
+      });
     }
   
     async update(todoItem) {
       const [rowsUpdated] = await this.model.update(
-        todoItem,
+        {
+          title: todoItem.title,
+          description: todoItem.description,
+          isCompleted: todoItem.isCompleted,
+        },
         {
           where: { id: todoItem.id },
         }

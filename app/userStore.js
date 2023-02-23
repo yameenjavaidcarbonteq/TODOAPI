@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
-const User = require('./entities/user')
+const User = require('./domain/entities/user')
 const adapter = require('../infrastructure/user/adapter');
 class Store{
 
@@ -30,9 +30,7 @@ class Store{
     }
 
     async create(email, password, username, isVerified, googleId, provider) {
-        console.log("Creating New User with following Creds: ",email, password, username, isVerified, googleId, provider);
-        const userEntity = User.create(uuidv4(), username, password, email, isVerified, googleId, provider);
-        console.log("Creating New Entity: ",userEntity);
+        const userEntity = User.create(username, password, email, isVerified, googleId, provider);
         await this.store.create(userEntity);
         return userEntity;
     }

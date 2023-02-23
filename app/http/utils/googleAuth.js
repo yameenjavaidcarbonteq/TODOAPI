@@ -1,18 +1,26 @@
+const User = require('../../domain/entities/user');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
-const Store = require('../../domain/userStore');
-const store = new Store("mongoose");
+const config = require('../../infrastructure/config/index');
+const googleauth = config.googleauth;
+
+
+const adapter = require('../../infrastructure/user/useradapter');
+const store = new adapter(config.dbtype);
+
+
+
 
 module.exports = function (passport) {
     passport.use(new GoogleStrategy({
-        clientID: process.env.CLIENTID,
-        clientSecret: process.env.CLIENTSECRET,
-        callbackURL: process.env.REDIRECTURI
+        clientID: googleauth.clientID,
+        clientSecret: googleauth.clientSecret,
+        callbackURL: googleauth.callbackURL
     }, 
     async (accessToken, refreshToken, profile, done) => {
-        console.log(profile.emails[0].value);
+        const username = profile.displayName;
+        const googleId = profile.id;
         const email = profile.emails[0].value;
-        console.log("Searching this Email: ",email);
-        const exists = await store.findOne(email);
+        const exists = await store.findOne({'email':email});
         console.log("Results for Exists: ",exists);
         if (exists) {
             console.log("User Found");
@@ -21,16 +29,9 @@ module.exports = function (passport) {
         }
         else {
             // create a user
-            const newUser = await store.create(
-                profile.emails[0].value,
-                null,
-                profile.displayName, 
-                true,                 
-                profile.id,
-                'google'
-                );
-    
-            return done(null, newUser);
+            const userEntity = User.create(username, null, email, true, googleId, 'google');
+            await store.create(userEntity);
+            return done(null, userEntity);
         }}
     ));
     passport.serializeUser(function (user, done) {
