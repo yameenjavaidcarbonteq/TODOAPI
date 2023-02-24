@@ -1,6 +1,6 @@
-const store = require('../../domain/interfaces/storeInterfaceTodo');
+const store = require('../../../../domain/interfaces/storeInterfaceTodo');
 const todoSeq = require('../sequelize_models/todo');
-const TodoItem =  require('../../domain/entities/todo');
+const TodoItem =  require('../../../../domain/entities/todo');
 
 class sequelizeStore extends store{
     constructor() {

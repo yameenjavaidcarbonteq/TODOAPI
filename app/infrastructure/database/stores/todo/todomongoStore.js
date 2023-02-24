@@ -1,6 +1,6 @@
-const store = require('../../domain/interfaces/storeInterfaceTodo');
+const store = require('../../../../domain/interfaces/storeInterfaceTodo');
 const todoMongo = require('../../infrastructure/mongo_models/todo');
-const Todo =  require('../../domain/entities/todo');
+const Todo =  require('../../../../domain/entities/todo');
 
 
 class MongoStore extends store{

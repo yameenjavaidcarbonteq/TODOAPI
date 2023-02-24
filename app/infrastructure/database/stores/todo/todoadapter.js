@@ -2,7 +2,7 @@
 const todomongoStore = require("./todomongoStore");
 const todosequelizeStore = require("./todosequelizeStore");
 
-const store = require('../../domain/interfaces/storeInterfaceTodo');
+const store = require('../../../../domain/interfaces/storeInterfaceTodo');
 class adapter extends store{
 
     constructor(storeType) {
