@@ -34,7 +34,7 @@ class TodoController {
   async getTodos (req, res) {
     try {
       
-      const todos = await this.store.find({});
+      const todos = await this.store.find();
       
       const todoEntities =  todos.map((todoRecord) => Todo.create(todoRecord.id, todoRecord.title, todoRecord.description, todoRecord.isCompleted));
       
@@ -49,7 +49,7 @@ class TodoController {
     try 
     {
       const { id } = req.params;
-      const todoRecord = await this.store.findOne(id);
+      const todoRecord = await this.store.findOne({'id':id});
 
       if (!todoItem) {
         res.status(404).json({ error: `Todo item with id ${id} not found` });

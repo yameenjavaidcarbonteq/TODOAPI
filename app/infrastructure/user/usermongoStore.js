@@ -14,6 +14,7 @@ class MongoStore extends store{
     }
 
     async findOne(email) {
+        console.log("FindOne called for ",email);
         const userDoc = await this.model.findOne(email).exec();
         if (!userDoc) {
             return null;

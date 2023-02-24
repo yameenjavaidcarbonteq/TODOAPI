@@ -24,6 +24,7 @@ class adapter extends store{
     }
 
     async findOne(id) {
+        console.log("todo findone");
         return await this.store.findOne(id);
     }
     

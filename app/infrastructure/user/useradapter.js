@@ -26,6 +26,7 @@ class adapter extends store{
     }
 
     async findOne(query) {
+        console.log("Came here: ",query);
         return await this.store.findOne(query);
     }
 

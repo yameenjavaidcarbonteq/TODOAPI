@@ -10,7 +10,6 @@ const express = require('express');
 const passport = require('passport');
 const flash = require('connect-flash');
 const expressSession = require('express-session');
-const MemoryStore = require('memorystore')(expressSession)
 
 
 const TodoRoutes = require('./http/routes/todo');
@@ -27,21 +26,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(expressSession({
     secret: sessionsecret,
-    resave: true,
+    resave: false,
     saveUninitialized: true,
     maxAge: 24 * 60 * 60 * 1000,
-    store: new MemoryStore(),
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use(function (req, res, next) {
-    res.locals.success_messages = req.flash('success_messages');
-    res.locals.error_messages = req.flash('error_messages');
-    res.locals.error = req.flash('error');
-    next();
-});
+// app.use(function (req, res, next) {
+//     res.locals.success_messages = req.flash('success_messages');
+//     res.locals.error_messages = req.flash('error_messages');
+//     res.locals.error = req.flash('error');
+//     next();
+// });
 
 
 // .............................................................

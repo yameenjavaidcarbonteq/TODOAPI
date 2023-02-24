@@ -61,9 +61,9 @@ User.prototype.validPassword = async function (password) {
 
 
 
-sequelize.sync({ force: true }).then(() => {
-  console.log('Tables created or updated');
-});
+// sequelize.sync({ force: true }).then(() => {
+//   console.log('Tables created or updated');
+// });
 
 /*
     The sequelize.sync() method in Sequelize is used to create or update the database schema to match 

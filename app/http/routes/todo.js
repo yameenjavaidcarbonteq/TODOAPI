@@ -7,7 +7,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
 
 
 // Use the middleware to authenticate from session token in cookies
-// router.use(authMiddleware);
+router.use(authMiddleware);
 
 const controller = new TodoController();
 

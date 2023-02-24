@@ -4,6 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const User = require('../../domain/entities/user');
 
 const passport = require('passport');
+require('../utils/AuthStrategiesPassport');
 const adapter = require('../../infrastructure/user/useradapter');
 
 class UserController {
@@ -16,20 +17,15 @@ class UserController {
     
     this.store = new adapter(config.dbtype);
   }
-  async login (req, res, next) 
-  {
-    console.log('req: ',req.body);
-    passport.authenticate('local', {
-      failureRedirect: false, 
-      successRedirect: '/',
-      failureFlash: 'Invalid email or password',
-    })(req, res, next);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-  }
   
   async logout (req, res, next) {
     console.log("Logout this User");
-    req.logout(() => {
+    req.logout((err) => {
       // Callback function is called after the user's session is cleared
+      if (err)
+      {
+        res.json({'Error': err});
+      }
       res.json({'Message': 'Logged Out'});
     });
   }
@@ -43,18 +39,27 @@ class UserController {
     }
     const userEntity = User.create(User.makeid(), username, password, email, false, null, 'email');
     await this.store.create(userEntity);
-    req.logIn(userEntity, (err) => 
+    req.login(userEntity, (err) => 
     {
         if (err)
         {
           return next(err);
         }
-        return res.redirect('/');
+        res.redirect('/');
     });
     }catch (error) 
     {
       res.status(500).send(error.message);
     }
+  }
+  async login (req, res, next) 
+  {
+    console.log('req: ',req.body);
+    passport.authenticate('local', {
+      failureRedirect: false, 
+      successRedirect: '/',
+      failureFlash: 'Invalid email or password',
+    })(req, res, next);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
   }
 }
 module.exports = UserController;

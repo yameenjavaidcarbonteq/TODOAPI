@@ -17,7 +17,7 @@ class MongoStore extends store{
     
     async findbyid(id) {
         
-        const todoDoc = await this.model.findbyid(id).exec();
+        const todoDoc = await this.model.findOne(id).exec();
         if (!todoDoc) {
             return null;
         }
@@ -26,7 +26,8 @@ class MongoStore extends store{
     
     async findOne(id) {
         
-        const todoDoc = await this.model.findOne({'id': id}).exec();
+        console.log("FindOne called for in Todo: ",id);
+        const todoDoc = await this.model.findOne(id).exec();
         if (!todoDoc) {
             return null;
         }

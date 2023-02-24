@@ -3,15 +3,14 @@ const router = express.Router();
 const UserController = require('../controllers/auth');
 const passport = require('passport');
 
-require('../utils/passportLocal')(passport);
-require('../utils/googleAuth')(passport);
+require('../utils/AuthStrategiesPassport');
 
 
 const controller = new UserController();
 
 router.post('/signup',controller.signup);
 router.post('/login', controller.login);
-router.post('/logout', controller.logout);
+router.get('/logout', controller.logout);
 
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email',] }));
