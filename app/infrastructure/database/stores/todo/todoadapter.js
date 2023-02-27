@@ -11,6 +11,7 @@ class adapter extends store{
         this.store = null;
         if (storeType === 'mongoose') 
         {
+            //currently changing store to repository
             this.store = new todomongoStore();
         } 
         else if (storeType === 'sequelize') 

@@ -12,6 +12,11 @@ const flash = require('connect-flash');
 const expressSession = require('express-session');
 
 
+// middlewares
+import errorHandlingMiddleware from './http/middlewares/errorHandlingMiddleware';
+
+
+
 const TodoRoutes = require('./http/routes/todo');
 const AuthRoutes = require('./http/routes/auth');
 
@@ -34,12 +39,9 @@ app.use(expressSession({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-// app.use(function (req, res, next) {
-//     res.locals.success_messages = req.flash('success_messages');
-//     res.locals.error_messages = req.flash('error_messages');
-//     res.locals.error = req.flash('error');
-//     next();
-// });
+
+// error handling middleware
+app.use(errorHandlingMiddleware);
 
 
 // .............................................................

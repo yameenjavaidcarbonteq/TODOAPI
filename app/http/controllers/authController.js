@@ -5,9 +5,9 @@ const User = require('../../domain/entities/user');
 
 const passport = require('passport');
 require('../utils/AuthStrategiesPassport');
-const adapter = require('../../infrastructure/user/useradapter');
+const service = require('../../infrastructure/user/userservice');
 
-class UserController {
+class AuthController {
 
   constructor()
   {
@@ -15,7 +15,7 @@ class UserController {
     this.logout = this.logout.bind(this);
     this.signup = this.signup.bind(this);
     
-    this.store = new adapter(config.dbtype);
+    this.service = new service(config.dbtype);
   }
   
   async logout (req, res, next) {
@@ -33,12 +33,12 @@ class UserController {
   async signup (req, res, next) {
     try{
     const { username, email, password } = req.body;
-    const exists = await this.store.findOne({"email": email});
+    const exists = await this.service.findOne({"email": email});
     if (exists) {
       res.status(200).json({ error: `User ${email} exists already` });
     }
     const userEntity = User.create(User.makeid(), username, password, email, false, null, 'email');
-    await this.store.create(userEntity);
+    await this.service.create(userEntity);
     req.login(userEntity, (err) => 
     {
         if (err)
@@ -62,4 +62,4 @@ class UserController {
     })(req, res, next);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
   }
 }
-module.exports = UserController;
+module.exports = AuthController;
