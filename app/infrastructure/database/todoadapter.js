@@ -2,7 +2,7 @@
 const todomongoStore = require("./todomongoStore");
 const todosequelizeStore = require("./todosequelizeStore");
 
-const store = require('../../../../domain/interfaces/storeInterfaceTodo');
+const store = require('../../domain/interfaces/storeInterfaceTodo');
 class adapter extends store{
 
     constructor(storeType) {
@@ -25,7 +25,6 @@ class adapter extends store{
     }
 
     async findOne(id) {
-        console.log("todo findone");
         return await this.store.findOne(id);
     }
     

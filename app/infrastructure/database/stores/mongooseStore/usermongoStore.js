@@ -10,28 +10,29 @@ class MongoStore extends store{
     }   
 
     async find() {
-        // Not Implemented
+        PostModel.find(omit(params, 'page', 'perPage'))
+        .skip(params.perPage * params.page - params.perPage)
+        .limit(params.perPage);
     }
 
-    async findOne(email) {
-        console.log("FindOne called for ",email);
-        const userDoc = await this.model.findOne(email).exec();
-        if (!userDoc) {
-            return null;
-        }
-        return userDoc;
-    }
+    findByProperty = (params) =>
+        UserModel.find(omit(params, 'page', 'perPage'))
+            .skip(params.perPage * params.page - params.perPage)
+            .limit(params.perPage);
 
-    async findbyid(id) {
+    countAll (params){
+        UserModel.countDocuments(omit(params, 'page', 'perPage'));
+    }
+    findOneByProperty(param) {
         
-        const userDoc = await this.model.findOne(id).exec();
-        if (!userDoc) {
-            return null;
-        }
-        return userDoc;
+        this.model.findOne(param).exec();
+    }
+    findbyid(id) {
+        
+        this.model.findById(id).select('-password');
     }
 
-    async create(User) {
+    create(User) {
         const userDoc = new this.model({
             id: User.id,
             username: User.username,
@@ -40,8 +41,9 @@ class MongoStore extends store{
             isVerified: User.isVerified,
             googleId: User.googleId,
             provider: User.provider,
+            createdAt: new Date(),
           });
-        await userDoc.save();
+        return userDoc.save();
     }
 
     async update(User) {

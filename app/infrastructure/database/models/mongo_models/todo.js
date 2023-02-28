@@ -16,6 +16,9 @@ const todoSchema = new mongoose.Schema({
   id: {
     type: String,
     required: false,
+  },createdAt: {
+    type: 'Date',
+    default: Date.now
   }
 }, {
   versionKey: false,

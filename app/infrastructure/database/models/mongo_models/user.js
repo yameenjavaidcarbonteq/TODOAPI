@@ -28,7 +28,8 @@ const userSchema = new mongoose.Schema({
   provider: {
       type: String,
       required: true,
-  }
+  },
+  createdAt: Date
 }, {
   versionKey: false,
   id: false

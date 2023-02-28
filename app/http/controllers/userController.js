@@ -6,11 +6,9 @@ import findById from '../../application/use_cases/user/findById';
 class UserController{
   constructor()
   {
-    this.createTodo = this.createTodo.bind(this);
-    this.getTodos = this.getTodos.bind(this);
-    this.getTodoById = this.getTodoById.bind(this);
-    this.deleteTodo = this.deleteTodo.bind(this);
-    this.updateTodo = this.updateTodo.bind(this);
+    this.fetchUsersByProperty = this.fetchUsersByProperty.bind();
+    this.fetchUserById = this.fetchUserById.bind();
+    this.addNewUser = this.addNewUser.bind();
     
     this.service = new service(config.dbtype);
     
@@ -51,12 +49,11 @@ class UserController{
   };
 
   addNewUser (req, res, next){
-    const { username, password, email, role, createdAt } = req.body;
+    const { username, password, email, createdAt } = req.body;
     addUser(
       username,
       password,
       email,
-      role,
       createdAt,
       dbRepository,
       authService

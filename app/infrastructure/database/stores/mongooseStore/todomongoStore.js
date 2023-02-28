@@ -10,10 +10,14 @@ class MongoStore extends store{
     }   
 
     async find() {
-        const todoDocs = await this.model.find().exec();
-        return todoDocs;
+        PostModel.find(omit(params, 'page', 'perPage'))
+        .skip(params.perPage * params.page - params.perPage)
+        .limit(params.perPage);
     }
 
+    countAll (params){
+        PostModel.countDocuments(omit(params, 'page', 'perPage'));
+    }
     
     async findbyid(id) {
         
@@ -35,24 +39,32 @@ class MongoStore extends store{
     }
 
     async create(todoItem) {
-        const todoDoc = new this.model({
+        
+        const newTodo = new PostModel({
             id: todoItem.id,
             title: todoItem.title,
-            description: todoItem.description,
-            status: Todo.status,
+            description: todoItemdescription,
+            status: todoItem.status,
+            createdAt: new Date,            
+            userId: todoItem.getUserId()
           });
-          await todoDoc.save();
+      
+        return newTodo.save();
     }
+    
 
-    async update(todoItem) {
-        const todoDoc = await this.model.findOne({'id': todoItem.id}).exec();
-        if (!todoDoc) {
-            throw new Error(`Todo item with id ${todoItem.id} not found`);
-        }
-        todoDoc.title = todoDoc.title || Todo.title;
-        todoDoc.description = todoDoc.description || Todo.description;
-        todoDoc.isCompleted = todoDoc.isCompleted || Todo.isCompleted;
-        await todoDoc.save();
+    update(todoItem) {
+        const updatedTodo = {
+            title: todoItem.getTitle(),
+            description: todoItem.getDescription(),
+            isPublished: todoItem.isPublished()
+        };
+      
+        return this.model.findOneAndUpdate(
+            { _id: id },
+            { $set: updatedTodo },
+            { new: true }
+        );
     }
     
 
