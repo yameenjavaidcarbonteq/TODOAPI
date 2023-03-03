@@ -1,62 +1,65 @@
-const service = require('../../app/services/user');
+const logger = require('../../infrastructure/logger/index');
+const Service = require('../../app/services/user');
 const config = require('../../infrastructure/config/index');
 
-class UserController{
-  constructor()
-  {
-    this.fetchUsersByProperty = this.fetchUsersByProperty.bind();
-    this.fetchUserById = this.fetchUserById.bind();
-    this.addNewUser = this.addNewUser.bind();
-    
-    this.service = new service(config.dbtype);
-    
+class UserController {
+  constructor() {
+    this.fetchUsersByProperty = this.fetchUsersByProperty.bind(this);
+    this.fetchUserById = this.fetchUserById.bind(this);
+    this.addNewUser = this.addNewUser.bind(this);
+
+    this.service = new Service(config.dbtype);
   }
-  
-  fetchUsersByProperty (req, res, next){
-    const params = {};
-    const response = {};
 
-    // Dynamically created query params based on endpoint params
-    for (const key in req.query) {
-      if (Object.prototype.hasOwnProperty.call(req.query, key)) {
-        params[key] = req.query[key];
+  async fetchUsersByProperty(req, res, next) {
+    try {
+      const params = {};
+      const response = {};
+
+      // Dynamically created query params based on endpoint params
+      for (const key in req.query) {
+        if (Object.prototype.hasOwnProperty.call(req.query, key)) {
+          params[key] = req.query[key];
+        }
       }
+      // predefined query params (apart from dynamically) for pagination
+      params.page = params.page ? parseInt(params.page, 10) : 1;
+      params.perPage = params.perPage ? parseInt(params.perPage, 10) : 10;
+
+      const users = await this.service.findByProperty(params);
+      response.users = users;
+      const totalItems = await this.service.countAll(params, dbRepository);
+      response.totalItems = totalItems;
+      response.totalPages = Math.ceil(totalItems / params.perPage);
+      response.itemsPerPage = params.perPage;
+      res.json(response);
+    } catch (error) {
+      console.error(`Error fetching users by property: ${error.message}`);
+      next(error);
     }
-    // predefined query params (apart from dynamically) for pagination
-    params.page = params.page ? parseInt(params.page, 10) : 1;
-    params.perPage = params.perPage ? parseInt(params.perPage, 10) : 10;
+  }
 
-    findByProperty(params)
-      .then((users) => {
-        response.users = users;
-        return this.service.countAll(params, dbRepository);
-      })
-      .then((totalItems) => {
-        response.totalItems = totalItems;
-        response.totalPages = Math.ceil(totalItems / params.perPage);
-        response.itemsPerPage = params.perPage;
-        return res.json(response);
-      })
-      .catch((error) => next(error));
-  };
+  async fetchUserById(req, res, next) {
+    try {
+      const user = await findbyid(req.params.id);
+      res.json(user);
+    } catch (error) {
+      console.error(`Error fetching user by id: ${error.message}`);
+      next(error);
+    }
+  }
 
-  fetchUserById (req, res, next) {
-    findById(req.params.id)
-      .then((user) => res.json(user))
-      .catch((error) => next(error));
-  };
-
-  addNewUser (req, res, next){
-    const { username, password, email, createdAt } = req.body;
-    addUser(
-      username,
-      password,
-      email,
-      createdAt
-    )
-      .then((user) => res.json(user))
-      .catch((error) => next(error));
-  };
+  async addNewUser(req, res, next) {
+    try {
+      const { username, password, email, createdAt } = req.body;
+      const user = await addUser(username, password, email, createdAt);
+      res.json(user);
+    } catch (error) {
+      console.error(`Error adding new user: ${error.message}`);
+      next(error);
+    }
+  }
 }
+
 
 module.exports = UserController;

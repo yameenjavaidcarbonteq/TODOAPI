@@ -1,3 +1,4 @@
+const logger = require('../../infrastructure/logger/index');
 const service = require('../../app/services/todo');
 const config = require('../../infrastructure/config/index');
 
@@ -16,91 +17,97 @@ class TodoController {
     
   }
   // Done
-  createTodo (req, res, next) 
-  {
-    const { title, description, status } = req.body;
-
-    this.service.createTodo({
-      title,
-      description,
-      status,
-      userId: req.user.id
-    })
-      .then(() => {
-        return res.json('todo created');
-      })
-      .catch((error) => next(error));
-  }
-  // Done
-
-  getTodos (req, res, next) {
-    
-    const params = {};
-    const response = {};
-
-    // Dynamically created query params based on endpoint params
-    for (const key in req.query) {
-      if (Object.prototype.hasOwnProperty.call(req.query, key)) {
-        params[key] = req.query[key];
-      }
+  async createTodo (req, res, next) {
+    try {
+      const { title, description, status } = req.body;
+      console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+      await this.service.create(
+        title,
+        description,
+        status,
+        '3b2eac96-bc4e-48e3-851d-d67aca8c4596'
+      );
+      res.json('todo created');
+    } catch (error) {
+      console.error(`Error creating todo: ${error.message}`);
+      next(error);
     }
-    // predefined query params (apart from dynamically) for pagination
-    // and current logged in user
-    params.page = params.page ? parseInt(params.page, 10) : 1;
-    params.perPage = params.perPage ? parseInt(params.perPage, 10) : 10;
-    params.userId = req.user.id;
-
-    console.log(params);
-
-    this.service.findAll(params)
-      .then((todos) => {
-        response.todos = todos;
-        return this.service.countAll(params);
-      })
-      .then((totalItems) => {
-        response.totalItems = totalItems;
-        response.totalPages = Math.ceil(totalItems / params.perPage);
-        response.itemsPerPage = params.perPage;
-        return res.json(response);
-      })
-      .catch((error) => next(error));
   }
+  
+  // Done
+
+  async getTodos(req, res, next) {
+    try {
+      const params = {};
+      const response = {};
+  
+      // Dynamically created query params based on endpoint params
+      for (const key in req.query) {
+        if (Object.prototype.hasOwnProperty.call(req.query, key)) {
+          params[key] = req.query[key];
+        }
+      }
+      // predefined query params (apart from dynamically) for pagination
+      // and current logged in user
+      params.page = params.page ? parseInt(params.page, 10) : 1;
+      params.perPage = params.perPage ? parseInt(params.perPage, 10) : 10;
+      params.userId = 122;
+  
+      const todos = await this.service.findAll(params);
+      response.todos = todos;
+      const totalItems = await this.service.countAll(params);
+      response.totalItems = totalItems;
+      response.totalPages = Math.ceil(totalItems / params.perPage);
+      response.itemsPerPage = params.perPage;
+      res.json(response);
+    } catch (error) {
+      console.error(`Error getting todos: ${error.message}`);
+      next(error);
+    }
+  }
+  
 
   // Done
 
-  getTodoById (req, res, next) {
-    
-    this.service.findById(req.params.id)
-    .then((todo) => {
+  async getTodoById(req, res, next) {
+    try {
+      const todo = await this.service.findbyid(req.params.id);
       if (!todo) {
         throw new Error(`No post found with id: ${req.params.id}`);
       }
       res.json(todo);
-    })
-    .catch((error) => next(error));
-    
-    
-  }
-
-  updateTodo (req, res, next) {
-    const { title, description, status } = req.body;
-
-    this.service.updateById({
-      id: req.params.id,
-      userId: req.user.id,
-      title ,
-      description,
-      status
-    })
-      .then((message) => res.json(message))
-      .catch((error) => next(error));
+    } catch (error) {
+      console.error(`Error getting todo by id: ${error.message}`);
+      next(error);
+    }
   }
   
-  
-  deleteTodo (req, res, next) {
-    this.service.deleteTodo(req.params.id)
-      .then(() => res.json('post sucessfully deleted!'))
-      .catch((error) => next(error));
+  async updateTodo (req, res, next) {
+    try {
+      const { title, description, status } = req.body;
+      const message = await this.service.update({
+        id: req.params.id,
+        userId: req.user.id,
+        title ,
+        description,
+        status
+      });
+      res.json(message);
+    } catch (error) {
+      console.error(`Error updating todo: ${error.message}`);
+      next(error);
+    }
   }
+  
+  async deleteTodo (req, res, next) {
+    try {
+      await this.service.delete(req.params.id);
+      res.json('post successfully deleted!');
+    } catch (error) {
+      console.error(`Error deleting todo: ${error.message}`);
+      next(error);
+    }
+  }
+  
 }
 module.exports = TodoController;

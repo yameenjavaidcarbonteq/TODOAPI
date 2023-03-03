@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const config = require('./infrastructure/config/index');
+const logger = require('./infrastructure/logger/index');
 const expressConfig = require ('./http/express');
 const expressSession = require('express-session');
 const passport = require('passport');

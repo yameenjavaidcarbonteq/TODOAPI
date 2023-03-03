@@ -8,7 +8,7 @@ function todoRouter(express) {
     const router = express.Router();
     const controller = new TodoController();
 
-    router.use(authMiddleware);
+    // router.use(authMiddleware);
     
     
     router.post('/',controller.createTodo);

@@ -1,66 +1,73 @@
 const { createTerminus } = require('@godaddy/terminus');
+const logger = require('./../infrastructure/logger/index');
 
 function serverConfig(app, mongoose, serverInit, config) {
-  function healthCheck() {
-    // ERR_CONNECTING_TO_MONGO
-    if (
-      mongoose.connection.readyState === 0 ||
-      mongoose.connection.readyState === 3
-    ) {
-      return Promise.reject(new Error('Mongoose has disconnected'));
+  async function healthCheck() {
+    try {
+      // ERR_CONNECTING_TO_MONGO
+      if (mongoose.connection.readyState === 0 || mongoose.connection.readyState === 3) {
+        throw new Error('Mongoose has disconnected');
+      }
+      // CONNECTING_TO_MONGO
+      if (mongoose.connection.readyState === 2) {
+        throw new Error('Mongoose is connecting');
+      }
+      // CONNECTED_TO_MONGO
+      return Promise.resolve();
+    } catch (error) {
+      console.error(`Health Check Error: ${error.message}`);
+      throw new Error(`Health Check Error: ${error.message}`);
     }
-    // CONNECTING_TO_MONGO
-    if (mongoose.connection.readyState === 2) {
-      return Promise.reject(new Error('Mongoose is connecting'));
+  }
+  
+  async function onSignal() {
+    console.info('server is starting cleanup');
+    try {
+      await mongoose.disconnect(false);
+      console.info('Mongoose has disconnected');
+    } catch (error) {
+      console.error(`Error on signal: ${error.message}`);
+      throw new Error(`Error on signal: ${error.message}`);
     }
-    // CONNECTED_TO_MONGO
-    return Promise.resolve();
   }
-
-  function onSignal() {
-    console.log('server is starting cleanup');
-    return new Promise((resolve, reject) => {
-      mongoose
-        .disconnect(false)
-        .then(() => {
-          console.info('Mongoose has disconnected');
-          resolve();
-        })
-        .catch(reject);
-    });
+  
+  async function beforeShutdown() {
+    try {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 15000);
+      });
+    } catch (error) {
+      console.error(`Error before shutdown: ${error.message}`);
+      throw new Error(`Error before shutdown: ${error.message}`);
+    }
   }
-
-  function beforeShutdown() {
-    return new Promise((resolve) => {
-      setTimeout(resolve, 15000);
-    });
-  }
-
+  
   function onShutdown() {
-    console.log('cleanup finished, server is shutting down');
+    console.info('cleanup finished, server is shutting down');
   }
-
-  function startServer() {
-    createTerminus(serverInit, {
-      logger: console.log,
-      signal: 'SIGINT',
-      healthChecks: {
-        '/healthcheck': healthCheck
-      },
-      onSignal,
-      onShutdown,
-      beforeShutdown
-    }).listen(config.port, config.ip, () => {
-      console.log(
-        'Express server listening on %d, in %s mode',
-        config.port,
-        app.get('env')
-      );
-    });
+  
+  async function startServer() {
+    try {
+      await createTerminus(serverInit, {
+        logger: console.info,
+        signal: 'SIGINT',
+        healthChecks: {
+          '/healthcheck': healthCheck,
+        },
+        onSignal,
+        onShutdown,
+        beforeShutdown,
+      }).listen(config.port);
+      console.info(`Express server listening on ${config.port}`, );
+    } catch (error) {
+      console.error(`Error starting server: ${error.message}`);
+      throw new Error(`Error starting server: ${error.message}`);
+    }
   }
+  
 
   return {
-    startServer
+    startServer,
   };
 }
 

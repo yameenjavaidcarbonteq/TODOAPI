@@ -1,3 +1,5 @@
+const logger = require('../../logger/index');
+
 function connection(mongoose, config, options) {
     function connectToMongo() {
         // mongoose.connect(`${mongoose_db.URI}/${mongoose_db.DB}`, { useNewUrlParser: true });
@@ -6,11 +8,11 @@ function connection(mongoose, config, options) {
         .then(
           () => {},
           (err) => {
-            console.info('Mongodb error', err);
+            console.error('Mongodb error', err);
           }
         )
         .catch((err) => {
-          console.log('ERROR:', err);
+          console.error('ERROR:', err);
         });
     }
   

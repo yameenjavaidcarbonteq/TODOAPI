@@ -1,3 +1,4 @@
+const logger = require('../../infrastructure/logger/index');
 /* eslint-disable no-param-reassign */
 // eslint-disable-next-line no-unused-vars
 function errorHandlingMiddlware(err, req, res, next) {

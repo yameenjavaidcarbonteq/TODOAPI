@@ -1,3 +1,4 @@
+const logger = require('../infrastructure/logger/index');
 const bodyParser = require('body-parser');
 
 function expressConfig(app) {

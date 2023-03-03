@@ -1,51 +1,84 @@
+
+const logger = require('../../../logger/index');
 const store = require('../../../../domain/interfaces/storeInterfaceUser');
 const userSeq = require('../sequelize_models/user');
 
-class sequelizeStore extends store{
+class userSequelizeStore extends store{
     constructor() {
       super();
       this.model = userSeq;
     }
     
     async find() {
-      // Not Implemented
-    }
-  
-    async findOne(email) {
-      const todoRecord = await this.model.findOne({ where: email });
-      if (!todoRecord) {
-        return null;
+      try {
+        throw new NotImplementedError();
+      } catch (error) {
+        console.error(`Error finding users: ${error.message}`);
+        throw new Error(`Error finding users: ${error.message}`);
       }
-      return todoRecord;
+    }
+    
+    async findOne(email) {
+      try {
+        const userRecord = await this.model.findOne({ where: { email } });
+        if (!userRecord) {
+          return null;
+        }
+        return userRecord;
+      } catch (error) {
+        console.error(`Error finding user: ${error.message}`);
+        throw new Error(`Error finding user: ${error.message}`);
+      }
     }
     
     async findbyid(id) {
-      const todoRecord = await this.model.findOne({ where: id });
-      if (!todoRecord) {
-        return null;
+      try {
+        const userRecord = await this.model.findByPk(id);
+        if (!userRecord) {
+          return null;
+        }
+        return userRecord;
+      } catch (error) {
+        console.error(`Error finding user by id: ${error.message}`);
+        throw new Error(`Error finding user by id: ${error.message}`);
       }
-      return todoRecord;
     }
-  
-    async create(UserEntity) {
-      await this.model.create({
-        id: UserEntity.id,
-        username: UserEntity.username,
-        email: UserEntity.email,
-        password: UserEntity.password,
-        isVerified: UserEntity.isVerified,
-        googleId: UserEntity.googleId,
-        provider: UserEntity.provider,
-      });
+    
+    async create(userEntity) {
+      try {
+        await this.model.create({
+          id: userEntity.id,
+          username: userEntity.username,
+          email: userEntity.email,
+          password: userEntity.password,
+          isVerified: userEntity.isVerified,
+          googleId: userEntity.googleId,
+          provider: userEntity.provider,
+        });
+      } catch (error) {
+        console.error(`Error creating user: ${error.message}`);
+        throw new Error(`Error creating user: ${error.message}`);
+      }
     }
-  
-    async update(UserEntity) {
-      // Not Implemented
+    
+    async update(userEntity) {
+      try {
+        throw new NotImplementedError();
+      } catch (error) {
+        console.error(`Error updating user: ${error.message}`);
+        throw new Error(`Error updating user: ${error.message}`);
+      }
     }
-  
+    
     async delete(id) {
-      // Not Implemented
+      try {
+        throw new NotImplementedError();
+      } catch (error) {
+        console.error(`Error deleting user: ${error.message}`);
+        throw new Error(`Error deleting user: ${error.message}`);
+      }
     }
+    
   }
   
-module.exports = sequelizeStore;
+module.exports = userSequelizeStore;

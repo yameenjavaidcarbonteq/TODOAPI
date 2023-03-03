@@ -1,7 +1,6 @@
 const service = require('../../app/services/user');
 const config = require('../../infrastructure/config/index');
-
-
+const logger = require('../../infrastructure/logger/index');
 class AuthController {
 
   constructor()
@@ -25,15 +24,15 @@ class AuthController {
 
   async signup (req, res, next) {
     try{
-    const { username, email, password } = req.body;
-    const userEntity = this.service.create( username, email, password );
+    const { username, password, email } = req.body;
+    const userEntity = await this.service.create( username, email, password );
     req.login(userEntity, (err) => 
     {
       if (err)
       {
         return next(err);
       }
-      res.redirect('/');
+      res.redirect('/todos');
     });
     } catch (error) 
     {

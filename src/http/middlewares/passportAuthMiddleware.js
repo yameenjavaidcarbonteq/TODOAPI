@@ -1,3 +1,4 @@
+const logger = require('../../infrastructure/logger/index');
 const passport = require('passport');
 require('../utils/AuthStrategiesPassport');
 

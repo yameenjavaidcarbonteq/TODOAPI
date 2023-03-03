@@ -1,3 +1,4 @@
+const logger = require('../../infrastructure/logger/index');
 
 const usermongoStore = require("./mongoose/mongooseStore/usermongoStore");
 const usersequelizeStore = require("./sequelize/sequelizeStore/usersequelizeStore");
@@ -7,53 +8,97 @@ class adapter extends store{
 
     constructor(storeType) {
         
-        // console.log("Creating new adapter for dbtype: ",storeType);
-        super();
+      super();
         
-        this.store = null;
-        if (storeType === 'mongoose') 
-        {
-            this.store = new usermongoStore();
-        } 
-        else if (storeType === 'sequelize') 
-        {
-            this.store = new usersequelizeStore();
+      this.store = null;
+      if (storeType === 'mongoose') 
+      {
+          this.store = new usermongoStore();
+      } 
+      else if (storeType === 'sequelize') 
+      {
+          this.store = new usersequelizeStore();
+      }
+    }
+
+    
+      
+    async find() {
+        try {
+          return await this.store.find();
+        } catch (error) {
+          console.error(`Error finding items: ${error.message}`);
+          throw new Error(`Error finding items: ${error.message}`);
         }
+      }
+      
+      async findByProperty(params) {
+        try {
+          return await this.store.findByProperty(params);
+        } catch (error) {
+          console.error(`Error finding items by property: ${error.message}`);
+          throw new Error(`Error finding items by property: ${error.message}`);
+        }
+      }
+      
+      async countAll(params) {
+        try {
+          return await this.store.countAll(params);
+        } catch (error) {
+          console.error(`Error counting items: ${error.message}`);
+          throw new Error(`Error counting items: ${error.message}`);
+        }
+      }
+      
+      async findOne(query) {
+        try {
+          return await this.store.findOne(query);
+        } catch (error) {
+          console.error(`Error finding item: ${error.message}`);
+          throw new Error(`Error finding item: ${error.message}`);
+        }
+      }
+      
+      async findbyid(id) {
+        try {
+          return await this.store.findbyid(id);
+        } catch (error) {
+          console.error(`Error finding item by id: ${error.message}`);
+          throw new Error(`Error finding item by id: ${error.message}`);
+        }
+      }
+      
+      async create(userItem) {
+        try {
+          
+          return await this.store.create(userItem);
+        } catch (error) {
+          console.error(`Error creating item: ${error.message}`);
+          throw new Error(`Error creating item: ${error.message}`);
+        }
+      }
+      
+      async updateById(id, userItem) {
+        try {
+          return await this.store.update(userItem);
+        } catch (error) {
+          console.error(`Error updating item by id: ${error.message}`);
+          throw new Error(`Error updating item by id: ${error.message}`);
+        }
+      }
+      
+      async delete(id) {
+        try {
+          return await this.store.delete(id);
+        } catch (error) {
+          console.error(`Error deleting item: ${error.message}`);
+          throw new Error(`Error deleting item: ${error.message}`);
+        }
+      }
+      
     }
+      
 
-    find() {
-        return this.store.find();
-    }
-
-    findByProperty() {
-        return this.store.findByProperty();
-    }
-
-    countAll (params){
-        return this.store.countAll(params);
-    }
-
-    findOne(query) {
-        console.log("Came In Hrereerwerwer");
-        return this.store.findOne(query);
-    }
-
-    findbyid(id) {
-        return this.store.findbyid(id);
-    }
-
-    create(userItem) {
-        return this.store.create(userItem);
-    }
-
-    updateById(id, userItem) {
-        // return this.store.update(userItem);
-    }
-
-    delete(id) {
-        // return this.store.delete(id);
-    }
-}
 
 
 module.exports = adapter;

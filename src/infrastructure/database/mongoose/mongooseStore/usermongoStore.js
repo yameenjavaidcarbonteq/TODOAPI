@@ -1,63 +1,102 @@
+const logger = require('../../../logger/index');
+
 const store = require('../../../../domain/interfaces/storeInterfaceUser');
 const userMongo = require('../mongo_models/user');
 
 
-class MongoStore extends store{
+class MongoStore extends store {
     constructor() {
-        super();
-        this.model = userMongo;
-    }   
+      super();
+      this.model = userMongo;
+    }
+  
     omit(obj, ...props) {
-        const result = { ...obj };
-        props.forEach((prop) => delete result[prop]);
-        return result;
+      const result = { ...obj };
+      props.forEach((prop) => delete result[prop]);
+      return result;
     }
 
-    find(params) {
-        this.model.find(this.omit(params, 'page', 'perPage'))
-        .skip(params.perPage * params.page - params.perPage)
-        .limit(params.perPage);
-    }
-
-    findByProperty (params) {
-        this.model.find(this.omit(params, 'page', 'perPage'))
-            .skip(params.perPage * params.page - params.perPage)
-            .limit(params.perPage);
-    }
-    countAll (params){
-        this.model.countDocuments(this.omit(params, 'page', 'perPage'));
-    }
-    findOne(param) {
-        
-        console.log("asdasdasdasdasdasd");
-        return this.model.findOne(param);
-    }
-    findbyid(id) {
-        
-        this.model.findById(id).select('-password');
-    }
-
-    create(User) {
-        const userDoc = new this.model({
-            id: User.id,
-            username: User.username,
-            email: User.email,
-            password: User.password,
-            isVerified: User.isVerified,
-            googleId: User.googleId,
-            provider: User.provider,
-            createdAt: new Date(),
-          });
-        return userDoc.save();
-    }
-
-    async update(User) {
-        // Not Implemented
-    }
     
-
+  
+    async find(params) {
+      try {
+        return await this.model
+          .find(this.omit(params, "page", "perPage"))
+          .skip(params.perPage * params.page - params.perPage)
+          .limit(params.perPage);
+      } catch (error) {
+        console.error(`Error finding users: ${error.message}`);
+        throw new Error(`Error finding users: ${error.message}`);
+      }
+    }
+  
+    async findByProperty(params) {
+      try {
+        return await this.model
+          .find(this.omit(params, "page", "perPage"))
+          .skip(params.perPage * params.page - params.perPage)
+          .limit(params.perPage);
+      } catch (error) {
+        console.error(`Error finding users by property: ${error.message}`);
+        throw new Error(`Error finding users by property: ${error.message}`);
+      }
+    }
+  
+    async countAll(params) {
+      try {
+        return await this.model.countDocuments(this.omit(params, "page", "perPage"));
+      } catch (error) {
+        console.error(`Error counting users: ${error.message}`);
+        throw new Error(`Error counting users: ${error.message}`);
+      }
+    }
+  
+    async findOne(param) {
+      try {
+        console.log("Finding User: ",param);
+        return await this.model.findOne(param);
+      } catch (error) {
+        console.error(`Error finding one user: ${error.message}`);
+        throw new Error(`Error finding one user: ${error.message}`);
+      }
+    }
+  
+    async findbyid(id) {
+      try {
+        return await this.model.findbyid(id).select("-password");
+      } catch (error) {
+        console.error(`Error finding user by id: ${error.message}`);
+        throw new Error(`Error finding user by id: ${error.message}`);
+      }
+    }
+  
+    async create(User) {
+      try {
+        const userDoc = new this.model({
+          id: User.id,
+          username: User.username,
+          email: User.email,
+          password: User.password,
+          isVerified: User.isVerified,
+          googleId: User.googleId,
+          provider: User.provider,
+          createdAt: new Date(),
+        });
+        const user = await userDoc.save(); 
+        return user;
+        // return await userDoc.save();
+      } catch (error) {
+        console.error(`Error creating a new user: ${error.message}`);
+        throw new Error(`Error creating a new user: ${error.message}`);
+      }
+    }
+  
+    async update(User) {
+      // Not Implemented
+    }
+  
     async delete(id) {
-        // Not Implemented
+      // Not Implemented
     }
 }
   

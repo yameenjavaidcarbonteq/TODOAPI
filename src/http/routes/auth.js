@@ -7,9 +7,9 @@ function authRouter(express) {
     const controller = new AuthController();
     
     router.post('/signup',controller.signup);
-    router.post('/login', passportAuthMiddleware.authenticateLocal);
     router.get('/logout', controller.logout);
     
+    router.post('/login', passportAuthMiddleware.authenticateLocal);
     router.get('/google', passportAuthMiddleware.authenticateWithGoogle);
     router.get('/google/callback', passportAuthMiddleware.authenticateGoogleCallback);
 
