@@ -59,6 +59,7 @@ class userService{
         }
       }
       
+      //Not Implemented
       async update() {
         try {
           throw new NotImplementedError();
@@ -68,6 +69,7 @@ class userService{
         }
       }
       
+      //Not Implemented
       async delete() {
         try {
           throw new NotImplementedError();

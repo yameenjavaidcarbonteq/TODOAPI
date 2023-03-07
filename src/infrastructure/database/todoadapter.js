@@ -1,10 +1,10 @@
 const logger = require('../../infrastructure/logger/index');
 
-const todomongoStore = require("./mongoose/mongooseStore/todomongoStore");
-const todosequelizeStore = require("./sequelize/sequelizeStore/todosequelizeStore");
+const todoRepositoyMongoose = require("./mongoose/mongooseRepositories/todoRepositoryMongoose");
+const todoRepositoySequelize = require("./sequelize/sequelizeRepositories/todoRepositorySequelize");
 
 const store = require('../../domain/interfaces/storeInterfaceTodo');
-const { validate } = require('./mongoose/mongo_models/todo');
+const { validate } = require('./mongoose/mongooseModels/todo');
 class adapter extends store{
 
     constructor(storeType) {
@@ -14,11 +14,11 @@ class adapter extends store{
         if (storeType === 'mongoose') 
         {
             //currently changing store to repository
-            this.store = new todomongoStore();
+            this.store = new todoRepositoyMongoose();
         } 
         else if (storeType === 'sequelize') 
         {
-            this.store = new todosequelizeStore();
+            this.store = new todoRepositoySequelize();
         }
     }
 

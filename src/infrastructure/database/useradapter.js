@@ -1,7 +1,7 @@
 const logger = require('../../infrastructure/logger/index');
 
-const usermongoStore = require("./mongoose/mongooseStore/usermongoStore");
-const usersequelizeStore = require("./sequelize/sequelizeStore/usersequelizeStore");
+const userRepositoryMongoose = require("./mongoose/mongooseRepositories/userRepositoryMongoose");
+const userRepositorySequelize = require("./sequelize/sequelizeRepositories/userRepositorySequelize");
 
 const store = require('../../domain/interfaces/storeInterfaceUser');
 class adapter extends store{
@@ -13,11 +13,11 @@ class adapter extends store{
       this.store = null;
       if (storeType === 'mongoose') 
       {
-          this.store = new usermongoStore();
+        this.store = new userRepositoryMongoose();
       } 
       else if (storeType === 'sequelize') 
       {
-          this.store = new usersequelizeStore();
+        this.store = new userRepositorySequelize();
       }
     }
 

@@ -1,9 +1,9 @@
 
 const logger = require('../../../logger/index');
 const store = require('../../../../domain/interfaces/storeInterfaceUser');
-const userSeq = require('../sequelize_models/user');
+const userSeq = require('../sequelizeModels/user');
 
-class userSequelizeStore extends store{
+class userRepositoy extends store{
     constructor() {
       super();
       this.model = userSeq;
@@ -81,4 +81,4 @@ class userSequelizeStore extends store{
     
   }
   
-module.exports = userSequelizeStore;
+module.exports = userRepositoy;

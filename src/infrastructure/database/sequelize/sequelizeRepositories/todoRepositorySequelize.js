@@ -1,9 +1,9 @@
 const logger = require('../../../logger/index');
 const store = require('../../../../domain/interfaces/storeInterfaceTodo');
-const todoSeq = require('../sequelize_models/todo');
+const todoSeq = require('../sequelizeModels/todo');
 const TodoItem =  require('../../../../domain/entities/todo');
 
-class sequelizeStore extends store {
+class Repositoy extends store {
   constructor() {
     super();
     this.model = todoSeq;
@@ -96,4 +96,4 @@ class sequelizeStore extends store {
   }
 }
   
-module.exports = sequelizeStore;
+module.exports = Repositoy;

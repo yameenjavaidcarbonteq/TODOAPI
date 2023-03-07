@@ -1,14 +1,24 @@
 const service = require('../../app/services/user');
 const config = require('../../infrastructure/config/index');
 const logger = require('../../infrastructure/logger/index');
+
+const loginController = require('./loginController');
+const registrationController = require('./registrationController');
+const tokenController = require('./tokenController');
+const userController = require('./userController');
+
+
 class AuthController {
 
   constructor()
   {
     
     this.logout = this.logout.bind(this);
-    this.signup = this.signup.bind(this);
-    
+    this.loginController = loginController;
+    this.registrationController = registrationController;
+    this.tokenController = tokenController;
+    this.userController = userController;
+
     this.service = new service(config.dbtype);
   }
   
@@ -22,22 +32,6 @@ class AuthController {
     });
   }
 
-  async signup (req, res, next) {
-    try{
-    const { username, password, email } = req.body;
-    const userEntity = await this.service.create( username, email, password );
-    req.login(userEntity, (err) => 
-    {
-      if (err)
-      {
-        return next(err);
-      }
-      res.redirect('/todos');
-    });
-    } catch (error) 
-    {
-      res.status(500).send(error.message);
-    }
-  }
+  
 }
 module.exports = AuthController;

@@ -3,7 +3,7 @@ require('dotenv').config();
 module.exports = {
   
     dbtype: process.env.DBTYPE,
-    sessionsecret: process.env.SESSIONSECRET,
+    jwtsecret: process.env.JWTSECRET,
     host: process.env.HOST,
     port: process.env.PORT, 
     mongoose: require('./mongoose'),

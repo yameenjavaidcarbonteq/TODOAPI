@@ -1,15 +1,12 @@
 const TodoController = require('../controllers/todoController');
-const authMiddleware = require("../middlewares/authMiddleware");
-
-
+const passport = require("passport");
 
 function todoRouter(express) {
 
     const router = express.Router();
     const controller = new TodoController();
 
-    // router.use(authMiddleware);
-    
+    router.use(passport.authenticate("jwt", { session: false }));
     
     router.post('/',controller.createTodo);
     router.get('/', controller.getTodos);

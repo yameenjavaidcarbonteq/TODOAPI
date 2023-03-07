@@ -1,10 +1,10 @@
 const logger = require('../../../logger/index');
 
 const store = require('../../../../domain/interfaces/storeInterfaceUser');
-const userMongo = require('../mongo_models/user');
+const userMongo = require('../mongooseModels/user');
 
 
-class MongoStore extends store {
+class Repositoy extends store {
     constructor() {
       super();
       this.model = userMongo;
@@ -100,4 +100,4 @@ class MongoStore extends store {
     }
 }
   
-module.exports = MongoStore;
+module.exports = Repositoy;
