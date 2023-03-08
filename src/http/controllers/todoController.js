@@ -2,6 +2,10 @@ const logger = require('../../infrastructure/logger/index');
 const service = require('../../app/services/todo');
 const config = require('../../infrastructure/config/index');
 
+const PaginationData = require('../../app/Utils/PaginationData');
+const PaginationInfo = require('../../app/Utils/PaginationInfo');
+const PaginationOptions = require('../../app/Utils/PaginationOptions');
+
 
 class TodoController {
 
@@ -34,37 +38,19 @@ class TodoController {
   }
   
   // Done
-
+  
   async getTodos(req, res, next) {
-    try {
-      
-      console.log("Came Here");
-      const params = {};
-      // Dynamically created query params based on endpoint params
-      for (const key in req.query) {
-        if (Object.prototype.hasOwnProperty.call(req.query, key)) {
-          params[key] = req.query[key];
-        }
-      }
-      // predefined query params (apart from dynamically) for pagination
-      // and current logged in user
-      params.pageNumber = params.pageNumber ? parseInt(params.pageNumber, 10) : 1;
-      params.pageLimit = params.pageLimit ? parseInt(params.pageLimit, 10) : 10;
-      params.userId = req.user.id;
-      
-      console.log("New Params: .................",params);
-      //calling services here
-      const { 
-        data, 
-        page: pageNumber, 
-        perPage: pageLimit, 
-        total, 
-        totalPages, 
-        links 
-      } = await this.service.getPaginatedData(params.pageNumber, params.pageLimit);
-      res.json({ data, page: pageNumber, perPage: pageLimit, total, totalPages, links });
-    
-    } catch (error) {
+    try 
+    {
+      const {pageNumber, pageLimit} = req.query;
+      const paginationOptions = new PaginationOptions(pageNumber, pageLimit);
+      const todos = await this.service.getPaginatedData(paginationOptions.offset(), paginationOptions.limit());
+      const totalTodos = await this.service.countAll();
+      const paginationData = new PaginationData(paginationOptions, totalTodos);
+      todos.forEach((todo) => paginationData.addItem(todo));
+      res.json(paginationData.getPaginatedData());
+    } 
+    catch (error) {
       console.error(`Error getting todos: ${error.message}`);
       next(error);
     }

@@ -22,10 +22,10 @@ class adapter extends store{
     }
   }
 
-  async getPaginatedData(pageNumber, pageLimit) {
+  async getPaginatedData(offset, limit) {
     
     try {
-      return await this.store.getPaginatedData(pageNumber, pageLimit);
+      return await this.store.getPaginatedData(offset, limit);
     } catch (error) {
       console.error(`Error getting Paginated Data: ${error.message}`);
       throw new Error(`Error getting Paginated Data: ${error.message}`);

@@ -1,6 +1,7 @@
 const logger = require('../../infrastructure/logger/index');
 const adapter = require('../../infrastructure/database/todoadapter');
 const Todo = require('../../domain/entities/todo');
+
 class todoService{
 
     constructor(storeType) {
@@ -18,9 +19,10 @@ class todoService{
       }
       
       // Pagination
-      async getPaginatedData(pageNumber, pageLimit) {
+      async getPaginatedData(offset, limit) {
+
         try {
-          return await this.adapter.getPaginatedData(pageNumber, pageLimit);
+          return await this.adapter.getPaginatedData(offset, limit);
         } catch (error) {
           console.error(`Error getting Paginated Data: ${error.message}`);
           throw new Error(`Error getting Paginated Data: ${error.message}`);

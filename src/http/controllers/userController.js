@@ -13,30 +13,13 @@ class UserController {
 
   async find(req, res, next) {
     try {
-      const params = {};
-      const response = {};
-
-      // Dynamically created query params based on endpoint params
-      for (const key in req.query) {
-        if (Object.prototype.hasOwnProperty.call(req.query, key)) {
-          params[key] = req.query[key];
-        }
-      }
-      // predefined query params (apart from dynamically) for pagination
-      params.pageNumber = params.pageNumber ? parseInt(params.pageNumber, 10) : 1;
-      params.pageLimit = params.pageLimit ? parseInt(params.pageLimit, 10) : 10;
-
-      
-
       // calling services here
       const users = await this.service.find(params);
-      response.users = users;
-      // calling services here
       const totalItems = await this.service.countAll(params);
-      response.totalItems = totalItems;
-      response.totalPages = Math.ceil(totalItems / params.pageLimit);
-      response.itemsPerPage = params.pageLimit;
-      res.json(response);
+      res.json({
+        "Users": users,
+        "TotalUsers": totalItems
+      });
     } catch (error) {
       console.error(`Error fetching users by property: ${error.message}`);
       next(error);

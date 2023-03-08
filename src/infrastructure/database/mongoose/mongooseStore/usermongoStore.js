@@ -10,18 +10,10 @@ class MongoStore extends store {
       this.model = userMongo;
     }
   
-    omit(obj, ...props) {
-      const result = { ...obj };
-      props.forEach((prop) => delete result[prop]);
-      return result;
-    }
-
     async find(params) {
       try {
-        return await this.model
-          .find(this.omit(params, "pageNumber", "pageLimit"))
-          .skip(params.pageLimit * params.pageNumber - params.pageLimit)
-          .limit(params.pageLimit);
+        return await this.model.find(params);
+          
       } catch (error) {
         console.error(`Error finding users: ${error.message}`);
         throw new Error(`Error finding users: ${error.message}`);
@@ -30,7 +22,7 @@ class MongoStore extends store {
   
     async countAll(params) {
       try {
-        return await this.model.countDocuments(this.omit(params, "pageNumber", "pageLimit"));
+        return await this.model.countDocuments(params);
       } catch (error) {
         console.error(`Error counting users: ${error.message}`);
         throw new Error(`Error counting users: ${error.message}`);
