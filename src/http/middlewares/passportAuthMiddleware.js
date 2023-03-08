@@ -5,7 +5,7 @@ require('../utils/AuthStrategiesPassport');
 function passportAuthenticate(){
   const authenticateLocal = passport.authenticate('local', {
     failureRedirect: false, 
-    successRedirect: '/todos',
+    successRedirect: '/auth/todos',
   });
 
   const authenticateWithGoogle = passport.authenticate('google', {
@@ -14,7 +14,7 @@ function passportAuthenticate(){
 
   const authenticateGoogleCallback = passport.authenticate('google', {
     failureRedirect: false,
-    successRedirect: '/todos'
+    successRedirect: '/auth/todos'
   });
 
   return {

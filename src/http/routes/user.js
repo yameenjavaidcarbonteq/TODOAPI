@@ -9,10 +9,10 @@ function userRouter(express) {
 
   router.use(authMiddleware);
     
-  router.route('/:id').get(controller.fetchUserById);
-  router.route('/').get(controller.fetchUsersByProperty);
-  router.route('/').post(controller.addNewUser);
-
+  router.route('/:id').get(controller.findOne);
+  router.route('/').get(controller.find);
+  router.route('/').post(controller.create);
+  
   return router;
 }
 

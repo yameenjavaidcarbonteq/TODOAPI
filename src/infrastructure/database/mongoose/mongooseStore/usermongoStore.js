@@ -16,35 +16,21 @@ class MongoStore extends store {
       return result;
     }
 
-    
-  
     async find(params) {
       try {
         return await this.model
-          .find(this.omit(params, "page", "perPage"))
-          .skip(params.perPage * params.page - params.perPage)
-          .limit(params.perPage);
+          .find(this.omit(params, "pageNumber", "pageLimit"))
+          .skip(params.pageLimit * params.pageNumber - params.pageLimit)
+          .limit(params.pageLimit);
       } catch (error) {
         console.error(`Error finding users: ${error.message}`);
         throw new Error(`Error finding users: ${error.message}`);
       }
     }
   
-    async findByProperty(params) {
-      try {
-        return await this.model
-          .find(this.omit(params, "page", "perPage"))
-          .skip(params.perPage * params.page - params.perPage)
-          .limit(params.perPage);
-      } catch (error) {
-        console.error(`Error finding users by property: ${error.message}`);
-        throw new Error(`Error finding users by property: ${error.message}`);
-      }
-    }
-  
     async countAll(params) {
       try {
-        return await this.model.countDocuments(this.omit(params, "page", "perPage"));
+        return await this.model.countDocuments(this.omit(params, "pageNumber", "pageLimit"));
       } catch (error) {
         console.error(`Error counting users: ${error.message}`);
         throw new Error(`Error counting users: ${error.message}`);
@@ -80,7 +66,6 @@ class MongoStore extends store {
           isVerified: User.isVerified,
           googleId: User.googleId,
           provider: User.provider,
-          createdAt: new Date(),
         });
         const user = await userDoc.save(); 
         return user;

@@ -17,7 +17,6 @@ class Todo {
   static create(id, title, description, done, userId) {
     let temptodo = new Todo(id, title, description, done, userId); 
     return temptodo;
-    // return new Todo(id, title, description, done);
   }
 }
 

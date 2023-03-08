@@ -20,12 +20,11 @@ class TodoController {
   async createTodo (req, res, next) {
     try {
       const { title, description, status } = req.body;
-      console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
       await this.service.create(
         title,
         description,
         status,
-        '3b2eac96-bc4e-48e3-851d-d67aca8c4596'
+        req.user.id
       );
       res.json('todo created');
     } catch (error) {
@@ -38,9 +37,9 @@ class TodoController {
 
   async getTodos(req, res, next) {
     try {
+      
+      console.log("Came Here");
       const params = {};
-      const response = {};
-  
       // Dynamically created query params based on endpoint params
       for (const key in req.query) {
         if (Object.prototype.hasOwnProperty.call(req.query, key)) {
@@ -49,17 +48,22 @@ class TodoController {
       }
       // predefined query params (apart from dynamically) for pagination
       // and current logged in user
-      params.page = params.page ? parseInt(params.page, 10) : 1;
-      params.perPage = params.perPage ? parseInt(params.perPage, 10) : 10;
-      params.userId = 122;
-  
-      const todos = await this.service.findAll(params);
-      response.todos = todos;
-      const totalItems = await this.service.countAll(params);
-      response.totalItems = totalItems;
-      response.totalPages = Math.ceil(totalItems / params.perPage);
-      response.itemsPerPage = params.perPage;
-      res.json(response);
+      params.pageNumber = params.pageNumber ? parseInt(params.pageNumber, 10) : 1;
+      params.pageLimit = params.pageLimit ? parseInt(params.pageLimit, 10) : 10;
+      params.userId = req.user.id;
+      
+      console.log("New Params: .................",params);
+      //calling services here
+      const { 
+        data, 
+        page: pageNumber, 
+        perPage: pageLimit, 
+        total, 
+        totalPages, 
+        links 
+      } = await this.service.getPaginatedData(params.pageNumber, params.pageLimit);
+      res.json({ data, page: pageNumber, perPage: pageLimit, total, totalPages, links });
+    
     } catch (error) {
       console.error(`Error getting todos: ${error.message}`);
       next(error);
@@ -85,13 +89,16 @@ class TodoController {
   async updateTodo (req, res, next) {
     try {
       const { title, description, status } = req.body;
-      const message = await this.service.update({
-        id: req.params.id,
-        userId: req.user.id,
-        title ,
+      
+      console.log({ title, description, status });
+
+      const message = await this.service.update(
+        req.params.id,
+        req.user.id,
+        title,
         description,
         status
-      });
+      );
       res.json(message);
     } catch (error) {
       console.error(`Error updating todo: ${error.message}`);

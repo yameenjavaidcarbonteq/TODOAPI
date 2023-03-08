@@ -32,7 +32,7 @@ class AuthController {
       {
         return next(err);
       }
-      res.redirect('/todos');
+      res.redirect('/auth/todos');
     });
     } catch (error) 
     {

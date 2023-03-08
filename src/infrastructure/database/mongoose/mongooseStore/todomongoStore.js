@@ -3,6 +3,8 @@ const logger = require('../../../logger/index');
 const store = require('../../../../domain/interfaces/storeInterfaceTodo');
 const todoMongo = require('../mongo_models/todo');
 const userMongo = require('../mongo_models/user');
+const Pagination = require('../../pagination');
+const DAO = require('../../todoDAO'); 
 
 class MongoStore extends store {
     constructor() {
@@ -14,7 +16,6 @@ class MongoStore extends store {
     omit(obj, ...props) {
       const result = { ...obj };
       props.forEach((prop) => delete result[prop]);
-      console.log("New Params: ",result);
       return result;
     }
     
@@ -27,12 +28,48 @@ class MongoStore extends store {
       }
     }
 
+
+    async getPaginatedData(pageNumber, pageLimit) {
+    
+      console.log("Creating DAO");
+      const TodoDAO = new DAO(this.todoModel);
+      console.log("Creating Pagination");
+      const pagination = new Pagination(TodoDAO);
+      await pagination.getPage(pageNumber, pageLimit);
+      console.log({
+        data: pagination.data,
+        page: pagination.pageNumber,
+        perPage: pagination.pageLimit,
+        total: pagination.total,
+        totalPages: pagination.totalPages,
+        links: {
+          prev: pagination.getPreviousPageLink(),
+          next: pagination.getNextPageLink(),
+        }
+      });
+
+
+      return {
+        data: pagination.data,
+        page: pagination.pageNumber,
+        perPage: pagination.pageLimit,
+        total: pagination.total,
+        totalPages: pagination.totalPages,
+        links: {
+          prev: pagination.getPreviousPageLink(),
+          next: pagination.getNextPageLink(),
+        }
+      };
+
+
+    }
+
     async find(params) {
       try {
         return await this.todoModel
-          .find(this.omit(params, "page", "perPage", "userId"))
-          .skip(params.perPage * params.page - params.perPage)
-          .limit(params.perPage);
+          .find(this.omit(params, "pageNumber", "pageLimit", "userId"))
+          .skip(params.pageLimit * params.pageNumber - params.pageLimit)
+          .limit(params.pageLimit);
       } catch (error) {
         console.error(`Error finding todos: ${error.message}`);
         throw new Error(`Error finding todos: ${error.message}`);
@@ -41,7 +78,7 @@ class MongoStore extends store {
   
     async countAll(params) {
       try {
-        return await this.todoModel.countDocuments(this.omit(params, "page", "perPage"));
+        return await this.todoModel.countDocuments(this.omit(params, "pageNumber", "pageLimit"));
       } catch (error) {
         console.error(`Error counting items: ${error.message}`);
         throw new Error(`Error counting items: ${error.message}`);
@@ -73,7 +110,6 @@ class MongoStore extends store {
           title: todoItem.title,
           description: todoItem.description,
           status: todoItem.status,
-          createdAt: new Date(),
           userId: todoItem.userId,
         });
   

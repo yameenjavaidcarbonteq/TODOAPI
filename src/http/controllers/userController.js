@@ -4,14 +4,14 @@ const config = require('../../infrastructure/config/index');
 
 class UserController {
   constructor() {
-    this.fetchUsersByProperty = this.fetchUsersByProperty.bind(this);
-    this.fetchUserById = this.fetchUserById.bind(this);
-    this.addNewUser = this.addNewUser.bind(this);
+    this.find = this.find.bind(this);
+    this.findOne = this.findOne.bind(this);
+    this.create = this.create.bind(this);
 
     this.service = new Service(config.dbtype);
   }
 
-  async fetchUsersByProperty(req, res, next) {
+  async find(req, res, next) {
     try {
       const params = {};
       const response = {};
@@ -23,15 +23,19 @@ class UserController {
         }
       }
       // predefined query params (apart from dynamically) for pagination
-      params.page = params.page ? parseInt(params.page, 10) : 1;
-      params.perPage = params.perPage ? parseInt(params.perPage, 10) : 10;
+      params.pageNumber = params.pageNumber ? parseInt(params.pageNumber, 10) : 1;
+      params.pageLimit = params.pageLimit ? parseInt(params.pageLimit, 10) : 10;
 
-      const users = await this.service.findByProperty(params);
+      
+
+      // calling services here
+      const users = await this.service.find(params);
       response.users = users;
-      const totalItems = await this.service.countAll(params, dbRepository);
+      // calling services here
+      const totalItems = await this.service.countAll(params);
       response.totalItems = totalItems;
-      response.totalPages = Math.ceil(totalItems / params.perPage);
-      response.itemsPerPage = params.perPage;
+      response.totalPages = Math.ceil(totalItems / params.pageLimit);
+      response.itemsPerPage = params.pageLimit;
       res.json(response);
     } catch (error) {
       console.error(`Error fetching users by property: ${error.message}`);
@@ -39,9 +43,9 @@ class UserController {
     }
   }
 
-  async fetchUserById(req, res, next) {
+  async findOne(req, res, next) {
     try {
-      const user = await findbyid(req.params.id);
+      const user = await this.service.findOne(req.params.id);
       res.json(user);
     } catch (error) {
       console.error(`Error fetching user by id: ${error.message}`);
@@ -49,10 +53,10 @@ class UserController {
     }
   }
 
-  async addNewUser(req, res, next) {
+  async create(req, res, next) {
     try {
-      const { username, password, email, createdAt } = req.body;
-      const user = await addUser(username, password, email, createdAt);
+      const { username, password, email } = req.body;
+      const user = await this.service.create(username, password, email);
       res.json(user);
     } catch (error) {
       console.error(`Error adding new user: ${error.message}`);

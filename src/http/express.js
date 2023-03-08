@@ -41,7 +41,7 @@ module.exports = expressConfig;
 
   CORS is a mechanism that allows web browsers to make cross-origin 
   requests, which are requests that originate from a different domain, 
-  port, or protocol than the current web page. CORS is implemented as a 
+  port, or protocol than the current web pageNumber. CORS is implemented as a 
   set of HTTP headers that are exchanged between the web browser and 
   the server to negotiate which cross-origin requests are allowed.
 
