@@ -18,8 +18,8 @@
   "author": "bezkoder",
   "license": "ISC",
   "dependencies": {
-    "@godaddy/terminus": "^4.11.2",
-    "@google-cloud/local-auth": "^2.1.0",
+    "@godaddyterminus": "^4.11.2",
+    "@google-cloudlocal-auth": "^2.1.0",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",

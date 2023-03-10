@@ -1,32 +1,32 @@
-src/ is the root directory of the project.
+src is the root directory of the project.
 
-application/ contains the application layer, which represents the use cases and services that implement the business logic of the application.
+application contains the application layer, which represents the use cases and services that implement the business logic of the application.
 
-application/usecases/ contains the use case classes that define the operations that can be performed on the domain entities.
+applicationusecases contains the use case classes that define the operations that can be performed on the domain entities.
 
-application/services/ contains the service classes that implement the business logic of the application.
+applicationservices contains the service classes that implement the business logic of the application.
 
-application/middlewares/ contains the middleware classes that define the common request processing logic for the application.
+applicationmiddlewares contains the middleware classes that define the common request processing logic for the application.
 
-application/routes/ contains the route classes that define the URL endpoints for the application.
+applicationroutes contains the route classes that define the URL endpoints for the application.
 
-domain/ contains the domain layer, which represents the core business logic of the application.
+domain contains the domain layer, which represents the core business logic of the application.
 
-domain/entities/ contains the entity classes that represent the core business objects of the application.
+domainentities contains the entity classes that represent the core business objects of the application.
 
-domain/repositories/ contains the repository classes that define the operations that can be performed on the domain entities.
+domainrepositories contains the repository classes that define the operations that can be performed on the domain entities.
 
-infrastructure/ contains the infrastructure layer, which represents the implementation details of the application.
+infrastructure contains the infrastructure layer, which represents the implementation details of the application.
 
-infrastructure/mongodb/ contains the MongoDB implementation details of the application.
+infrastructuremongodb contains the MongoDB implementation details of the application.
 
-infrastructure/mongodb/TodoAdapter.js contains the adapter class that translates between the MongoDB data and the domain entities for the Todo entity.
+infrastructuremongodbTodoAdapter.js contains the adapter class that translates between the MongoDB data and the domain entities for the Todo entity.
 
-infrastructure/mongodb/TodoRepository.js contains the repository class that implements the CRUD operations on the Todo entity in MongoDB.
+infrastructuremongodbTodoRepository.js contains the repository class that implements the CRUD operations on the Todo entity in MongoDB.
 
-infrastructure/mongodb/UserAdapter.js contains the adapter class that translates between the MongoDB data and the domain entities for the User entity.
+infrastructuremongodbUserAdapter.js contains the adapter class that translates between the MongoDB data and the domain entities for the User entity.
 
-infrastructure/mongodb/UserRepository.js contains the repository class that implements the CRUD operations on the User entity in MongoDB.
+infrastructuremongodbUserRepository.js contains the repository class that implements the CRUD operations on the User entity in MongoDB.
 
 This directory structure follows the Domain-Driven Design (DDD) approach to software development, with a clear separation between the domain layer, the application layer, and the infrastructure layer. The use of adapters helps to keep the domain entities isolated from the underlying storage technology, making it easier to switch to a different database or data format in the future without affecting the core business logic of the application.
 
@@ -34,7 +34,7 @@ This directory structure follows the Domain-Driven Design (DDD) approach to soft
 
 ..............12 FACTOR APP.............
 
-https://github.com/yameenjavaid/TODOAPI
+https:github.comyameenjavaidTODOAPI
 
 CodeBase -> One codebase tracked in revision control, many deploys
 
@@ -78,7 +78,7 @@ Config
 
 
 
-/*
+*
     
     Middleware functions are functions that have access to the request object (req), 
     the response object (res), and the next middleware function in the application’s 
@@ -111,4 +111,4 @@ Config
     written inside it.Once authentication successful then remaining routed must be called using next()
     if auth fails then it wont perform next route exit the middleware with error response logic
 
-*/
+*
