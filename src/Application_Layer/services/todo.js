@@ -5,16 +5,16 @@ const Todo = require('../../Domain_Layer/entities/todo');
 
 class todoService{
 
-    constructor(storeType) {
+    constructor(todoRepository) {
         //services have adapter
-        this.adapter = new adapter(storeType);
+      this.todoRepository = todoRepository;
     }
 
-    async countAll(params) {
+    async countAll(query) {
         try {
-          return await this.adapter.countAll(params);
+          return await this.todoRepository.countAll(query);
         } catch (error) {
-          console.error(`Error counting items: ${error.message}`);
+          logger.error(`Error counting items: ${error.message}`);
           throw new Error(`Error counting items: ${error.message}`);
         }
       }
@@ -23,9 +23,9 @@ class todoService{
       async getPaginatedData(offset, limit) {
 
         try {
-          return await this.adapter.getPaginatedData(offset, limit);
+          return await this.todoRepository.getPaginatedData(offset, limit);
         } catch (error) {
-          console.error(`Error getting Paginated Data: ${error.message}`);
+          logger.error(`Error getting Paginated Data: ${error.message}`);
           throw new Error(`Error getting Paginated Data: ${error.message}`);
         }
       }
@@ -39,38 +39,38 @@ class todoService{
           }
           
           const todoItem = Todo.create(Todo.makeid(), title, description, status, userId);
-          await this.adapter.create(todoItem);
+          await this.todoRepository.create(todoItem);
         } catch (error) {
-          console.error(`Error creating item: ${error.message}`);
+          logger.error(`Error creating item: ${error.message}`);
           throw new Error(`Failed to add todo: ${error.message}`);
         }
       }
       
-      async find(params) {
+      async find(query) {
         try {
           
-          return await this.adapter.find(params);
+          return await this.todoRepository.find(query);
           
         } catch (error) {
-          console.error(`Error finding items: ${error.message}`);
+          logger.error(`Error finding items: ${error.message}`);
           throw new Error(`Error finding items: ${error.message}`);
         }
       }
       
-      async findOne(id) {
+      async findOne(query) {
         try {
-          return await this.adapter.findOne({id});
+          return await this.todoRepository.findOne({query});
         } catch (error) {
-          console.error(`Error finding item: ${error.message}`);
+          logger.error(`Error finding item: ${error.message}`);
           throw new Error(`Error finding item: ${error.message}`);
         }
       }
       
       async findbyid(id) {
         try {
-          return await this.adapter.findbyid({id});
+          return await this.todoRepository.findbyid({id});
         } catch (error) {
-          console.error(`Error finding item by id: ${error.message}`);
+          logger.error(`Error finding item by id: ${error.message}`);
           throw new Error(`Error finding item by id: ${error.message}`);
         }
       }
@@ -82,29 +82,29 @@ class todoService{
             throw new Error('title and description fields are mandatory');
           }
           
-          const foundTodo = await this.adapter.findOne({id});
+          const foundTodo = await this.todoRepository.findOne({id});
           if (!foundTodo) {
             throw new Error(`No post found with id: ${id}`);
           }
-          console.log(foundTodo);
+          logger.info(foundTodo);
           const updatedTodo = Todo.create(foundTodo.id, title, description, status, userId);
           
-          return await this.adapter.updateById(foundTodo._id, updatedTodo);
+          return await this.todoRepository.updateById(foundTodo._id, updatedTodo);
         } catch (error) {
-          console.error(`Error updating item by id: ${error.message}`);
+          logger.error(`Error updating item by id: ${error.message}`);
           throw new Error(`Error updating item by id: ${error.message}`);
         }
       }
       
       async delete(id) {
         try {
-          const todo = await this.adapter.findOne({id});
+          const todo = await this.todoRepository.findOne({id});
           if (!todo) {
             throw new Error(`No post found with id: ${id}`);
           }
-          return await this.adapter.delete(todo._id);
+          return await this.todoRepository.delete(todo._id);
         } catch (error) {
-          console.error(`Error deleting item: ${error.message}`);
+          logger.error(`Error deleting item: ${error.message}`);
           throw new Error(`Error deleting item: ${error.message}`);
         }
       }

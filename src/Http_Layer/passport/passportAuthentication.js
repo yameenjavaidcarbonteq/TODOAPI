@@ -8,11 +8,18 @@ const {
 } = require("./configStrategies");
 
 // Importing Handlers
-const { loginLocal, loginGoogle } = require("../controllers/loginController");
 
+const AuthController = require('../controllers/authController');
+
+const userRepositoryAdapter = require ('../../Infrastructure_Layer/database/useradapter');
+const config = require ('../../Infrastructure_Layer/config/index');
+
+const authController = new AuthController(
+  new userRepositoryAdapter(config.dbtype)
+);
 passport.serializeUser((user, done) => {
   done(null, user);
 });
 
-passport.use(new LocalStrategy(configLocal, loginLocal));
-passport.use(new GoogleStrategy(configGoogle, loginGoogle));
+passport.use(new LocalStrategy(configLocal, authController.loginLocal));
+passport.use(new GoogleStrategy(configGoogle, authController.loginGoogle));

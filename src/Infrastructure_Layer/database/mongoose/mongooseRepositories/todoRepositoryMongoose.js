@@ -1,6 +1,6 @@
 const logger = require('../../../logger/index');
 
-const store = require('../../../../Domain_Layer/interfaces/storeInterfaceTodo');
+const store = require('../../../../Domain_Layer/interfaces/TodoRepository');
 const todoMongo = require('../mongooseModels/todo');
 const userMongo = require('../mongooseModels/user');
 
@@ -13,9 +13,9 @@ class Repositoy extends store {
   
     
     async validateTodo(todo) {
-      console.log("Validating Todo: ",todo);
+      logger.info("Validating Todo: ",todo);
       const user = await this.userModel.findOne({'id': todo.userId});
-      console.log(user);
+      logger.info(user);
       if (!user) {
         throw new Error('Invalid customer ID');
       }
@@ -26,16 +26,16 @@ class Repositoy extends store {
       try {
         return await this.todoModel.find().skip(offset).limit(limit);
       } catch (error) {
-        console.error(`Error finding todos: ${error.message}`);
+        logger.error(`Error finding todos: ${error.message}`);
         throw new Error(`Error finding todos: ${error.message}`);
       }
     }
     
-    async find(params) {
+    async find(query) {
       try {
-        return await this.todoModel.find(params);
+        return await this.todoModel.find(query);
       } catch (error) {
-        console.error(`Error finding todos: ${error.message}`);
+        logger.error(`Error finding todos: ${error.message}`);
         throw new Error(`Error finding todos: ${error.message}`);
       }
     }
@@ -44,17 +44,8 @@ class Repositoy extends store {
       try {
         return await this.todoModel.countDocuments();
       } catch (error) {
-        console.error(`Error counting items: ${error.message}`);
+        logger.error(`Error counting items: ${error.message}`);
         throw new Error(`Error counting items: ${error.message}`);
-      }
-    }
-  
-    async findbyid(id) {
-      try {
-        return await this.todoModel.findOne(id);
-      } catch (error) {
-        console.error(`Error finding todo by id: ${error.message}`);
-        throw new Error(`Error finding todo by id: ${error.message}`);
       }
     }
   
@@ -62,7 +53,7 @@ class Repositoy extends store {
       try {
         return await this.todoModel.findOne(id);
       } catch (error) {
-        console.error(`Error finding todo by id: ${error.message}`);
+        logger.error(`Error finding todo by id: ${error.message}`);
         throw new Error(`Error finding todo by id: ${error.message}`);
       }
     }
@@ -80,7 +71,7 @@ class Repositoy extends store {
   
         return await newTodo.save();
       } catch (error) {
-        console.error(`Error creating new todo: ${error.message}`);
+        logger.error(`Error creating new todo: ${error.message}`);
         throw new Error(`Error creating new todo: ${error.message}`);
       }
     }
@@ -95,17 +86,17 @@ class Repositoy extends store {
   
         return await this.todoModel.findOneAndUpdate({ _id: id }, { $set: updatedTodo }, { new: true });
       } catch (error) {
-        console.error(`Error updating todo by id: ${error.message}`);
+        logger.error(`Error updating todo by id: ${error.message}`);
         throw new Error(`Error updating todo by id: ${error.message}`);
       }
     }
   
     async delete(id) {
       try {
-        console.log(id);
+        logger.info(id);
         return await this.todoModel.findByIdAndDelete(id);
       } catch (error) {
-        console.error(`Error deleting todo by id: ${error.message}`);
+        logger.error(`Error deleting todo by id: ${error.message}`);
         throw new Error(`Error deleting todo by id: ${error.message}`);
       }
     }

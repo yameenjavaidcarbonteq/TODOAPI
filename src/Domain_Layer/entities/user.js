@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 class User {
-    constructor(id, username, password, email, isVerified, googleId, provider) {
+    constructor(id, username, email, password, isVerified, googleId, provider) {
       
       this.id = id;
       this.username = username;
@@ -16,8 +16,8 @@ class User {
       return uuidv4();
     }
 
-    static create(id, username, password, email, isVerified, googleId, provider) {
-      return new User(id, username, password, email, isVerified, googleId, provider);
+    static create(id, username, email, password, isVerified, googleId, provider) {
+      return new User(id, username, email, password, isVerified, googleId, provider);
     }
 
   }

@@ -1,16 +1,25 @@
 const UserController = require('../controllers/userController');
+
+const userRepositoryAdapter = require ('../../Infrastructure_Layer/database/useradapter');
+const config = require ('../../Infrastructure_Layer/config/index');
+
 const passport = require("passport");
+
 function userRouter(express) {
   
   const router = express.Router();
-  const controller = new UserController();
-
+  // load userController with dependencies
+  const userController = new UserController(
+    new userRepositoryAdapter(config.dbtype)
+  );
+  
+  
   router.use(passport.authenticate("jwt", { session: false }));
   
-  router.get("/", controller.findUsers);
-  router.get("/:id", controller.getUserProfile);
-  router.put("/:id", controller.editUserProfile);
-  router.delete("/:id", controller.deleteUserProfile)
+  router.get("/", userController.getAllUsers);
+  router.get("/:id", userController.getUserProfile);
+  router.put("/:id", userController.editUserProfile);
+  router.delete("/:id", userController.deleteUserProfile)
 
 
 

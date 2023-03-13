@@ -1,4 +1,5 @@
 const config = require('../../Infrastructure_Layer/config/index');
+const logger = require('../../Infrastructure_Layer/logger/index');
 const Adapter = require('../../Infrastructure_Layer/database/useradapter');
 const adapter = new Adapter(config.dbtype);
 
@@ -6,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 const sendToken = (request, response) => {
   const { id, email } = request.user;
-  console.log("Making Token for id and email: ",id,email);
+  logger.info(`Making Token for id ${id} and email ${email}`);
   const token = jwt.sign({ id, email}, config.jwtsecret, {
     expiresIn: 1200
   });

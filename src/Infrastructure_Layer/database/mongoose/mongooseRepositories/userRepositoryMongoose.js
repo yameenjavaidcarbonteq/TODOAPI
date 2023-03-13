@@ -1,6 +1,6 @@
 const logger = require('../../../logger/index');
 
-const store = require('../../../../Domain_Layer/interfaces/storeInterfaceUser');
+const store = require('../../../../Domain_Layer/interfaces/UserRepository');
 const userMongo = require('../mongooseModels/user');
 
 
@@ -10,41 +10,22 @@ class MongoStore extends store {
       this.model = userMongo;
     }
   
-    async find(params) {
+    async find(query) {
       try {
-        return await this.model.find(params);
+        return await this.model.find(query);
           
       } catch (error) {
-        console.error(`Error finding users: ${error.message}`);
+        logger.error(`Error finding users: ${error.message}`);
         throw new Error(`Error finding users: ${error.message}`);
       }
     }
   
-    async countAll(params) {
+    async findOne(query) {
       try {
-        return await this.model.countDocuments(params);
+        return await this.model.findOne(query);
       } catch (error) {
-        console.error(`Error counting users: ${error.message}`);
-        throw new Error(`Error counting users: ${error.message}`);
-      }
-    }
-  
-    async findOne(param) {
-      try {
-        console.log("Finding User: ",param);
-        return await this.model.findOne(param);
-      } catch (error) {
-        console.error(`Error finding one user: ${error.message}`);
+        logger.error(`Error finding one user: ${error.message}`);
         throw new Error(`Error finding one user: ${error.message}`);
-      }
-    }
-  
-    async findbyid(id) {
-      try {
-        return await this.model.findbyid(id).select("-password");
-      } catch (error) {
-        console.error(`Error finding user by id: ${error.message}`);
-        throw new Error(`Error finding user by id: ${error.message}`);
       }
     }
   
@@ -63,7 +44,7 @@ class MongoStore extends store {
         return user;
          return await userDoc.save();
       } catch (error) {
-        console.error(`Error creating a new user: ${error.message}`);
+        logger.error(`Error creating a new user: ${error.message}`);
         throw new Error(`Error creating a new user: ${error.message}`);
       }
     }

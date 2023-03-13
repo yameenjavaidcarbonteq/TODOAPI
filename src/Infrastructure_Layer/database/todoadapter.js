@@ -3,98 +3,87 @@ const logger = require('../../Infrastructure_Layer/logger/index');
 const todoRepositoyMongoose = require("./mongoose/mongooseRepositories/todoRepositoryMongoose");
 const todoRepositoySequelize = require("./sequelize/sequelizeRepositories/todoRepositorySequelize");
 
-const store = require('../../Domain_Layer/interfaces/storeInterfaceTodo');
-const { validate } = require('./mongoose/mongooseModels/todo');
-class adapter extends store{
+const repository = require('../../Domain_Layer/interfaces/TodoRepository');
+// const { validate } = require('./mongoose/mongooseModels/todo');
+class adapter extends repository{
 
-    constructor(storeType) {
+    constructor(repositoryType) {
         super();
         
-        this.store = null;
-        if (storeType === 'mongoose') 
+        this.repository = null;
+        if (repositoryType === 'mongoose') 
         {
-            //currently changing store to repository
-            this.store = new todoRepositoyMongoose();
+          this.repository = new todoRepositoyMongoose();
         } 
-        else if (storeType === 'sequelize') 
+        else if (repositoryType === 'sequelize') 
         {
-            this.store = new todoRepositoySequelize();
+          this.repository = new todoRepositoySequelize();
         }
     }
 
     async getPaginatedData(offset, limit) {
     
       try {
-        return await this.store.getPaginatedData(offset, limit);
+        return await this.repository.getPaginatedData(offset, limit);
       } catch (error) {
-        console.error(`Error getting Paginated Data: ${error.message}`);
+        logger.error(`Error getting Paginated Data: ${error.message}`);
         throw new Error(`Error getting Paginated Data: ${error.message}`);
       }
     }
     
-    async find(params) {
+    async find(query) {
         try {
           
-          console.log("Finding todos for params: ",params);
-          return await this.store.find(params);
+          logger.info("Finding todos for query: ",query);
+          return await this.repository.find(query);
         } catch (error) {
-          console.error(`Error finding todos: ${error}`);
+          logger.error(`Error finding todos: ${error}`);
           throw new Error(`Error finding todos: ${error}`);
         }
       }
       
-      async countAll(params) {
+      async countAll(query) {
         try {
-          return await this.store.countAll(params);
+          return await this.repository.countAll(query);
         } catch (error) {
-          console.error(`Error counting todos: ${error}`);
+          logger.error(`Error counting todos: ${error}`);
           throw new Error(`Error counting todos: ${error}`);
         }
       }
       
-      async findOne(params) {
+      async findOne(query) {
         try {
-          return await this.store.findOne(params);
+          return await this.repository.findOne(query);
         } catch (error) {
-          console.error(`Error finding todo: ${error}`);
+          logger.error(`Error finding todo: ${error}`);
           throw new Error(`Error finding todo: ${error}`);
-        }
-      }
-      
-      async findbyid(id) {
-        try {
-          return await this.store.findbyid(id);
-        } catch (error) {
-          console.error(`Error finding todo by id: ${error}`);
-          throw new Error(`Error finding todo by id: ${error}`);
         }
       }
       
       async create(todoItem) {
         try {
-          console.log("Validating Todo");
-          await this.store.validateTodo(todoItem);
-          return await this.store.create(todoItem);
+          await this.repository.validateTodo(todoItem);
+          return await this.repository.create(todoItem);
         } catch (error) {
-          console.error(`Error creating todo: ${error}`);
+          logger.error(`Error creating todo: ${error}`);
           throw new Error(`Error creating todo: ${error}`);
         }
       }
       
       async updateById(id, todoItem) {
         try {
-          return await this.store.updateById(id, todoItem);
+          return await this.repository.updateById(id, todoItem);
         } catch (error) {
-          console.error(`Error updating todo by id: ${error}`);
+          logger.error(`Error updating todo by id: ${error}`);
           throw new Error(`Error updating todo by id: ${error}`);
         }
       }
       
       async delete(id) {
         try {
-          return await this.store.delete(id);
+          return await this.repository.delete(id);
         } catch (error) {
-          console.error(`Error deleting todo: ${error}`);
+          logger.error(`Error deleting todo: ${error}`);
           throw new Error(`Error deleting todo: ${error}`);
         }
       }

@@ -5,7 +5,8 @@
   "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/app.js"
+    "start": "nodemon src/app.js",
+    "seed_todo": "node src/seeders/mongoose_todos"
   },
   "keywords": [
     "nodejs",
@@ -18,10 +19,11 @@
   "author": "bezkoder",
   "license": "ISC",
   "dependencies": {
-    "@godaddyterminus": "^4.11.2",
-    "@google-cloudlocal-auth": "^2.1.0",
+    "@godaddy/terminus": "^4.11.2",
+    "@google-cloud/local-auth": "^2.1.0",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
+    "commander": "^10.0.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -30,8 +32,8 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
-    "flash": "^1.1.0",
     "googleapis": "^105.0.0",
+    "inversify": "^6.0.1",
     "jsonwebtoken": "^9.0.0",
     "memorystore": "^1.6.7",
     "mongodb": "^5.0.1",
@@ -41,8 +43,14 @@
     "passport": "^0.6.0",
     "passport-google-oauth2": "^0.2.0",
     "passport-google-oauth20": "^2.0.0",
+    "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
+    "reflect-metadata": "^0.1.13",
     "sequelize": "^6.28.0",
     "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "flash": "^1.1.0"
   }
 }

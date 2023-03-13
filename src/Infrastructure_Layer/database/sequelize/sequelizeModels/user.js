@@ -62,7 +62,7 @@ User.prototype.validPassword = async function (password) {
 
 
 //  sequelize.sync({ force: true }).then(() => {
-//    console.info('Tables created or updated');
+//    logger.info('Tables created or updated');
 //  });
 
 /*

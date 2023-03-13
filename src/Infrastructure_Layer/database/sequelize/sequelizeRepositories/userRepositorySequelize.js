@@ -1,6 +1,6 @@
 
 const logger = require('../../../logger/index');
-const store = require('../../../../Domain_Layer/interfaces/storeInterfaceUser');
+const store = require('../../../../Domain_Layer/interfaces/UserRepository');
 const userSeq = require('../sequelizeModels/user');
 
 class userRepositoy extends store{
@@ -13,7 +13,7 @@ class userRepositoy extends store{
       try {
         throw new NotImplementedError();
       } catch (error) {
-        console.error(`Error finding users: ${error.message}`);
+        logger.error(`Error finding users: ${error.message}`);
         throw new Error(`Error finding users: ${error.message}`);
       }
     }
@@ -26,7 +26,7 @@ class userRepositoy extends store{
         }
         return userRecord;
       } catch (error) {
-        console.error(`Error finding user: ${error.message}`);
+        logger.error(`Error finding user: ${error.message}`);
         throw new Error(`Error finding user: ${error.message}`);
       }
     }
@@ -39,7 +39,7 @@ class userRepositoy extends store{
         }
         return userRecord;
       } catch (error) {
-        console.error(`Error finding user by id: ${error.message}`);
+        logger.error(`Error finding user by id: ${error.message}`);
         throw new Error(`Error finding user by id: ${error.message}`);
       }
     }
@@ -56,7 +56,7 @@ class userRepositoy extends store{
           provider: userEntity.provider,
         });
       } catch (error) {
-        console.error(`Error creating user: ${error.message}`);
+        logger.error(`Error creating user: ${error.message}`);
         throw new Error(`Error creating user: ${error.message}`);
       }
     }
@@ -65,7 +65,7 @@ class userRepositoy extends store{
       try {
         throw new NotImplementedError();
       } catch (error) {
-        console.error(`Error updating user: ${error.message}`);
+        logger.error(`Error updating user: ${error.message}`);
         throw new Error(`Error updating user: ${error.message}`);
       }
     }
@@ -74,7 +74,7 @@ class userRepositoy extends store{
       try {
         throw new NotImplementedError();
       } catch (error) {
-        console.error(`Error deleting user: ${error.message}`);
+        logger.error(`Error deleting user: ${error.message}`);
         throw new Error(`Error deleting user: ${error.message}`);
       }
     }

@@ -1,5 +1,5 @@
 const logger = require('../../../logger/index');
-const store = require('../../../../Domain_Layer/interfaces/storeInterfaceTodo');
+const store = require('../../../../Domain_Layer/interfaces/TodoRepository');
 const todoSeq = require('../sequelizeModels/todo');
 const TodoItem =  require('../../../../Domain_Layer/entities/todo');
 
@@ -14,7 +14,7 @@ class Repositoy extends store {
       const todoRecords = await this.model.findAll();
       return todoRecords;
     } catch (error) {
-      console.error(`Error finding todos: ${error.message}`);
+      logger.error(`Error finding todos: ${error.message}`);
       throw new Error(`Error finding todos: ${error.message}`);
     }
   }
@@ -28,7 +28,7 @@ class Repositoy extends store {
       }
       return todoRecord;
     } catch (error) {
-      console.error(`Error finding todo: ${error.message}`);
+      logger.error(`Error finding todo: ${error.message}`);
       throw new Error(`Error finding todo: ${error.message}`);
     }
   }
@@ -41,7 +41,7 @@ class Repositoy extends store {
       }
       return todoRecord;
     } catch (error) {
-      console.error(`Error finding todo by id: ${error.message}`);
+      logger.error(`Error finding todo by id: ${error.message}`);
       throw new Error(`Error finding todo by id: ${error.message}`);
     }
   }
@@ -55,7 +55,7 @@ class Repositoy extends store {
         isCompleted: todoItem.isCompleted,
       });
     } catch (error) {
-      console.error(`Error creating todo: ${error.message}`);
+      logger.error(`Error creating todo: ${error.message}`);
       throw new Error(`Error creating todo: ${error.message}`);
     }
   }
@@ -76,7 +76,7 @@ class Repositoy extends store {
         throw new Error(`Todo item with id ${todoItem.id} not found`);
       }
     } catch (error) {
-      console.error(`Error updating todo: ${error.message}`);
+      logger.error(`Error updating todo: ${error.message}`);
       throw new Error(`Error updating todo: ${error.message}`);
     }
   }
@@ -90,7 +90,7 @@ class Repositoy extends store {
         throw new Error(`Todo item with id ${id} not found`);
       }
     } catch (error) {
-      console.error(`Error deleting todo: ${error.message}`);
+      logger.error(`Error deleting todo: ${error.message}`);
       throw new Error(`Error deleting todo: ${error.message}`);
     }
   }

@@ -1,15 +1,12 @@
 const logger = require('../../Infrastructure_Layer/logger/index');
-const service = require('../../Application_Layer/services/todo');
-const config = require('../../Infrastructure_Layer/config/index');
-
+const service = require('../../Application_Layer/services/todo')
 const PaginationData = require('../../Application_Layer/Utils/PaginationData');
-const PaginationInfo = require('../../Application_Layer/Utils/PaginationInfo');
 const PaginationOptions = require('../../Application_Layer/Utils/PaginationOptions');
 
 
 class TodoController {
 
-  constructor()
+  constructor(dbRepository)
   {
     this.createTodo = this.createTodo.bind(this);
     this.getTodos = this.getTodos.bind(this);
@@ -17,14 +14,14 @@ class TodoController {
     this.deleteTodo = this.deleteTodo.bind(this);
     this.updateTodo = this.updateTodo.bind(this);
     
-    this.service = new service(config.dbtype);
+    this.todoService = new service(dbRepository);
     
   }
-   Done
+  // Done
   async createTodo (req, res, next) {
     try {
       const { title, description, status } = req.body;
-      await this.service.create(
+      await this.todoService.create(
         title,
         description,
         status,
@@ -32,42 +29,42 @@ class TodoController {
       );
       res.json('todo created');
     } catch (error) {
-      console.error(`Error creating todo: ${error.message}`);
+      logger.error(`Error creating todo: ${error.message}`);
       next(error);
     }
   }
   
-   Done
+  // Done
   
   async getTodos(req, res, next) {
     try 
     {
       const {pageNumber, pageLimit} = req.query;
       const paginationOptions = new PaginationOptions(pageNumber, pageLimit);
-      const todos = await this.service.getPaginatedData(paginationOptions.offset(), paginationOptions.limit());
-      const totalTodos = await this.service.countAll();
+      const todos = await this.todoService.getPaginatedData(paginationOptions.offset(), paginationOptions.limit());
+      const totalTodos = await this.todoService.countAll();
       const paginationData = new PaginationData(paginationOptions, totalTodos);
       todos.forEach((todo) => paginationData.addItem(todo));
       res.json(paginationData.getPaginatedData());
     } 
     catch (error) {
-      console.error(`Error getting todos: ${error.message}`);
+      logger.error(`Error getting todos: ${error.message}`);
       next(error);
     }
   }
   
 
-   Done
+  // Done
 
   async getTodoById(req, res, next) {
     try {
-      const todo = await this.service.findbyid(req.params.id);
+      const todo = await this.todoService.findbyid(req.query.id);
       if (!todo) {
-        throw new Error(`No post found with id: ${req.params.id}`);
+        throw new Error(`No post found with id: ${req.query.id}`);
       }
       res.json(todo);
     } catch (error) {
-      console.error(`Error getting todo by id: ${error.message}`);
+      logger.error(`Error getting todo by id: ${error.message}`);
       next(error);
     }
   }
@@ -76,10 +73,10 @@ class TodoController {
     try {
       const { title, description, status } = req.body;
       
-      console.log({ title, description, status });
+      
 
-      const message = await this.service.update(
-        req.params.id,
+      const message = await this.todoService.update(
+        req.query.id,
         req.user.id,
         title,
         description,
@@ -87,17 +84,17 @@ class TodoController {
       );
       res.json(message);
     } catch (error) {
-      console.error(`Error updating todo: ${error.message}`);
+      logger.error(`Error updating todo: ${error.message}`);
       next(error);
     }
   }
   
   async deleteTodo (req, res, next) {
     try {
-      await this.service.delete(req.params.id);
+      await this.todoService.delete(req.query.id);
       res.json('post successfully deleted!');
     } catch (error) {
-      console.error(`Error deleting todo: ${error.message}`);
+      logger.error(`Error deleting todo: ${error.message}`);
       next(error);
     }
   }

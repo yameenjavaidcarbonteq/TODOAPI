@@ -1,15 +1,15 @@
 
-class storeInterfaceTodo{
+class UserRepository{
 
-    constructor(storeType) {
+    constructor() {
       
     }
     async find() {
     }
 
-    async findOne(id) {
+    async findOne(query) {
     }
-    
+
     async findbyid(id) {
     }
 
@@ -24,4 +24,4 @@ class storeInterfaceTodo{
 }
 
 
-module.exports = storeInterfaceTodo;
+module.exports = UserRepository;

@@ -1,18 +1,26 @@
 const TodoController = require('../controllers/todoController');
+
+const todoRepositoryAdapter = require ('../../Infrastructure_Layer/database/todoadapter');
+const config = require ('../../Infrastructure_Layer/config/index');
+
 const passport = require("passport");
 
 function todoRouter(express) {
 
     const router = express.Router();
-    const controller = new TodoController();
+    // load todoController with dependencies
+    const todoController = new TodoController(
+        new todoRepositoryAdapter(config.dbtype)
+    );
+
 
     router.use(passport.authenticate("jwt", { session: false }));
     
-    router.post('/',controller.createTodo);
-    router.get('/', controller.getTodos);
-    router.get('/:id/', controller.getTodoById);
-    router.put('/:id/edit', controller.updateTodo);
-    router.delete('/:id/delete', controller.deleteTodo);
+    router.post('/',todoController.createTodo);
+    router.get('/', todoController.getTodos);
+    router.get('/:id/', todoController.getTodoById);
+    router.put('/:id/edit', todoController.updateTodo);
+    router.delete('/:id/delete', todoController.deleteTodo);
 
     return router;
 }

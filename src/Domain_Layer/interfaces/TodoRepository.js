@@ -1,15 +1,15 @@
 
-class storeInterfaceTodo{
+class TodoRepository{
 
-    constructor(storeType) {
+    constructor() {
       
     }
     async find() {
     }
 
-    async findOne(query) {
+    async findOne(id) {
     }
-
+    
     async findbyid(id) {
     }
 
@@ -24,4 +24,4 @@ class storeInterfaceTodo{
 }
 
 
-module.exports = storeInterfaceTodo;
+module.exports = TodoRepository;
