@@ -15,6 +15,7 @@ const routes = require('./Http_Layer/routes/index');
 const serverConfig = require('./Http_Layer/server');
 const mongoDbConnection = require('./Infrastructure_Layer/database/mongoose/connection');
 
+
 mongoose.set('strictQuery', false);
 
 // middlewares
