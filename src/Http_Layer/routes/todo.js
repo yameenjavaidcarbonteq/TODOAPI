@@ -1,7 +1,7 @@
 const TodoController = require('../controllers/todoController');
 
 const todoRepositoryAdapter = require ('../../Infrastructure_Layer/database/todoadapter');
-const config = require ('../../Infrastructure_Layer/config/index');
+const config = require ('../../Infrastructure_Layer/config');
 
 const passport = require("passport");
 
@@ -13,8 +13,8 @@ function todoRouter(express) {
         new todoRepositoryAdapter(config.dbtype)
     );
 
-
-    router.use(passport.authenticate("jwt", { session: false }));
+    
+    // router.use(passport.authenticate("jwt", { session: false }));
     
     router.post('/',todoController.createTodo);
     router.get('/', todoController.getTodos);

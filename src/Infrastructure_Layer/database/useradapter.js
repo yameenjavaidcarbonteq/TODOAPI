@@ -1,4 +1,4 @@
-const logger = require('../../Infrastructure_Layer/logger/index');
+const logger = require('../../Infrastructure_Layer/logger');
 
 const userRepositoryMongoose = require("./mongoose/mongooseRepositories/userRepositoryMongoose");
 const userRepositorySequelize = require("./sequelize/sequelizeRepositories/userRepositorySequelize");

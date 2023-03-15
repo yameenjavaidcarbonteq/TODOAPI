@@ -1,7 +1,6 @@
-const logger = require('../../Infrastructure_Layer/logger/index');
+const logger = require('../../Infrastructure_Layer/logger');
 const adapter = require('../../Infrastructure_Layer/database/todoadapter');
 const Todo = require('../../Domain_Layer/entities/todo');
-
 
 class todoService{
 

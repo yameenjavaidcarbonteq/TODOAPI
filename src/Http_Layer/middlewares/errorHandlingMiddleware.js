@@ -1,4 +1,4 @@
-const logger = require('../../Infrastructure_Layer/logger/index');
+const logger = require('../../Infrastructure_Layer/logger');
 //* eslint-disable no-query-reassign *
 // eslint-disable-next-line no-unused-vars
 function errorHandlingMiddlware(err, req, res, next) {

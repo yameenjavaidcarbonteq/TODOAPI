@@ -1,4 +1,4 @@
-const logger = require('../../Infrastructure_Layer/logger/index');
+const logger = require('../../Infrastructure_Layer/logger');
 const User = require('../../Domain_Layer/entities/user');
 class userService{
 

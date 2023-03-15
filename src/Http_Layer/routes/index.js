@@ -13,7 +13,8 @@ function routes(app, express) {
     response.json({
       author: "Yameen Javaid",
       project: "Todo API",
-      company: "Carbonteq"
+      company: "Carbonteq",
+      message: "Welcome to Todo API Carbonteq."
     });
   });
   

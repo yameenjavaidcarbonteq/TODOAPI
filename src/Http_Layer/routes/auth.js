@@ -3,7 +3,7 @@ const UserController = require('../controllers/userController');
 const TokenController = require('../controllers/tokenController');
 
 const userRepositoryAdapter = require ('../../Infrastructure_Layer/database/useradapter');
-const config = require ('../../Infrastructure_Layer/config/index');
+const config = require ('../../Infrastructure_Layer/config');
 
 
 const passport = require("passport");
@@ -49,7 +49,7 @@ function authRouter(express) {
     );
     // Google Callback Authenticate
     router.get(
-        "/googlecallback",
+        "/google/callback",
         passport.authenticate("google", { session: false }),
         sendToken
         );

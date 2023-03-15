@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const config = require('./Infrastructure_Layer/config/index');
-const logger = require('./Infrastructure_Layer/logger/index');
+const config = require('./Infrastructure_Layer/config');
+const logger = require('./Infrastructure_Layer/logger');
 const expressConfig = require ('./Http_Layer/express');
 const passport = require('passport');
 
@@ -11,7 +11,7 @@ require("./Http_Layer/passport/passportAuthorization");
 
 logger.info("Importing Passport Strategies");
 
-const routes = require('./Http_Layer/routes/index');
+const routes = require('./Http_Layer/routes');
 const serverConfig = require('./Http_Layer/server');
 const mongoDbConnection = require('./Infrastructure_Layer/database/mongoose/connection');
 

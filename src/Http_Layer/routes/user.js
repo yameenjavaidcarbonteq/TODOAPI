@@ -1,7 +1,7 @@
 const UserController = require('../controllers/userController');
 
 const userRepositoryAdapter = require ('../../Infrastructure_Layer/database/useradapter');
-const config = require ('../../Infrastructure_Layer/config/index');
+const config = require ('../../Infrastructure_Layer/config');
 
 const passport = require("passport");
 
@@ -14,12 +14,16 @@ function userRouter(express) {
   );
   
   
-  router.use(passport.authenticate("jwt", { session: false }));
+  // router.use(passport.authenticate("jwt", { session: false }));
   
+  router.post("/", userController.createUser);
+  router.post("/", userController.findUser);
+  
+  router.get("/:id", userController.getUser);
   router.get("/", userController.getAllUsers);
-  router.get("/:id", userController.getUserProfile);
-  router.put("/:id", userController.editUserProfile);
-  router.delete("/:id", userController.deleteUserProfile)
+  
+  router.put("/:id", userController.editUser);
+  router.delete("/:id", userController.deleteUser)
 
 
 

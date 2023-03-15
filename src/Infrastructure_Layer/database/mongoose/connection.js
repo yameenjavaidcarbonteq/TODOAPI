@@ -1,4 +1,4 @@
-const logger = require('../../logger/index');
+const logger = require('../../logger');
 
 function connection(mongoose, config, options) {
     function connectToMongo() {

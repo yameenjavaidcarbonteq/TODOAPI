@@ -1,4 +1,4 @@
-const config = require('../../Infrastructure_Layer/config/index');
+const config = require('../../Infrastructure_Layer/config');
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 
 

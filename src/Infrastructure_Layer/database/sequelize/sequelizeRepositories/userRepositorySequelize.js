@@ -1,5 +1,5 @@
 
-const logger = require('../../../logger/index');
+const logger = require('../../../logger');
 const store = require('../../../../Domain_Layer/interfaces/UserRepository');
 const userSeq = require('../sequelizeModels/user');
 

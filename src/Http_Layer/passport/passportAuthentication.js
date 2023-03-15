@@ -12,7 +12,7 @@ const {
 const AuthController = require('../controllers/authController');
 
 const userRepositoryAdapter = require ('../../Infrastructure_Layer/database/useradapter');
-const config = require ('../../Infrastructure_Layer/config/index');
+const config = require ('../../Infrastructure_Layer/config');
 
 const authController = new AuthController(
   new userRepositoryAdapter(config.dbtype)

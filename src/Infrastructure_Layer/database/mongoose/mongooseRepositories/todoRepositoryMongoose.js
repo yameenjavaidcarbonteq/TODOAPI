@@ -1,4 +1,4 @@
-const logger = require('../../../logger/index');
+const logger = require('../../../logger');
 
 const store = require('../../../../Domain_Layer/interfaces/TodoRepository');
 const todoMongo = require('../mongooseModels/todo');

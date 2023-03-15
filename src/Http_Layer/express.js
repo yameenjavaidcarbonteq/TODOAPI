@@ -1,4 +1,4 @@
-const logger = require('../Infrastructure_Layer/logger/index');
+const logger = require('../Infrastructure_Layer/logger');
 const bodyParser = require('body-parser');
 
 function expressConfig(app) {

@@ -1,5 +1,5 @@
 const { createTerminus } = require('@godaddy/terminus');
-const logger = require('../Infrastructure_Layer/logger/index');
+const logger = require('../Infrastructure_Layer/logger');
 
 function serverConfig(app, mongoose, serverInit, config) {
   async function healthCheck() {

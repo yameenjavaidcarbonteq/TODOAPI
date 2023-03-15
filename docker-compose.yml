@@ -1,0 +1,45 @@
+services:
+  api:
+    container_name: api
+    restart: always
+    build: .
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - MONGODB_URI=mongodb://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}
+
+  db:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - '${MONGO_PORT}:${MONGO_PORT}'
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+
+  sequelize-postgres-api:
+    container_name: sequelize-postgres-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    restart: always
+    environment:
+      - DB_HOST=db
+      - DB_PORT=${PGPORT}
+      - DB_USER=${PGUSER}
+      - DB_PASSWORD=${PGPASSWORD}
+      - DB_DATABASE=${PGDATABASE}
+
+volumes: 
+  mongo-data:

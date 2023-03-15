@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/app.js",
-    "seed_todo": "node src/seeders/mongoose_todos"
+    "seed_todos": "node src/seeders/mongoose_todos",
+    "seed_users": "node src/seeders/mongoose_users"
   },
   "keywords": [
     "nodejs",
@@ -51,6 +52,9 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
-    "flash": "^1.1.0"
+    "chai": "^4.3.7",
+    "flash": "^1.1.0",
+    "mocha": "^10.2.0",
+    "sinon": "^15.0.2"
   }
 }
