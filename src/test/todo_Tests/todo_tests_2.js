@@ -1,7 +1,7 @@
-const sinon = require('sinon');
-const chai = require('chai');
+const sinon from'sinon');
+const chai from'chai');
 const expect = chai.expect;
-const Todo = require('../models/todo');
+const Todo from'../models/todo');
 
 describe('Todo', () => {
   describe('constructor', () => {

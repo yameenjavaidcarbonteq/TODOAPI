@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const Todo = require('../Infrastructure_Layer/database/mongoose/mongooseModels/todo');
-const {faker}  = require('@faker-js/faker');
+const mongoose from'mongoose');
+const Todo from'.@infrastructure/database/mongoose/mongooseModels/todo');
+const {faker}  from'@faker-js/faker');
 
 const seedTodos = async () => {
   // create an array of fake todo objects

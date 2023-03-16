@@ -1,9 +1,9 @@
-const sinon = require('sinon');
-const chai = require('chai');
+const sinon from'sinon');
+const chai from'chai');
 const expect = chai.expect;
-const todosController = require('../controllers/todosController');
-const Todo = require('../models/todo');
-const User = require('../models/user');
+const todosController from'../controllers/todosController');
+const Todo from'../models/todo');
+const User from'../models/user');
 
 describe('todosController', () => {
   describe('createTodo', () => {

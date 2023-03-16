@@ -1,5 +1,5 @@
-const sinon = require('sinon');
-const chai = require('chai');
+const sinon from'sinon');
+const chai from'chai');
 const expect = chai.expect;
 
 describe('authTest', () => {

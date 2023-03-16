@@ -1,5 +1,5 @@
-const {faker}  = require('@faker-js/faker');
-const Todo = require('../Infrastructure_Layer/database/sequelize/sequelizeModels/todo');
+const {faker}  from'@faker-js/faker');
+const Todo from'.@infrastructure/database/sequelize/sequelizeModels/todo');
 const seedTodos = async () => {
   // create an array of fake todo objects
   const todos = [];

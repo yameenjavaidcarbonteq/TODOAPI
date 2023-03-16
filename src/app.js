@@ -1,30 +1,37 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const config = require('./Infrastructure_Layer/config');
-const logger = require('./Infrastructure_Layer/logger');
-const expressConfig = require ('./Http_Layer/express');
-const passport = require('passport');
+import ('module-alias/register');
+
+import logger from '@logger';
+import config from '@config';
+
+
+import express from'express';
+import mongoose from'mongoose';
+
+import expressConfig from ('@http/express');
+import passport from'passport';
 
 //Just initializing
-require("./Http_Layer/passport/passportAuthentication");
-require("./Http_Layer/passport/passportAuthorization");
+require("@http/passport/passportAuthentication");
+require("@http/passport/passportAuthorization");
 
 logger.info("Importing Passport Strategies");
 
-const routes = require('./Http_Layer/routes');
-const serverConfig = require('./Http_Layer/server');
-const mongoDbConnection = require('./Infrastructure_Layer/database/mongoose/connection');
+import routes from'@http/routes';
+import serverConfig from'@http/server';
+import mongoDbConnection from'@infrastructure/database/mongoose/connection';
 
 
 mongoose.set('strictQuery', false);
 
 // middlewares
-const errorHandlingMiddleware = require ('./Http_Layer/middlewares/errorHandlingMiddleware');
+import errorHandlingMiddleware from '@http/middlewares/errorHandlingMiddleware';
 
 const app = express();
 logger.info("Setting up Express APP");
 
-const server = require('http').createServer(app);
+// import server from 
+import { createServer } from 'http';
+const server = createServer(app);
 logger.info("Creating Server");
 
 // express.js configuration (middlewares etc.)

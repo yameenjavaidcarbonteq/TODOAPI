@@ -1,5 +1,5 @@
-const {faker}  = require('@faker-js/faker');
-const User = require('../Infrastructure_Layer/database/sequelize/sequelizeModels/user');
+const {faker}  from'@faker-js/faker');
+const User from'.@infrastructure/database/sequelize/sequelizeModels/user');
 
 const seedUsers = async () => {
   // create an array of fake user objects

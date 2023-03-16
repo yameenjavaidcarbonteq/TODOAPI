@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const User = require('../Infrastructure_Layer/database/mongoose/mongooseModels/user');
-const {faker}  = require('@faker-js/faker');
+const mongoose from'mongoose');
+const User from'.@infrastructure/database/mongoose/mongooseModels/user');
+const {faker}  from'@faker-js/faker');
 
 const seedUsers = async () => {
   // create an array of fake user objects
