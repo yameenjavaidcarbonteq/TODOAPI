@@ -6,14 +6,15 @@ const {
     DeleteTodoCommand,
     GetAllTodosCommand,
     GetTodoByIdCommand
-} = require ("../../application/Todo/todoCommands");
+} = require ("../../application/Todo");
 
-const { getTodoCommandBus } = require("../../application/CommandBus/commandBus");
+const { getTodoCommandBus } = require("../../application");
+const { TodoService} = require("../../application");
 
 class TodoController {
     constructor(dbRepository)
     {
-        this.commandBus = getTodoCommandBus(new UserService(dbRepository));
+        this.commandBus = getTodoCommandBus(new TodoService(dbRepository));
     }
     
     GetAllTodos = async (req, res, next) => {
@@ -21,7 +22,6 @@ class TodoController {
         const { pageNumber, pageLimit ,q} = req.query;
             
         const command = new GetAllTodosCommand(pageNumber, pageLimit);
-        console.log(this.commandBus);
         const result = await this.commandBus.handle(command);
         res.status(200).json(result);
         } 

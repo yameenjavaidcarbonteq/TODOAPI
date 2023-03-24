@@ -9,8 +9,25 @@ const {
 
 
 
-const TodoHandler = require("../Todo/handler");
-const UserHandler = require("../User/handler");
+const { TodoHandler }= require("../Todo/handler");
+const { UserHandler } = require("../User/handler");
+
+
+const { MethodNameInflector } = require("simple-command-bus");
+const logger = require("../../infrastructure/logger");
+class ClassNameInflector extends MethodNameInflector {
+  constructor(methodName) {
+    super();
+    this.methodName =  "handle";
+  }
+  inflect(commandName, handler) {
+    const handlerMethodName = commandName.replace('Command', 'Handler');
+    const message = `Converted command class name "${commandName}" to handler method name "${handlerMethodName}"`;
+    console.log(message);
+    return handlerMethodName;
+  }
+};
+
 
 
 const getTodoCommandBus = function(todoService){
@@ -25,10 +42,9 @@ const getTodoCommandBus = function(todoService){
         DeleteTodoHandler: handler,
         GetAllTodosHandler: handler,
         UpdateTodoHandler: handler,
-        DeleteTodoHandler: handler,
         GetTodoByIdHandler: handler,
       }),
-      new HandleInflector())]);
+      new ClassNameInflector())]);
   return commandBus;
 }
 
@@ -42,16 +58,14 @@ const getUserCommandBus = function(userService){
       new ClassNameExtractor(),
       new InMemoryLocator({
         CreateUserHandler: handler,
-        DeleteUserHandler: hanlder,
+        DeleteUserHandler: handler,
         GetAllUsersHandler: handler,
         UpdateUserHandler: handler,
         DeleteUserHandler: handler,
         GetUserByIdHandler: handler,
-
-
         GetUserByEmailHandler: handler,
       }),
-      new HandleInflector())]);
+      new ClassNameInflector())]);
   return commandBus;
 
 

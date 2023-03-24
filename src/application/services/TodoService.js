@@ -1,8 +1,10 @@
 const {TodoEntity} = require  ('@domain');
+const { logger } = require('../../infrastructure/logger');
 const {PaginationOptions} = require ("../../infrastructure/utils/PaginationOptions");
 class TodoService{
 
   constructor(todoRepository) {
+    logger.info("Initializing Todo Service");
     this.todoRepository = todoRepository;
   }
 

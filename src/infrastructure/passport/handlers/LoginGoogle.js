@@ -5,7 +5,7 @@ const { UserService } = require ('../../../application/services/UserService');
 const { 
   CreateUserCommand, 
   GetUserByEmailCommand 
-} = require ("../../../application/User/userCommands");
+} = require ("../../../application/User");
 const { getUserCommandBus } = require("../../../application/utils/commandBus");
 
 const loginGoogle = async  (accessToken, refreshToken, profile, done) => {

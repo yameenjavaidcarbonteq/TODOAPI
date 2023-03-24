@@ -3,7 +3,7 @@ const { config } = require ("@config");
 const { UserStoreFactory } = require ('../../storeFactory/UserStoreFactory');
 const { UserService } = require ('../../../application/services/UserService');
 
-const { GetUserByIdCommand } = require ("../../../application/User/userCommands");
+const { GetUserByIdCommand } = require ("../../../application/User/");
 const { getUserCommandBus } = require("../../../application/utils/commandBus");
 
 

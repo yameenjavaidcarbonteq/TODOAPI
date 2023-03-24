@@ -1,6 +1,4 @@
-const {
-    logger
-} = require ("@logger");
+const { logger } = require ("@logger");
 
 const {
     CreateUserCommand,
@@ -8,12 +6,10 @@ const {
     DeleteUserCommand,
     GetAllUsersCommand,
     GetUserByIdCommand
-} = require ("../../application/CommandBus/userCommandBus/userCommands");
-const { getUserCommandBus } = require("../../application/CommandBus/commandBus");
+} = require ("../../application/User");
+const { getUserCommandBus } = require("../../application");
   
-const {
-    UserService
-} = require("../../application/services/UserService");
+const { UserService } = require("../../application");
 
 class UserController {
     constructor(dbRepository)

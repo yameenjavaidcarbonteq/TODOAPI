@@ -4,19 +4,19 @@ class TodoHandler {
         this.todoService = todoService;
     }
   
-    async CreateTodoHandler(command) {
+    CreateTodoHandler = async (command) => {
         return await this.todoService.create(command.todoDetails());
     }
-    async DeleteTodoHandler(command) {
+    DeleteTodoHandler = async (command) => {
         return await this.todoService.delete(command.todoDetails());
     }
-    async GetAllTodosHandler(command) {
+    GetAllTodosHandler = async (command) => {
         return await this.todoService.findAll(command.todoDetails());
     }
-    async GetTodoByIdHandler(command) {
+    GetTodoByIdHandler = async (command) => {
         return await this.todoService.findbyId(command.todoDetails());
     }
-    async UpdateTodoHandler(command) {
+    UpdateTodoHandler = async (command) => {
         return await this.todoService.update(command.todoDetails());
     }
 }

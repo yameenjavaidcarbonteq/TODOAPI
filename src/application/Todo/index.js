@@ -1,4 +1,8 @@
 module.exports = {
     ...require('./handler'),
-    ...require('./todoCommands')
+    ...require('./todoCommands/createTodoCommand'),
+    ...require('./todoCommands/deleteTodoCommand'),
+    ...require('./todoCommands/updateTodoCommand'),
+    ...require('./todoCommands/getTodoByIDCommand'),
+    ...require('./todoCommands/getAllTodosCommand')
 }

@@ -1,5 +1,5 @@
 module.exports = {
-    ...require ("./bootstrap"),
+    ...require ("./bootstrap/app"),
     ...require ("./controllers"),
     ...require ("./middlewares"),
     ...require ("./routes"),
