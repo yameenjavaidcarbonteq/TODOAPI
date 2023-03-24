@@ -1,14 +1,14 @@
-const sinon from'sinon');
-const chai from'chai');
+const sinon = require ('sinon');
+const chai = require ('chai');
 const expect = chai.expect;
-const Todo from'../models/todo');
+const Todo = require ('../models/todo');
 
 describe('Todo', () => {
   describe('constructor', () => {
     it('should create a new todo with a title and completed status', () => {
       // Arrange & Act
       const todo = new Todo({
-        title: 'New todo',
+        title: ('New todo',
         completed: false
       });
 
@@ -24,7 +24,7 @@ describe('Todo', () => {
 
     it('should throw an error if the completed status is missing', () => {
       // Arrange & Act & Assert
-      expect(() => new Todo({ title: 'New todo' })).to.throw('Todo completed status is missing');
+      expect(() => new Todo({ title: ('New todo' })).to.throw('Todo completed status is missing');
     });
   });
 
@@ -32,10 +32,10 @@ describe('Todo', () => {
     it('should update the completed status of an existing todo', () => {
       // Arrange
       const todo = new Todo({
-        title: 'New todo',
+        title: ('New todo',
         completed: false
       });
-      const saveStub = sinon.stub(todo, 'save').returns(todo);
+      const saveStub = sinon.stub(todo, ('save').returns(todo);
 
       // Act
       todo.updateCompletedStatus(true);
@@ -53,19 +53,19 @@ describe('delete', () => {
     it('should delete an existing todo by ID', async () => {
       // Arrange
       const todo = new Todo({
-        title: 'New todo',
+        title: ('New todo',
         completed: false
       });
-      const findByIdAndDeleteStub = sinon.stub(Todo, 'findByIdAndDelete').returns(todo);
+      const findbyIdAndDeleteStub = sinon.stub(Todo, ('findbyIdAndDelete').returns(todo);
 
       // Act
       await Todo.delete(todo._id);
 
       // Assert
-      expect(findByIdAndDeleteStub.calledOnceWith(todo._id)).to.be.true;
+      expect(findbyIdAndDeleteStub.calledOnceWith(todo._id)).to.be.true;
 
       // Clean up
-      findByIdAndDeleteStub.restore();
+      findbyIdAndDeleteStub.restore();
     });
   });
 });

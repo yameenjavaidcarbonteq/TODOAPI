@@ -21,7 +21,7 @@ services:
     volumes:
       - mongo-data:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_userName=${MONGO_userName}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
 
   sequelize-postgres-api:

@@ -1,3 +1,5 @@
-export * from "./todoControllers";
-export * from "./userControllers";
-export * from "./tokenControllers";
+module.exports = {
+  ...require('./userController'),
+  ...require('./todoController'),
+  ...require('./tokenController')
+};

@@ -1,33 +1,35 @@
-const UserController from'../controllers/userController');
+const passport = require ("passport");
+const {
+    logger,
+    config
+} = require("@infrastructure");
+const {
+  UserController
+} = require ('../controllers');
 
-const userRepositoryAdapter from ('@infrastructure/database/UserAdapter');
-const config from ('@infrastructure/config');
+const {
+  UserStoreFactory
+} = require ('../../infrastructure/storeFactory');
 
-const passport from"passport");
 
 function userRouter(express) {
   
   const router = express.Router();
-  // load userController with dependencies
-  const userController = new UserController(
-    new userRepositoryAdapter(config.dbtype)
-  );
-  
-  
+  const repository = UserStoreFactory.getStore(config.dbtype);
   // router.use(passport.authenticate("jwt", { session: false }));
   
+  const userController = new UserController(repository);
+    
+
   router.post("/", userController.createUser);
-  router.post("/", userController.findUser);
-  
-  router.get("/:id", userController.getUser);
   router.get("/", userController.getAllUsers);
-  
-  router.put("/:id", userController.editUser);
-  router.delete("/:id", userController.deleteUser)
+  router.get("/:id", userController.getUserById);
+  router.put("/:id/edit", userController.updateUser);
+  router.delete("/:id/delete", userController.deleteUser)
 
 
 
   return router;
 }
 
-module.exports = userRouter;
+module.exports = {userRouter};

@@ -1,2 +1,4 @@
-export * from "./TodoRepository";
-export * from "./UserRepository";
+module.exports = {
+  ...require('./ITodoRepository'),
+  ...require('./IUserRepository')
+}

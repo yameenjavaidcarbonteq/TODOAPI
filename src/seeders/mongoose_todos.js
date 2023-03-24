@@ -1,6 +1,6 @@
-const mongoose from'mongoose');
-const Todo from'.@infrastructure/database/mongoose/mongooseModels/todo');
-const {faker}  from'@faker-js/faker');
+const mongoose = require ('mongoose');
+const Todo = require ('../infrastructure/database/mongoose/mongooseModels/todo');
+const {faker}  = require ('@faker-js/faker');
 
 const seedTodos = async () => {
   // create an array of fake todo objects
@@ -9,7 +9,7 @@ const seedTodos = async () => {
     todos.push({
       title: faker.lorem.words(),
       description: faker.lorem.sentences(),
-      status: faker.helpers.arrayElement(['pending', 'in progress', 'completed']),
+      status: faker.helpers.arrayElement(['pending', ('in progress', ('completed']),
       id: faker.datatype.uuid(),
       userId: faker.datatype.uuid(),
       createdAt: new Date(),

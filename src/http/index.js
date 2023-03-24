@@ -1,6 +1,7 @@
-export * from "./express";
-export * from "./server";
-export * from "./controllers";
-export * from "./routes";
-export * from "./passport";
-export * from "./middlewares";
+module.exports = {
+    ...require ("./bootstrap"),
+    ...require ("./controllers"),
+    ...require ("./middlewares"),
+    ...require ("./routes"),
+    ...require ("./express"),
+}

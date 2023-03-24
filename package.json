@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Node.js Rest Apis with Express, Sequelize & MySQL",
   "main": "src/app.js",
-  "type": "module",
   "_moduleAliases": {
-    "@root": "./",
     "@config": "./src/infrastructure/config",
     "@logger": "./src/infrastructure/logger",
     "@http": "./src/http",
@@ -15,7 +13,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/app.js",
+    "start": "node src/bin/www",
+    "dev": "nodemon src/bin/www",
     "seed_todos": "node src/seeders/mongoose_todos",
     "seed_users": "node src/seeders/mongoose_users"
   },
@@ -59,6 +58,7 @@
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.28.0",
+    "simple-command-bus": "^1.0.7",
     "winston": "^3.8.2"
   },
   "devDependencies": {
@@ -67,6 +67,8 @@
     "chai": "^4.3.7",
     "flash": "^1.1.0",
     "mocha": "^10.2.0",
-    "sinon": "^15.0.2"
+    "sinon": "^15.0.2",
+    "webpack": "^5.76.2",
+    "webpack-cli": "^5.0.1"
   }
 }

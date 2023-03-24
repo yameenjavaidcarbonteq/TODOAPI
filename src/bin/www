@@ -1,0 +1,9 @@
+const app = require("../http/bootstrap/app");
+const { config } = require("../infrastructure/config");
+const { logger } = require("../infrastructure/logger");
+
+app.listen(application.port, () => {
+  logger.info("Server is up and running on port number " + config.port);
+});
+
+

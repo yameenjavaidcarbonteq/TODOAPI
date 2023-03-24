@@ -1,12 +1,16 @@
-require('dotenv').config();
+const dotenv = require  ('dotenv');
+dotenv.config();
 
-export const config = {
-  
-    dbtype: process.env.DBTYPE,
-    jwtsecret: process.env.JWTSECRET,
-    host: process.env.HOST,
-    port: process.env.PORT, 
-    mongoose: require('./mongoose'),
-    sequelize: require('./sequelize'),
-    googleauth: require('./googleauth'),
+const config = {
+  dbtype: process.env.DBTYPE,
+  jwtsecret: process.env.JWTSECRET,
+  host: process.env.HOST,
+  port: process.env.PORT,
+  ...require ('./mongoose'),
+  ...require ('./sequelize'),
+  ...require ('./googleauth')
+};
+
+module.exports = {
+  config
 };

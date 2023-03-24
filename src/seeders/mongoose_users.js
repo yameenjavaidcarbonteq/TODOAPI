@@ -1,6 +1,6 @@
-const mongoose from'mongoose');
-const User from'.@infrastructure/database/mongoose/mongooseModels/user');
-const {faker}  from'@faker-js/faker');
+const mongoose = require ('mongoose');
+const User = require ('../infrastructure/database/mongoose/mongooseModels/user');
+const {faker}  = require ('@faker-js/faker');
 
 const seedUsers = async () => {
   // create an array of fake user objects
@@ -8,12 +8,12 @@ const seedUsers = async () => {
   for (let i = 0; i < 10; i++) {
     users.push({
       id: faker.datatype.uuid(),
-      username: faker.internet.userName(),
+      username: faker.internet.username(),
       email: faker.internet.email(),
       password: faker.internet.password(),
       isVerified: faker.datatype.boolean(),
       googleId: faker.datatype.uuid(),
-      provider: 'local',
+      provider: ('local',
       createdAt: new Date(),
       updatedAt: new Date(),
     });

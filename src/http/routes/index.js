@@ -1,14 +1,13 @@
-const express from"express");
+const express = require ("express") ;
 const router = express.Router();
 
-const todoRouter from'./todo');
-const userRouter from'./user');
-const authRouter from'./auth');
+const { todoRouter } = require ('./todo');
+const { userRouter } = require ('./user');
+const { authRouter } = require ('./auth');
 
 
 
-function routes(app, express) {
-  
+const routes = (app, express) =>{
   router.get("/", (request, response) => {
     response.json({
       author: "Yameen Javaid",
@@ -21,8 +20,7 @@ function routes(app, express) {
   app.use('/auth', authRouter(express));
   app.use('/auth/users', userRouter(express));
   app.use('/auth/todos', todoRouter(express));
-  
-  
 }
 
-module.exports = routes;
+
+module.exports = {routes};

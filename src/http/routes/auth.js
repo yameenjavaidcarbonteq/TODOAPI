@@ -1,38 +1,37 @@
-import config from '@config';
-import {UserController} from '@controllers';
-import {TokenController} from '@controllers';
+const passport = require ("passport");
+const {
+    logger,
+    config
+} = require("@infrastructure");
 
-import {userRepositoryAdapter} from '@infrastructure/database/UserAdapter';
+const {
+    UserStoreFactory
+} = require ('../../infrastructure/');
 
-
-
-import passport from "passport";
-
-
+const {
+    TokenController,
+    UserController,
+} = require ('../../http/controllers');
 
 function authRouter(express) {
     
     const router = express.Router();
     
-    const controller = new AuthController(
-        new userRepositoryAdapter(config.dbtype)
-    );
-    const userController = new UserController(
-        new userRepositoryAdapter(config.dbtype)
-    );
+    const repository = UserStoreFactory.getStore(config.dbtype);
+    
+    const userController = new UserController(repository);
     const sendToken = TokenController.sendToken;
     
     // Logout the session
     router.get(
         "/logout", 
-        controller.logout
+        userController.logout
     );
     
     // Local Signup
     router.post(
         "/signup",
-        // userController.isEmailUsed,
-        controller.createNewUserLocal,
+        userController.register,
         sendToken
     );
     // Local Login
@@ -58,4 +57,6 @@ function authRouter(express) {
     return router;
 }
 
-module.exports = authRouter;
+module.exports = {
+    authRouter
+};

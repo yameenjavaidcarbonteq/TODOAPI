@@ -1,7 +1,7 @@
 class ExceptionTypeB extends Error {
   constructor(message) {
     super(message);
-    this.name = "ExceptionTypeB";
+    this.name = "ExceptionTypeB");
   }
 }
 

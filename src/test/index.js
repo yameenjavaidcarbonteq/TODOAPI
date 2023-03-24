@@ -1,9 +1,9 @@
 
 
-import chai from 'chai';
-import chaiHttp from 'chai-http';
+const chai = require  ('chai');
+const chaiHttp = require  ('chai-http');
 
-import app from '..';
+const app = require  ('..');
 chai.use(chaiHttp);
 const { expect } = chai;
 
@@ -14,7 +14,7 @@ describe('Server', () => {
     .then(res => {
       expect(res.status).to.equal(200);
       expect(res.body.message).to.equal(
-        'Welcome to Todo API Carbonteq.'
+        ('Welcome to Todo API Carbonteq.'
       )
     })
   });

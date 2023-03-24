@@ -1,22 +1,19 @@
-import {format, createLogger, transports} from ('winston');
-import {timestamp, combine, printf, errors} from format;
+const winston = require('winston');
+const { combine, timestamp, printf, errors } = winston.format;
 
-const DevLogger = function (){
-    const logFormat = printf(({level, message, timestamp, stack}) => {
-        return `${timestamp} ${level}: ${stack || message}`;
-    });
+const logger = (() => {
+  const logFormat = printf(({ level, message, timestamp, stack }) => {
+    return `${timestamp} ${level}: ${stack || message}`;
+  });
 
-    return createLogger({
-        format: combine(
-            timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
-            errors({stack: true}),
-            logFormat
-        ),
-        transports: [
-            new transports.Console({}),
-        ],
-    });
-}
+  return winston.createLogger({
+    format: combine(
+      timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+      errors({ stack: true }),
+      logFormat
+    ),
+    transports: [new winston.transports.Console({})],
+  });
+})();
 
-const logger = DevLogger();
-export default logger;
+module.exports = { logger };

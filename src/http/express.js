@@ -1,12 +1,12 @@
-const logger from'../infrastructure/logger');
-const bodyParser from'body-parser');
+const logger = require ('../infrastructure/logger');
+const bodyParser = require ('body-parser');
 
 function expressConfig(app) {
     
-  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.json({ limit: ('50mb') }));
   app.use(
     bodyParser.urlencoded({
-      limit: '50mb',
+      limit: ('50mb'),
       extended: true,
       parameterLimit: 50000
     })
@@ -14,33 +14,33 @@ function expressConfig(app) {
 
   app.use((req, res, next) => {
      //Website you wish to allow to connect
-     res.setHeader('Access-Control-Allow-Origin', 'http:some-accepted-origin');
+     res.setHeader('Access-Control-Allow-Origin', ('http:some-accepted-origin'));
      //Request methods you wish to allow
     res.setHeader(
-      'Access-Control-Allow-Methods',
-      'GET, POST, OPTIONS, PUT, PATCH, DELETE'
+      ('Access-Control-Allow-Methods'),
+      ('GET, POST, OPTIONS, PUT, PATCH, DELETE')
     );
      //Request headers you wish to allow
     res.setHeader(
-      'Access-Control-Allow-Headers',
-      'X-Requested-With, Content-type, Authorization, Cache-control, Pragma'
+      ('Access-Control-Allow-Headers'),
+      ('X-Requested-With, Content-type, Authorization, Cache-control, Pragma')
     );
      //Pass to next layer of middleware
     next();
   });
 }
 
-module.exports = expressConfig;
+module.exports = {expressConfig};
 
 
 /*
   res.setHeader('Access-Control-Allow-Methods', 
-  'GET, POST, OPTIONS, PUT, PATCH, DELETE') is a line of code that sets 
+  ('GET, POST, OPTIONS, PUT, PATCH, DELETE') is a line of code that sets 
   an HTTP response header named Access-Control-Allow-Methods to indicate 
   the HTTP methods that are allowed for cross-origin resource sharing (CORS).
 
   CORS is a mechanism that allows web browsers to make cross-origin 
-  requests, which are requests that originate from a different domain, 
+  requests, which are requests that originate = require  a different domain, 
   port, or protocol than the current web pageNumber. CORS is implemented as a 
   set of HTTP headers that are exchanged between the web browser and 
   the server to negotiate which cross-origin requests are allowed.

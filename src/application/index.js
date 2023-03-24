@@ -1,4 +1,6 @@
-export * from "./Command_Bus";
-export * from "./Query_Bus";
-export * from "./Utils";
-export * from "./Services";
+module.exports = {
+  ...require('./Todo'),
+  ...require('./User'),
+  ...require('./services'),
+  ...require('./utils/commandBus'),
+};

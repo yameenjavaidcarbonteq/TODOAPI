@@ -1,2 +1,4 @@
-export * from "./Entities";
-export * from "./Interfaces";
+module.exports = {
+  ...require('./Entities'),
+  ...require('./Interfaces')
+}

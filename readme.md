@@ -105,7 +105,7 @@ Config
     Auth middleware
 
     Suppose we are having five routes getUsers,getDetails,updateDetails,isLoggedIn,isLoggedOut
-    every route must be authenticated if the user is not authenticated then he is not able to call the above mentioned routes,so every GET,POST calls required authentication.In this case we build a authtication middleware.
+    every route must be authenticated if the user is not authenticated then he is not able to call the above mentioned routes,so every GET,POST calls fromd authentication.In this case we build a authtication middleware.
 
     Now once the request comes the auth middleware will do some authentication logic that we have 
     written inside it.Once authentication successful then remaining routed must be called using next()

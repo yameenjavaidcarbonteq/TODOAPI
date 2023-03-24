@@ -1,1 +1,3 @@
-export * from "./dev-Logger"
+module.exports = { 
+    ...require ("./dev-Logger")
+};
