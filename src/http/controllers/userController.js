@@ -9,12 +9,10 @@ const {
 } = require ("../../application/User");
 const { getUserCommandBus } = require("../../application");
   
-const { UserService } = require("../../application");
-
 class UserController {
     constructor(dbRepository)
     {
-        this.commandBus = getUserCommandBus(new UserService(dbRepository));
+        this.commandBus = getUserCommandBus(dbRepository);
     }
     createUser = async (req, res, next) =>
     {
@@ -26,7 +24,7 @@ class UserController {
             res.status(200).json(result);
         
         } catch (error) {
-        logger.error(`Error creating todo: ${error.message}`);
+        logger.error(`Error creating user: ${error.message}`);
         next(error);
         }
     }
@@ -39,7 +37,7 @@ class UserController {
             res.json(result);
         } 
         catch (error) {
-        logger.error(`Error getting todos: ${error.message}`);
+        logger.error(`Error getting users: ${error.message}`);
         next(error);
         }
     }
@@ -52,7 +50,7 @@ class UserController {
             res.json(result);
         } 
         catch (error) {
-        logger.error(`Error getting todos: ${error.message}`);
+        logger.error(`Error getting user: ${error.message}`);
         next(error);
         }
     }
@@ -66,7 +64,7 @@ class UserController {
             res.json(result);
     
         } catch (error) {
-            logger.error(`Error updating todo: ${error.message}`);
+            logger.error(`Error updating user: ${error.message}`);
             next(error);
         }
     
@@ -98,39 +96,38 @@ class UserController {
             });
     
         } catch (error) {
-            logger.error(`Error updating todo: ${error.message}`);
+            logger.error(`Error logging out: ${error.message}`);
             next(error);
         }
     
     }
 
-    register = async (dbRepository) =>
+    register = async (req, res, next) =>
     {
         try {
-        super.handle(dbRepository);
         const {
             email,
             username,
             password,
-        } = request.body;
+        } = req.body;
         
         if (!password) {
-            throw { message: "Please type all required data!", status: 400 };
+            throw new InvalidUserDataError (400, "Please type all required data!");
         }
         
         const command = new CreateUserCommand(username, email, password);
-        const createdUser = await this.CommandBus.handle(command);
+        const createdUser = await this.commandBus.handle(command);
         
-        request.user = {
+        req.user = {
             id: createdUser.id,
             email: createdUser.email
         };
         next();
         } catch (error) {
-        response.status(error.status || 500).send(error.message);
+            logger.error(`Error registering user: ${error.message}`);
+            next(error);
         }
-    };
+    }
 }
-
 
 module.exports = { UserController };

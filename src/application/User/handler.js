@@ -1,26 +1,28 @@
+const { UserService } = require("../services");
+
 class UserHandler {
     
-    constructor(todoService) {
-        this.todoService = todoService;
+    constructor(repository) {
+        this.userService = new UserService(repository);
     }
   
     async CreateUserHandler(command) {
-        return await this.todoService.create(command.todoDetails());
+        return await this.userService.create(command.userDetails());
     }
     async DeleteUserHandler(command) {
-        return await this.todoService.delete(command.todoDetails());
+        return await this.userService.delete(command.userDetails());
     }
     async GetAllUsersHandler(command) {
-        return await this.todoService.findAll(command.todoDetails());
+        return await this.userService.find(command.userDetails());
     }
     async GetUserByIdHandler(command) {
-        return await this.todoService.findbyId(command.todoDetails());
+        return await this.userService.findbyId(command.userDetails());
     }
     async GetUserByEmailHandler(command) {
-        return await this.todoService.findbyEmail(command.todoDetails());
+        return await this.userService.findbyEmail(command.userDetails());
     }
     async UpdateUserHandler(command) {
-        return await this.todoService.update(command.todoDetails());
+        return await this.userService.update(command.userDetails());
     }
 }
 

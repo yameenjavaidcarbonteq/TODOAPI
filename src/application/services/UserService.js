@@ -1,5 +1,15 @@
 const {logger} = require ('@logger');
 const {UserEntity} = require ('@domain');
+
+const {
+  InvalidUserDataError,
+  UserAlreadyExistError,
+  UserNotFoundError,
+  InternalServerError,
+  UnAuthorizedError,
+  UnExpextedDatabaseError
+} = require ('../../http/errors/appError');
+
 class UserService{
 
     constructor(userRepository) {
@@ -16,53 +26,55 @@ class UserService{
     }
 
     async findbyEmail(params) {
+      console.log("Came here for params: ",params);
       return await this.userRepository.findbyEmail(params.email);
     }
 
     async create(params) {
       
-      try {
-        const newUser = UserEntity.createFromParams(params);
-        let query = {
-          username: params.username
-        }
-        let exists = await this.userRepository.find(query);
-        
-        console.log(exists);
-        if (exists) {
-          throw new Error(`User with username: ${params.username} already exists`);
-        }
-        query = {
-          email: params.email
-        }
-        exists = await this.userRepository.find(query);
-        if (exists) {
-          throw new Error(`User with email: ${params.email} already exists`);
-        }
-
-        console.log(newUser);
-        return await this.userRepository.create(newUser);
-      } catch (error) {
-        logger.error(`Error creating user: ${error.message}`);
-        throw new Error(`Error creating user: ${error.message}`);
+      
+      const newUser = UserEntity.createFromParams(params);
+      let query = {
+        username: params.username
       }
+      let exists = await this.userRepository.find(query);
+      
+      if (exists) {
+        throw new UserAlreadyExistError(400, `User with username: ${params.username} already exists`);
+      }
+      query = {
+        email: params.email
+      }
+      exists = await this.userRepository.find(query);
+      if (exists) {
+        throw new UserAlreadyExistError(400, `User with email: ${params.email} already exists`);
+      }
+
+      return await this.userRepository.create(newUser);
     }
       
     async update(params) {
       const updatedUser = UserEntity.createFromParams(params);
-      return await this.userRepository.update(updatedUser.id, updatedUser);
-    }
+      const result = await this.userRepository.update(updatedUser);
+      if (result) {
+        return result;
+      } else {
+        throw new UnExpextedDatabaseError(400, "User not Found.");
+      }
+
+
+  }
     
     async delete(params) {
       const user = await this.userRepository.findbyId(params.id);
       if(!user)
       {
-        throw ("user not found");
+        throw new UserNotFoundError(400, "User not Found.");
       }
       else
       {
         const userItem = UserEntity.createFromObject(user);
-        await this.userRepository.delete(userItem);
+        return await this.userRepository.delete(userItem);
       }
     }
       

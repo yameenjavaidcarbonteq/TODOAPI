@@ -3,8 +3,7 @@ const {
   LoggerMiddleware,
   CommandHandlerMiddleware,
   ClassNameExtractor,
-  InMemoryLocator,
-  HandleInflector
+  InMemoryLocator
 } = require("simple-command-bus");
 
 
@@ -30,9 +29,9 @@ class ClassNameInflector extends MethodNameInflector {
 
 
 
-const getTodoCommandBus = function(todoService){
+const getTodoCommandBus = function(repository){
   
-  const handler = new TodoHandler(todoService);
+  const handler = new TodoHandler(repository);
   const commandBus = new CommandBus([
     new LoggerMiddleware(console),
     new CommandHandlerMiddleware(
@@ -49,9 +48,9 @@ const getTodoCommandBus = function(todoService){
 }
 
 
-const getUserCommandBus = function(userService){
+const getUserCommandBus = function(repository){
 
-  const handler = new UserHandler(userService);
+  const handler = new UserHandler(repository);
   const commandBus = new CommandBus([
     new LoggerMiddleware(console),
     new CommandHandlerMiddleware(
@@ -67,8 +66,6 @@ const getUserCommandBus = function(userService){
       }),
       new ClassNameInflector())]);
   return commandBus;
-
-
 }
 
 module.exports = {

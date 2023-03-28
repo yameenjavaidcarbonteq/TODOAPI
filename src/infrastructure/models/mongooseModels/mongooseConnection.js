@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const {logger} = require("@logger");
 const { config } = require("@config");
-//export this function and imported by server.js
+//this function and imported by server.js
 module.exports = function () {
   mongoose.set('strictQuery', false);
   mongoose.connect(config.uri);

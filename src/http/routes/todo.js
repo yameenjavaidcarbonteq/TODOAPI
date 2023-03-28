@@ -15,7 +15,8 @@ function todoRouter(express) {
     const repository = TodoStoreFactory.getStore(config.dbtype);
     const service = new TodoService(repository);
     // router.use(passport.authenticate("jwt", { session: false }));
-    const todoController = new TodoController(service);
+    logger.info(`Injecting the repository`);
+    const todoController = new TodoController(repository);
     
     router.post('/', todoController.CreateTodo);
     router.get('/', todoController.GetAllTodos);

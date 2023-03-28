@@ -30,7 +30,6 @@ const loginGoogle = async  (accessToken, refreshToken, profile, done) => {
     else 
     {
       logger.info(`Creating New User with email ${email}`)
-      
       const command = new CreateUserCommand(username, email, null);
       user = await commandBus.handle(command);
       done(null, user);

@@ -18,7 +18,7 @@ function authRouter(express) {
     const router = express.Router();
     
     const repository = UserStoreFactory.getStore(config.dbtype);
-    
+    logger.info(`Injecting the repository`);
     const userController = new UserController(repository);
     const sendToken = TokenController.sendToken;
     

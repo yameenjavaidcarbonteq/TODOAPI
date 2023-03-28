@@ -8,12 +8,16 @@ class UserEntity {
   }
   
   static createFromParams(params) {
-    const user = new UserEntity(uuidv4(), params.username, params.email, params.password);
+    let user;
+    if(!params.id)
+    {
+      params.id = uuidv4();
+    }
+    user = new UserEntity(params.id, params.username, params.email, params.password);
     return user;
   }
   
   static createFromObject(obj) {
-    console.log(obj);
     const user = new UserEntity(obj.id, obj.username, obj.email, obj.password);
     return user;
   }

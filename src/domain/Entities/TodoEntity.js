@@ -11,7 +11,12 @@ class TodoEntity {
   
   
   static createFromParams(params) {
-    const toDo = new TodoEntity(uuidv4(), params.title, params.description, params.status, params.userId);
+    let toDo;
+    if(!params.id)
+    {
+      params.id = uuidv4();
+    }
+    toDo = new TodoEntity(params.id, params.title, params.description, params.status, params.userId);  
     return toDo;
   }
   static createFromObject(obj) {

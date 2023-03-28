@@ -24,7 +24,7 @@ class TodoRepositoryMongoose extends ITodoRepository {
     }
     
     async findbyId(id) {
-      const todoDoc = await this.todoModel.findOne({id :id});
+      const todoDoc = await this.todoModel.findOne({id});
       if(todoDoc){
         return TodoEntity.createFromObject(todoDoc);
       }
@@ -36,8 +36,7 @@ class TodoRepositoryMongoose extends ITodoRepository {
     }
   
     async update(todoItem) {
-      // to return old document don't set the new flag
-      // set the old flag to return updated doc
+      console.log("*****************",todoItem);
       const updatedTodo = await this.todoModel.findOneAndUpdate(
         { id: todoItem.id },todoItem,{new: true});
       if (updatedTodo) {
@@ -51,6 +50,11 @@ class TodoRepositoryMongoose extends ITodoRepository {
 
     async count() {
       return await this.model.count();
+    }
+    
+    async first(limit = 1) {
+      const todos = await this.model.find({}).limit(limit);
+      return todos.map(todo => TodoEntity.createFromObject(todo));
     }
   } 
   

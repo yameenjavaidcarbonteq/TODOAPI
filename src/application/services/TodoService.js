@@ -1,6 +1,15 @@
 const {TodoEntity} = require  ('@domain');
 const { logger } = require('../../infrastructure/logger');
 const {PaginationOptions} = require ("../../infrastructure/utils/PaginationOptions");
+
+const {
+  InvalidTodoData,
+  TodoNotFoundError,
+  InternalServerError,
+  UnAuthorizedError,
+  UnExpextedDatabaseError
+} = require ('../../http/errors/appError');
+
 class TodoService{
 
   constructor(todoRepository) {
@@ -21,19 +30,19 @@ class TodoService{
 
   async create(params) {
     const todoItem = TodoEntity.createFromParams(params);
-    await this.todoRepository.create(todoItem);
+    return await this.todoRepository.create(todoItem);
   }
   
   async update(params) {
     const updatedTodo = TodoEntity.createFromParams(params);
-    return await this.todoRepository.update(updatedTodo.id, updatedTodo);
+    return await this.todoRepository.update(updatedTodo);
   }
   
   async delete(params) {
     const todo = await this.todoRepository.findbyId(params.id);
     if(!todo)
     {
-      throw ("todo not found");
+      throw new TodoNotFoundError(400, 'Todo not found');
     }
     else
     {

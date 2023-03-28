@@ -9,12 +9,11 @@ const {
 } = require ("../../application/Todo");
 
 const { getTodoCommandBus } = require("../../application");
-const { TodoService} = require("../../application");
 
 class TodoController {
     constructor(dbRepository)
     {
-        this.commandBus = getTodoCommandBus(new TodoService(dbRepository));
+        this.commandBus = getTodoCommandBus(dbRepository);
     }
     
     GetAllTodos = async (req, res, next) => {
@@ -39,6 +38,7 @@ class TodoController {
         
         const command = new CreateTodoCommand(title, description, status, 1);
         const result = await this.commandBus.handle(command);
+        console.log("Result: ",result);
         res.status(200).json(result);
         
         } catch (error) {
@@ -56,8 +56,8 @@ class TodoController {
         res.status(200).json(result);
 
         } catch (error) {
-        logger.error(`Error deleting todo: ${error.message}`);
-        next(error);
+            logger.error(`Error deleting todo: ${error.message}`);
+            next(error);
         }
     }
 
@@ -69,7 +69,7 @@ class TodoController {
         res.status(200).json(result);
         } 
         catch (error) {
-        logger.error(`Error getting todos: ${error.message}`);
+        logger.error(`Error getting todo: ${error.message}`);
         next(error);
         }
     }

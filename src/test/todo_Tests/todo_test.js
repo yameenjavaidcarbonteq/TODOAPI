@@ -9,11 +9,11 @@ describe('todosController', () => {
   describe('createTodo', () => {
     it('should create a new todo and return it', async () => {
       // Arrange
-      const req = { body: { title: ('New todo', completed: false }, user: { _id: ('user123' } };
+      const req = { body: { title: 'New todo', completed: false }, user: { _id: ('user123' } };
       const res = { json: sinon.spy() };
       const next = sinon.spy();
-      const UserStub = sinon.stub(User, ('findbyId').returns({ _id: ('user123' });
-      const TodoStub = sinon.stub(Todo.prototype, ('save').returns({ _id: ('todo123', title: ('New todo', completed: false, user: ('user123' });
+      const UserStub = sinon.stubUser, ('findbyId').returns({ _id: 'user123' });
+      const TodoStub = sinon.stub(Todo.prototype, ('save').returns({ _id: 'todo123', title: ('New todo', completed: false, user: ('user123' });
 
       // Act
       await todosController.createTodo(req, res, next);

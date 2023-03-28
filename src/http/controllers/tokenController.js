@@ -21,8 +21,11 @@ class TokenController{
         } 
         catch (error) 
         {
-            logger.error(`Error creating todo: ${error.message}`);
-            next(error);
+            logger.error(`${error.message}`);
+            next(new JWTGenerateError(
+                400,
+                "Internal Server Error"
+            ));
         }
     }
 }

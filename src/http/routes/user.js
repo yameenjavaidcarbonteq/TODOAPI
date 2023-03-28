@@ -17,7 +17,7 @@ function userRouter(express) {
   const router = express.Router();
   const repository = UserStoreFactory.getStore(config.dbtype);
   // router.use(passport.authenticate("jwt", { session: false }));
-  
+  logger.info(`Injecting the repository`);
   const userController = new UserController(repository);
     
 

@@ -1,11 +1,10 @@
 const { Command } = require("simple-command-bus");
 
 class GetAllUsersCommand extends Command  {
-    constructor(pageNumber, pageLimit) {
+    constructor() {
       super();
       
     }
-
     userDetails() {
         return {
           

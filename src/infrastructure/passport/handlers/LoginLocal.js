@@ -8,33 +8,44 @@ const { UserService } = require ('../../../application/services/UserService');
 const { GetUserByEmailCommand } = require ("../../../application/User");
 const { getUserCommandBus } = require("../../../application");
 
+const {
+  InvalidUserDataError,
+  UserNotFoundError,
+  InvalidCredentialsError
+} = require ("../../../http/errors/appError");
+
+
 const loginLocal = async  (email, password, done) => {
   try 
   {
     
     const repository = UserStoreFactory.getStore(config.dbtype);
-    const service = new UserService(repository);
-    const commandBus = getUserCommandBus(service);
+    const commandBus = getUserCommandBus(repository);
 
     const command = new GetUserByEmailCommand(email);
     const user = await commandBus.handle(command);
     
     logger.info(`Finding User for email: ${email}`);
     
-    if (user) 
+    console.log(user);
+
+    if (user)
     {
       logger.info(`Found User: ${user}`);
       if (user.password) 
       {
-        (await bcrypt.compare(password, user.password))
-          ? done(null, user)
-          : done(null, null);
-      } else
-      done(null, false);
+        const isValidPassword = await bcrypt.compare(password, user.password);
+        if (!isValidPassword) {
+          done(new InvalidCredentialsError(400, 'Invalid credentials'));
+        }
+      } 
+      else
+        done(new InvalidUserDataError(400, 'Password missing'));
     } 
     else {
-      done(null, false);
+      done(new UserNotFoundError(400, 'User not found'));
     }
+    done(null, user);
   }
   catch (error) 
   {

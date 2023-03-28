@@ -12,13 +12,11 @@ class UserRepositoryMongoose extends IUserRepository {
   
     async find(query) {
       const userDocs = await this.userModel.find(query);
-      console.log(userDocs);
       if(userDocs.length){
         const userEntities = userDocs.map(userObj => {
           const userEntity = UserEntity.createFromObject(userObj);
           return userEntity;
         });
-        console.log(userEntities);
         return userEntities;
       }
       return null;
@@ -32,6 +30,7 @@ class UserRepositoryMongoose extends IUserRepository {
     }
 
     async findbyEmail(email) {
+      console.log("Came Here :",email);
       const userDoc = await this.userModel.findOne({email});
       if(userDoc){
         return UserEntity.createFromObject(userDoc);
@@ -49,12 +48,11 @@ class UserRepositoryMongoose extends IUserRepository {
     }
 
     async update(userItem) {
-      
-      // to return old document don't set the new flag
-      // set the old flag to return updated doc
       const updatedUser = await this.userModel.findOneAndUpdate(
-        { id: userItem.userId },userItem,{new: true});
-      if (updatedUser) {
+        { id: userItem.id },userItem,{new: true});
+        console.log(userItem);
+        console.log(updatedUser);
+        if (updatedUser) {
         return UserEntity.createFromObject(updatedUser);
       }
     }

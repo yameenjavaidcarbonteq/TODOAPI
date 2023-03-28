@@ -1,7 +1,7 @@
 require('module-alias/register');
 const { logger } = require("@logger");
 const { config } = require("@config");
-const { errorHandlingMiddlware} = require('../middlewares');
+const errorHandler = require('../middlewares/ErrorHandlingMiddleware');
 
 const passport = require('passport');
 require("../../infrastructure/passport/passportAuthentication");
@@ -20,12 +20,10 @@ expressConfig(app);
 
 databaseConnection();
 
-app.use(errorHandlingMiddlware);
 app.use(express.json());
 app.use(express.text());
 app.use(passport.initialize());
-
 routes(app, express);
-
+app.use(errorHandler);
 // Expose app
 module.exports = app;
