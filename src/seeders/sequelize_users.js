@@ -10,9 +10,6 @@ const seedUsers = async () => {
       username: faker.internet.username(),
       email: faker.internet.email(),
       password: faker.internet.password(),
-      isVerified: faker.datatype.boolean(),
-      googleId: faker.datatype.uuid(),
-      provider: ('local',
       createdAt: new Date(),
       updatedAt: new Date(),
     });

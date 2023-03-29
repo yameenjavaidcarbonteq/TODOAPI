@@ -1,15 +1,13 @@
-const express = require ("express") ;
-const router = express.Router();
-
 const { todoRouter } = require ('./todo');
 const { userRouter } = require ('./user');
 const { authRouter } = require ('./auth');
 
 
 
-const routes = (app, express) =>{
-  router.get("/", (request, response) => {
-    response.json({
+const routes = (app, express) => {
+  const router = express.Router();
+  router.get("/api", (req, res) => {
+    res.status(200).json({
       author: "Yameen Javaid",
       project: "Todo API",
       company: "Carbonteq",
@@ -17,9 +15,10 @@ const routes = (app, express) =>{
     });
   });
   
-  app.use('/auth', authRouter(express));
-  app.use('/auth/users', userRouter(express));
-  app.use('/auth/todos', todoRouter(express));
+  app.use(router)
+  app.use('/api/auth', authRouter(express));
+  app.use('/api/users', userRouter(express));
+  app.use('/api/todos', todoRouter(express));
 }
 
 

@@ -9,7 +9,7 @@ const seedTodos = async () => {
     todos.push({
       title: faker.lorem.words(),
       description: faker.lorem.sentences(),
-      status: faker.helpers.arrayElement(['pending', ('in progress', ('completed']),
+      status: faker.helpers.arrayElement(['pending', 'in progress', 'completed']),
       id: faker.datatype.uuid(),
       userId: faker.datatype.uuid(),
       createdAt: new Date(),

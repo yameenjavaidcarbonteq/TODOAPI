@@ -34,6 +34,7 @@
     "@slack/webhook": "^6.1.0",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
+    "chai-http": "^4.3.0",
     "commander": "^10.0.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",
@@ -63,6 +64,7 @@
     "sequelize": "^6.28.0",
     "simple-command-bus": "^1.0.7",
     "slack-webhook": "^1.0.0",
+    "supertest": "^6.3.3",
     "winston": "^3.8.2"
   },
   "devDependencies": {

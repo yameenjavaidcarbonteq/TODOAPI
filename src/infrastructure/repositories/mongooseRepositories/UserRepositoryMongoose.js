@@ -30,7 +30,6 @@ class UserRepositoryMongoose extends IUserRepository {
     }
 
     async findbyEmail(email) {
-      console.log("Came Here :",email);
       const userDoc = await this.userModel.findOne({email});
       if(userDoc){
         return UserEntity.createFromObject(userDoc);

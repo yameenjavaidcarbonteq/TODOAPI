@@ -14,7 +14,7 @@ function expressConfig(app) {
 
   app.use((req, res, next) => {
      //Website you wish to allow to connect
-     res.setHeader('Access-Control-Allow-Origin', ('http:some-accepted-origin'));
+    res.setHeader('Access-Control-Allow-Origin', ('http:some-accepted-origin'));
      //Request methods you wish to allow
     res.setHeader(
       ('Access-Control-Allow-Methods'),
@@ -52,7 +52,8 @@ module.exports = {expressConfig};
 
   By setting this header, the server is indicating to the web browser 
   that it is safe to make cross-origin requests using any of these HTTP methods. 
-  Without this header, the web browser may not be able to make certain types of cross-origin requests, which can result in errors or security vulnerabilities.
+  Without this header, the web browser may not be able to make certain types of cross-origin 
+  requests, which can result in errors or security vulnerabilities.
 
   It's worth noting that this header is just one of several CORS headers 
   that can be used to configure cross-origin requests. Other headers 

@@ -6,13 +6,15 @@ class Email{
 
   constructor(to, subject, text) {
       this.mailOptions = {
-        from: "noreply@gmail.com",
+        from: '"Fred Foo 👻" <foo@example.com>',
         to: "yameenjavaid287@gmail.com",
         subject: subject,
         text: text
       }
     }
   async init() {
+      
+      console.log(mailer);
       this.transporter = nodeMailer.createTransport({
         service: 'gmail',
         auth: {

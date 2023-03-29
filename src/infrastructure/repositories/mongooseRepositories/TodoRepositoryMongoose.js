@@ -36,7 +36,6 @@ class TodoRepositoryMongoose extends ITodoRepository {
     }
   
     async update(todoItem) {
-      console.log("*****************",todoItem);
       const updatedTodo = await this.todoModel.findOneAndUpdate(
         { id: todoItem.id },todoItem,{new: true});
       if (updatedTodo) {
