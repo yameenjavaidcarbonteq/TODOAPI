@@ -5,16 +5,15 @@ const {
 } = require("@infrastructure");
 const { TodoController } = require ('../controllers');
 const { TodoService } = require("../../application");
-const { TodoStoreFactory } = require ('../../infrastructure/storeFactory');
+const { TodoRepositoryFactory } = require ('../../infrastructure/repositoryFactory');
 
 
 
 function todoRouter(express) {
 
     const router = express.Router();
-    const repository = TodoStoreFactory.getStore(database.dbtype);
-    const service = new TodoService(repository);
-    // router.use(passport.authenticate("jwt", { session: false }));
+    const repository = TodoRepositoryFactory.getStore(database.dbtype);
+    router.use(passport.authenticate("jwt", { session: false }));
     logger.info(`Injecting the repository`);
     const todoController = new TodoController(repository);
     

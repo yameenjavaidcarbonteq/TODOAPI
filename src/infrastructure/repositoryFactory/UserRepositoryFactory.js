@@ -3,7 +3,7 @@ const {
   UserRepositorySequelize
 } = require ("../repositories");
 
-class UserStoreFactory{
+class UserRepositoryFactory{
 
   constructor()
   {
@@ -23,6 +23,6 @@ class UserStoreFactory{
 }
 
 module.exports = {
-  UserStoreFactory
+  UserRepositoryFactory
 };
 

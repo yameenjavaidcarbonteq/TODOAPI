@@ -1,7 +1,7 @@
 const { logger } = require ("@logger");
 const { database } = require ("@config");
-const { UserStoreFactory } = require ('../../storeFactory/UserStoreFactory');
-const { UserService } = require ('../../../application/services/UserService');
+const { UserRepositoryFactory } = require ('../../repositoryFactory/UserRepositoryFactory');
+const { UserService } = require ('../../../application/User/UserService');
 const { 
   CreateUserCommand, 
   GetUserByEmailCommand 
@@ -14,10 +14,9 @@ const loginGoogle = async  (accessToken, refreshToken, profile, done) => {
     const username = profile.displayName;
     const email = profile.emails[0].value;
     
-    const repository = UserStoreFactory.getStore(database.dbtype);
-    const service = new UserService(repository);
-    const commandBus = getUserCommandBus(service);
-
+    const repository = UserRepositoryFactory.getStore(database.dbtype);
+    const commandBus = getUserCommandBus(repository);
+      
     const command = new GetUserByEmailCommand(email);
     let user = await commandBus.handle(command);
     

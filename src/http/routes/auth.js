@@ -5,7 +5,7 @@ const {
 } = require("@infrastructure");
 
 const {
-    UserStoreFactory
+    UserRepositoryFactory
 } = require ('../../infrastructure/');
 
 const {
@@ -17,7 +17,7 @@ function authRouter(express) {
     
     const router = express.Router();
     
-    const repository = UserStoreFactory.getStore(database.dbtype);
+    const repository = UserRepositoryFactory.getStore(database.dbtype);
     logger.info(`Injecting the repository`);
     const userController = new UserController(repository);
     const sendToken = TokenController.sendToken;

@@ -8,15 +8,15 @@ const {
 } = require ('../controllers');
 
 const {
-  UserStoreFactory
-} = require ('../../infrastructure/storeFactory');
+  UserRepositoryFactory
+} = require ('../../infrastructure/repositoryFactory');
 
 
 function userRouter(express) {
   
   const router = express.Router();
-  const repository = UserStoreFactory.getStore(database.dbtype);
-  // router.use(passport.authenticate("jwt", { session: false }));
+  const repository = UserRepositoryFactory.getStore(database.dbtype);
+  router.use(passport.authenticate("jwt", { session: false }));
   logger.info(`Injecting the repository`);
   const userController = new UserController(repository);
     

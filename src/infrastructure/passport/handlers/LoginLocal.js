@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 const { logger } = require ("@logger");
 const { database } = require ("@config");
-const { UserStoreFactory } = require ('../../storeFactory/UserStoreFactory');
+const { UserRepositoryFactory } = require ('../../repositoryFactory/UserRepositoryFactory');
 const { GetUserByEmailCommand } = require ("../../../application/User");
 const { getUserCommandBus } = require("../../../application");
 
@@ -17,10 +17,9 @@ const {
 const loginLocal = async  (email, password, done) => {
   try 
   {
-    
-    const repository = UserStoreFactory.getStore(database.dbtype);
+    const repository = UserRepositoryFactory.getStore(database.dbtype);
     const commandBus = getUserCommandBus(repository);
-
+    
     const command = new GetUserByEmailCommand(email);
     const user = await commandBus.handle(command);
     

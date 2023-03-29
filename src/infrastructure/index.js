@@ -1,11 +1,12 @@
 module.exports = {
-    ...require('./logger'),
     ...require('./config'),
-    ...require('./repositories'),
-    ...require('./storeFactory'),
-    ...require('./utils'),
+    ...require('./logger'),    
     ...require('./models'),
-    ...require('./passport')
-
+    ...require('./passport'),
+    ...require('./repositories'),
+    ...require('./repositoryFactory'),
+    ...require('./utils'),
+    ...require('./social'),
+    ...require('./utils'),
 };
   

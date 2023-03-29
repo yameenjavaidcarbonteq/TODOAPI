@@ -8,7 +8,7 @@ const {
     GetTodoByIdCommand
 } = require ("../../application/Todo");
 
-const { getTodoCommandBus } = require("../../application");
+const { getTodoCommandBus } = require("../../application/utils/commandBus");
 
 class TodoController {
     constructor(dbRepository)

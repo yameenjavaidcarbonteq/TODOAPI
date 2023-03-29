@@ -1,4 +1,4 @@
-const { TodoService } = require("../services");
+const { TodoService } = require("./TodoService");
 class TodoHandler {
     
     constructor(repository) {

@@ -3,7 +3,7 @@ const {
   TodoRepositoySequelize
 } = require ("../repositories");
 
-class TodoStoreFactory{
+class TodoRepositoryFactory{
 
   constructor()
   {
@@ -23,5 +23,5 @@ class TodoStoreFactory{
 }
 
 module.exports = {
-  TodoStoreFactory
+  TodoRepositoryFactory
 } 
