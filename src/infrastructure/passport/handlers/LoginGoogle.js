@@ -1,5 +1,5 @@
 const { logger } = require ("@logger");
-const { config } = require ("@config");
+const { database } = require ("@config");
 const { UserStoreFactory } = require ('../../storeFactory/UserStoreFactory');
 const { UserService } = require ('../../../application/services/UserService');
 const { 
@@ -14,7 +14,7 @@ const loginGoogle = async  (accessToken, refreshToken, profile, done) => {
     const username = profile.displayName;
     const email = profile.emails[0].value;
     
-    const repository = UserStoreFactory.getStore(config.dbtype);
+    const repository = UserStoreFactory.getStore(database.dbtype);
     const service = new UserService(repository);
     const commandBus = getUserCommandBus(service);
 

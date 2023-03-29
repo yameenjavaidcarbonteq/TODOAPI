@@ -1,12 +1,12 @@
-const {config} = require ("@config");
+const {database} = require ("@config");
 const bcrypt = require ("bcrypt");
-const db = config;
+
 
 const Sequelize = require ("sequelize");
 
-const sequelize = new Sequelize(config.seq_database, config.seq_username, config.seq_password, {
-  host: config.seq_host,
-  dialect: config.seq_dialect
+const sequelize = new Sequelize(database.database, database.username, database.password, {
+  host: database.host,
+  dialect: database.dialect
 });
 const UserModelSequelize = sequelize.define('Users', 
 {
@@ -69,7 +69,7 @@ UserModelSequelize.prototype.validPassword = async function (password) {
     the defined models. It ensures that the database tables and columns exist for the defined models 
     and that they match the structure defined in the models.
 
-    The sync() method takes an optional configuration object that allows you to specify how the synchronization 
+    The sync() method takes an optional databaseuration object that allows you to specify how the synchronization 
     should be performed. For example, you can use the force option to drop the existing tables and recreate them 
     = require  scratch, or you can use the alter option to modify the existing tables to match the models without 
     dropping them.

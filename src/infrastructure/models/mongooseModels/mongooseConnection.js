@@ -1,13 +1,12 @@
 const mongoose = require("mongoose");
-const {logger} = require("@logger");
-const { config } = require("@config");
-//this function and imported by server.js
+const { logger } = require("@logger");
+const { database } = require("@config");
 module.exports = function () {
   mongoose.set('strictQuery', false);
-  mongoose.connect(config.uri);
+  mongoose.connect(database.uri);
 
   mongoose.connection.on("connected", function () {
-    logger.info(`Mongoose default connection is open to ${config.uri}`);
+    logger.info(`Mongoose default connection is open to ${database.uri}`);
   });
 
   mongoose.connection.on("error", function (err) {

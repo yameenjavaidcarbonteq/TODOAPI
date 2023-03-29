@@ -2,6 +2,8 @@ const {TodoEntity} = require  ('@domain');
 const { logger } = require('../../infrastructure/logger');
 const {PaginationOptions} = require ("../../infrastructure/utils/PaginationOptions");
 
+const todoEventsListner = require('../events/todoEvent');
+
 const {
   InvalidTodoData,
   TodoNotFoundError,
@@ -9,6 +11,7 @@ const {
   UnAuthorizedError,
   UnExpextedDatabaseError
 } = require ('../../http/errors/appError');
+
 
 class TodoService{
 
@@ -30,12 +33,17 @@ class TodoService{
 
   async create(params) {
     const todoItem = TodoEntity.createFromParams(params);
-    return await this.todoRepository.create(todoItem);
+    const result = await this.todoRepository.create(todoItem);
+    todoEventsListner.emit('todoCreated', result);
+    return result;
+
   }
   
   async update(params) {
     const updatedTodo = TodoEntity.createFromParams(params);
-    return await this.todoRepository.update(updatedTodo);
+    const result = await this.todoRepository.update(updatedTodo);
+    todoEventsListner.emit('todoUpdated', result);
+    return result;
   }
   
   async delete(params) {

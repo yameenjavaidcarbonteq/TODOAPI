@@ -1,6 +1,8 @@
 const {logger} = require ('@logger');
 const {UserEntity} = require ('@domain');
 
+const userEventsListner = require("../events/userEvent");
+
 const {
   InvalidUserDataError,
   UserAlreadyExistError,
@@ -26,7 +28,6 @@ class UserService{
     }
 
     async findbyEmail(params) {
-      console.log("Came here for params: ",params);
       return await this.userRepository.findbyEmail(params.email);
     }
 
@@ -50,20 +51,22 @@ class UserService{
         throw new UserAlreadyExistError(400, `User with email: ${params.email} already exists`);
       }
 
-      return await this.userRepository.create(newUser);
+      const result = await this.userRepository.create(newUser);
+      userEventsListner.emit('userCreated', result);
+      return result;
     }
       
     async update(params) {
       const updatedUser = UserEntity.createFromParams(params);
       const result = await this.userRepository.update(updatedUser);
       if (result) {
+        userEventsListner.emit('userUpdated', result);
         return result;
-      } else {
+      } 
+      else {
         throw new UnExpextedDatabaseError(400, "User not Found.");
       }
-
-
-  }
+    }
     
     async delete(params) {
       const user = await this.userRepository.findbyId(params.id);

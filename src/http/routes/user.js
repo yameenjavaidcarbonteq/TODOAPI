@@ -1,7 +1,7 @@
 const passport = require ("passport");
 const {
     logger,
-    config
+    database
 } = require("@infrastructure");
 const {
   UserController
@@ -15,7 +15,7 @@ const {
 function userRouter(express) {
   
   const router = express.Router();
-  const repository = UserStoreFactory.getStore(config.dbtype);
+  const repository = UserStoreFactory.getStore(database.dbtype);
   // router.use(passport.authenticate("jwt", { session: false }));
   logger.info(`Injecting the repository`);
   const userController = new UserController(repository);

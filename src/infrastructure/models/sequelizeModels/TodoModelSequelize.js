@@ -1,9 +1,9 @@
-const { config } = require ("@config");
+const { database } = require ("@config");
 
 const Sequelize = require ("sequelize");
-const sequelize = new Sequelize(config.seq_database, config.seq_username, config.seq_password, {
-  host: config.seq_host,
-  dialect: config.seq_dialect
+const sequelize = new Sequelize(database.database, database.username, database.password, {
+  host: database.host,
+  dialect: database.dialect
 });
 const TodoModelSequelize = sequelize.define('Todos', {
   

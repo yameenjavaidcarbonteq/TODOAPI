@@ -1,9 +1,12 @@
-const {config} = require  ('@config');
+const { 
+  application,
+  googleAuth 
+} = require  ('@config');
 const { ExtractJwt } = require  ('passport-jwt');
 
 const configJWT = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: config.jwtsecret
+  secretOrKey: application.jwtsecret
 };
 
 const configLocal = {
@@ -12,9 +15,9 @@ const configLocal = {
 };
   
 const configGoogle = {
-  clientID: config.clientID,
-  clientSecret: config.clientSecret,
-  callbackURL: config.callbackURL
+  clientID: googleAuth.clientID,
+  clientSecret: googleAuth.clientSecret,
+  callbackURL: googleAuth.callbackURL
 };
 
 

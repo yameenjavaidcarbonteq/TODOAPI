@@ -1,5 +1,5 @@
 const { logger } = require ("@logger");
-const { config } = require ("@config");
+const { database } = require ("@config");
 
 const { UserNotFoundError } = require ("../../../http/errors/appError")
 
@@ -14,7 +14,7 @@ const { getUserCommandBus } = require("../../../application/utils/commandBus");
 
   authorization = async (payload, done) => {
     try{
-      const repository = UserStoreFactory.getStore(config.dbtype);
+      const repository = UserStoreFactory.getStore(database.dbtype);
       const service = new UserService(repository);
       commandBus = getUserCommandBus(service);
 

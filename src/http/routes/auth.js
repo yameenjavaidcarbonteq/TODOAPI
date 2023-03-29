@@ -1,7 +1,7 @@
 const passport = require ("passport");
 const {
     logger,
-    config
+    database
 } = require("@infrastructure");
 
 const {
@@ -17,7 +17,7 @@ function authRouter(express) {
     
     const router = express.Router();
     
-    const repository = UserStoreFactory.getStore(config.dbtype);
+    const repository = UserStoreFactory.getStore(database.dbtype);
     logger.info(`Injecting the repository`);
     const userController = new UserController(repository);
     const sendToken = TokenController.sendToken;
