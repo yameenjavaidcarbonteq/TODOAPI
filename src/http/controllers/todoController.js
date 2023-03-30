@@ -36,7 +36,7 @@ class TodoController {
         try {
         const { title, description, status } = req.body;
         
-        const command = new CreateTodoCommand(title, description, status, 1);
+        const command = new CreateTodoCommand(title, description, status, req.user.id);
         const result = await this.commandBus.handle(command);
         console.log("Result: ",result);
         res.status(200).json(result);
@@ -78,7 +78,7 @@ class TodoController {
         try {
             const { title, description, status } = req.body;
             
-            const command = new UpdateTodoCommand(req.params.id, title, description, status, 1);
+            const command = new UpdateTodoCommand(req.params.id, title, description, status, req.user.id);
             const result = await this.commandBus.handle(command);
             res.status(200).json(result);
     

@@ -60,4 +60,14 @@ Note that this is not an exhaustive list, and there may be other architectures a
 are not included here. Additionally, some of these architectures and designs may overlap or be used 
 in conjunction with each other, depending on the specific requirements of a given project.
 
+
+In Hexagonal Architecture
+
+The hexagonal architecture is based on three principles and techniques:
+
+Explicitly separate User-Side, Business Logic, and Server-Side
+Dependencies are going from User-Side and Server-Side to the Business Logic
+We isolate the boundaries by using Ports and Adapters
+
+
 */

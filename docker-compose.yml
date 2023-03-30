@@ -1,45 +1,35 @@
+version: '3.8'
+
 services:
-  api:
-    container_name: api
-    restart: always
-    build: .
-    ports:
-      - ${PORT}:${PORT}
-    depends_on:
-      - db
-    volumes:
-      - .:/app
-      - /app/node_modules
-    environment:
-      - MONGODB_URI=mongodb://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}
-
-  db:
-    container_name: mongodb
+  mongodb:
     image: mongo
-    ports:
-      - '${MONGO_PORT}:${MONGO_PORT}'
+    container_name: mongodb
+    restart: unless-stopped
     volumes:
-      - mongo-data:/data/db
-    environment:
-      - MONGO_INITDB_ROOT_userName=${MONGO_userName}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
-
-  sequelize-postgres-api:
-    container_name: sequelize-postgres-api
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - db
+      - app-databases:/mongodb
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+  
+  web:
+    build : .
     ports:
       - "3000:3000"
-    restart: always
-    environment:
-      - DB_HOST=db
-      - DB_PORT=${PGPORT}
-      - DB_USER=${PGUSER}
-      - DB_PASSWORD=${PGPASSWORD}
-      - DB_DATABASE=${PGDATABASE}
+    depends_on:
+      - mongodb
+  
+  # mysqldb:
+  #   image: mysql:5.7
+  #   container_name: mysqldocker
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: $DB_PASSWORD
+  #     MYSQL_DATABASE: $DB_NAME
+  #   ports:
+  #     - "${MYSQLDB_DOCKER_PORT}:${MYSQLDB_LOCAL_PORT}"
+  #   volumes:
+  #     - app-databases:/mysql 
 
 volumes: 
-  mongo-data:
+  app-data:
+  app-databases:
+  

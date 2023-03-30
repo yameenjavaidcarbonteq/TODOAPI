@@ -1,8 +1,16 @@
 from node:18-alpine
-WORKDIR /app
+# Create app directory
+WORKDIR /src
+
+# Install app dependencies
 COPY ["package.json", ".env", "./"]
-RUN npm cache clean --force
-RUN npm install
-EXPOSE 5000
+# RUN npm install
+
+# Bundle app source
 COPY . .
+
+# Expose port
+EXPOSE 5000
+
+# Start the app
 CMD [ "npm", "run", "dev" ]

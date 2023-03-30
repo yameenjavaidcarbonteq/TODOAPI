@@ -3,7 +3,7 @@ const { logger } = require("@logger");
 const { database } = require("@config");
 module.exports = function () {
   mongoose.set('strictQuery', false);
-  mongoose.connect(database.uri);
+  mongoose.connect("mongodb://localhost:27017/todoapi");
 
   mongoose.connection.on("connected", function () {
     logger.info(`Mongoose default connection is open to ${database.uri}`);
