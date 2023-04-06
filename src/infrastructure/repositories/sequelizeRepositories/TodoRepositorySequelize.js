@@ -1,10 +1,10 @@
-const { ITodoRepository } = require("@domain");
+const { TodoRepositoryPort } = require("@domain");
 const TodoModelSequelize = require("../../models/sequelizeModels/TodoModelSequelize");
 
 const TodoEntity = require("@domain");
 const PaginationData = require("@application");
 
-class TodoRepositorySequelize extends ITodoRepository {
+class TodoRepositorySequelize extends TodoRepositoryPort {
   constructor() {
     super();
     this.todoModel = TodoModelSequelize;

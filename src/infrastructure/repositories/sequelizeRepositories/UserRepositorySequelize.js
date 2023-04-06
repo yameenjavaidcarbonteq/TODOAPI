@@ -1,11 +1,11 @@
 const { 
   UserEntity,
-  IUserRepository 
+  UserRepositoryPort 
 } = require("@domain");
 const UserModelSequelize = require("../../models/sequelizeModels/UserModelSequelize");
 
 
-class UserRepositorySequelize extends IUserRepository {
+class UserRepositorySequelize extends UserRepositoryPort {
   constructor() {
     super();
     this.userModel = UserModelSequelize;

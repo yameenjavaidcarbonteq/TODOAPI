@@ -19,10 +19,44 @@ independence of components.
     It is based on the principles of dependency inversion and single responsibility, 
     It emphasizes the use of interfaces to decouple components.
 
+    Independent of Frameworks. The architecture does not depend on the existence of some library of feature laden software. This allows you to use such frameworks as tools, rather than having to cram your system into their limited constraints.
+    Testable. The business rules can be tested without the UI, Database, Web Server, or any other external element.
+    Independent of UI. The UI can change easily, without changing the rest of the system. A Web UI could be replaced with a console UI, for example, without changing the business rules.
+    Independent of Database. You can swap out Oracle or SQL Server, for Mongo, BigTable, CouchDB, or something else. Your business rules are not bound to the database.
+    Independent of any external agency. In fact your business rules simply don’t know anything at all about the outside world.
+
+    The overriding rule that makes this architecture work is The Dependency Rule. 
+    This rule says that source code dependencies can only point inwards. Nothing in an inner circle can know anything at all 
+    about something in an outer circle. 
+
+    Use Cases: 
+    We do not expect changes in this layer to affect the entities. We also do not expect this layer to be 
+    affected by changes to externalities such as the database, the UI, or any of the common frameworks. 
+    This layer is isolated from such concerns.
+
 Onion architecture is a similar architecture pattern that also emphasizes separation of concerns and 
 the independence of components. 
-    It is based on the principle of inversion of control
+    It is based on the principle of inversion of control using dependency injection
     It organizes components into layers, with each layer having a specific responsibility.
+
+    Dependency goes inwards
+    Outer Layer depends on the innder layer
+    Inner Layer does not know of outer layer
+    Inner layers define interfaces. Outer layers implement interfaces
+    Direction of coupling is toward the center
+    All application core code can be compiled and run separate from infrastructure
+
+
+
+An external layer representing the delivery mechanisms and infrastructure;
+An internal layer representing the business logic.
+
+Both Ports & Adapters and Onion Architecture share the idea of isolating the application core 
+from the infrastructure concerns by writing adapter code so that the infrastructure code does 
+not leak into the application core. This makes it easier to replace both the tools and the delivery 
+mechanisms used by the application, providing some protection against technology, tooling and vendor lockdown.
+
+
 
 DDD, on the other hand, is a broader design approach that emphasizes the importance of the domain model 
 in software development. DDD provides a set of concepts and patterns, such as aggregates, entities, 

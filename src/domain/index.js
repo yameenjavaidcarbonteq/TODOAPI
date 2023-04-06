@@ -1,4 +1,4 @@
 module.exports = {
-  ...require('./Entities'),
-  ...require('./Interfaces')
+  ...require('./entities'),
+  ...require('./ports')
 }

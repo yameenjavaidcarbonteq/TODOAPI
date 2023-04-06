@@ -1,7 +1,7 @@
 const {logger} = require ('@logger');
 const {UserEntity} = require ('@domain');
 
-const userEventsListner = require("../events/userEvent");
+const userEventsListner = require("../integrationEvents/userEvent");
 
 const {
   InvalidUserDataError,

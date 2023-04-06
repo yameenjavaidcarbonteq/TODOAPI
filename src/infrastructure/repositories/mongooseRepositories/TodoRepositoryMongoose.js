@@ -1,10 +1,10 @@
-const {ITodoRepository} = require ("@domain");
+const {TodoRepositoryPort} = require ("@domain");
 const TodoModelMongoose = require ("../../models/mongooseModels/TodoModelMongoose");
 
 const {TodoEntity} = require("@domain");
 const {PaginationData} = require ('../../utils/PaginationData');
 
-class TodoRepositoryMongoose extends ITodoRepository {
+class TodoRepositoryMongoose extends TodoRepositoryPort {
     constructor() {
       super();
       this.todoModel = TodoModelMongoose;

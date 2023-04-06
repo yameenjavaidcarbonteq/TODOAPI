@@ -1,10 +1,10 @@
 const {
   UserEntity,
-  IUserRepository} = require ("@domain");
+  UserRepositoryPort} = require ("@domain");
 
   const UserModelMongoose = require ("../../models/mongooseModels/UserModelMongoose");
 
-class UserRepositoryMongoose extends IUserRepository {
+class UserRepositoryMongoose extends UserRepositoryPort {
     constructor() {
       super();
       this.userModel = UserModelMongoose;

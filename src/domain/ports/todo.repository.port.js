@@ -1,10 +1,6 @@
-class ITodoRepository {
+class TodoRepositoryPort {
     async findAll(query, paginatedOptions) {
       throw new Error("findAll() not implemented");
-    }
-  
-    async findbyId(id) {
-      throw new Error("findbyId() not implemented");
     }
   
     async create(todo) {
@@ -18,6 +14,10 @@ class ITodoRepository {
     async delete(id) {
       throw new Error("delete() not implemented");
     }
+
+    async findbyId(id) {
+      throw new Error("findbyId() not implemented");
+    }
   
     async count() {
       throw new Error("count() not implemented");
@@ -25,5 +25,5 @@ class ITodoRepository {
   }
   
   module.exports = {
-    ITodoRepository
+    TodoRepositoryPort
   };

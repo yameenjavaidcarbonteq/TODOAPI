@@ -2,7 +2,7 @@ const {TodoEntity} = require  ('@domain');
 const { logger } = require('../../infrastructure/logger');
 const {PaginationOptions} = require ("../../infrastructure/utils/PaginationOptions");
 
-const todoEventsListner = require('../events/todoEvent');
+const todoEventsListner = require('../integrationEvents/todoEvent');
 
 const {
   InvalidTodoData,

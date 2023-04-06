@@ -10,6 +10,8 @@ services:
     ports:
       - "27017:27017"
     restart: unless-stopped
+    networks:
+      - my-network
   
   web:
     build : .
@@ -17,6 +19,8 @@ services:
       - "3000:3000"
     depends_on:
       - mongodb
+    networks:
+      - my-network
   
   # mysqldb:
   #   image: mysql:5.7
@@ -32,4 +36,8 @@ services:
 volumes: 
   app-data:
   app-databases:
+
+networks:
+  my-network:
+    driver: bridge
   
