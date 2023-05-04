@@ -1,0 +1,30 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "es6",                          
+    "module": "commonjs",   
+    "moduleResolution": "node",
+    "typeRoots": ["node_modules/@types", "interfaces/@types"],
+    "baseUrl": "./src", 
+    "paths": {
+      "@http": ["http"],
+      "@http/*": ["http/*"],
+      "@application": ["app/application"],
+      "@application/*": ["app/application/*"],
+      "@domain": ["app/domain"],
+      "@domain/*": ["app/domain/*"],
+      "@infrastructure": ["app/infrastructure"],
+      "@infrastructure/*": ["app/infrastructure/*"],
+      "@config": ["app/infrastructure/config"],
+      "@logger": ["app/infrastructure/logger"]
+    },                                                 
+    "lib": ["es6"],                     
+    "allowJs": true,
+    "outDir": "build",                          
+    "rootDir": "src",
+    "strict": true,         
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  }
+}
