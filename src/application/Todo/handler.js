@@ -4,12 +4,11 @@ class TodoHandler {
     constructor(repository) {
         this.todoService = new TodoService(repository);
     }
-  
+    
     CreateTodoHandler = async (command) => {
         return await this.todoService.create(command.todoDetails());
     }
     DeleteTodoHandler = async (command) => {
-        console.log(command.todoDetails());
         return await this.todoService.delete(command.todoDetails());
     }
     GetAllTodosHandler = async (command) => {

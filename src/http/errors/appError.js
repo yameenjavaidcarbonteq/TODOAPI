@@ -7,15 +7,6 @@ class BaseError extends Error {
     this.statusCode = statusCode;
     Error.captureStackTrace(this);
   }
-  sendResponse(res) {
-    return res
-      .status(this.statusCode)
-      .json({ success: false, error: this.message });
-  }
-  logError(err) {
-    logger.log("debug", this.constructor.name);
-    logger.log("error", err.stack);
-  }
 }
 
 

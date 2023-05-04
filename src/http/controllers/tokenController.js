@@ -6,8 +6,8 @@ class TokenController{
     constructor()
     {
     
-src/infrastructure/config/application.js    }
-
+    }
+    
     static sendToken = (req, res, next) => 
     {
         try { 

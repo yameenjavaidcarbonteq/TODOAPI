@@ -24,7 +24,16 @@ class TodoService{
     
     const query = {};
     const paginatedOptions = new PaginationOptions(params.pageNumber,params.pageLimit);
-    return await this.todoRepository.findAll(query, paginatedOptions);
+    
+    const todosCount  = await this.client.todo.count();
+    const paginatedData = new PaginationData(paginatedOptions, todosCount);
+      
+    const paginatedTodos = await this.todoRepository.findAll(query, paginatedOptions);
+    
+    paginatedTodos.forEach(function (toDo) {
+      paginatedData.addItem(TodoEntity.createFromObject(toDo))
+    });
+    return paginatedData.getPaginatedData();
   }
 
   async findbyId(params) {
@@ -36,7 +45,6 @@ class TodoService{
     const result = await this.todoRepository.create(todoItem);
     todoEventsListner.emit('todoCreated', result);
     return result;
-
   }
   
   async update(params) {

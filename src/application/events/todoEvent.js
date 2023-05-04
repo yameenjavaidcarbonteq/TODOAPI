@@ -14,7 +14,6 @@ todoEventsListner.on("todoCreated", (todo) => {
       "Todo Description": todo.description,
       "Todo Status": todo.status,
     }
-
   }),
   
   new Email(

@@ -16,11 +16,8 @@ class TodoRepositoryMongoose extends TodoRepositoryPort {
       const paginatedTodos = await this.todoModel.find(query)
       .limit(paginatedOptions.limit())
       .skip(paginatedOptions.offset());
-      paginatedTodos.forEach(function (toDo) {
-        paginatedData.addItem(TodoEntity.createFromObject(toDo))
-      });
-      return paginatedData.getPaginatedData();
     
+      return paginatedTodos;
     }
     
     async findbyId(id) {

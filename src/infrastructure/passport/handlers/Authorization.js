@@ -4,7 +4,7 @@ const { database } = require ("@config");
 const { UserNotFoundError } = require ("../../../http/errors/appError")
 
 const { UserRepositoryFactory } = require ('../../repositoryFactory/UserRepositoryFactory');
-const { UserService } = require ('../../../application/User/UserService');
+
 
 const { GetUserByIdCommand } = require ("../../../application/User/");
 const { getUserCommandBus } = require("../../../application/utils/commandBus");
